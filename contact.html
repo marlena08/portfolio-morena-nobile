@@ -15,24 +15,150 @@
   <link rel="stylesheet" href="style.css">
   <script src="lang.js"></script>
   <style>
-    /* ---- Pagina contatti: piccoli ritocchi ---- */
-    .contact-title .h-mark { margin-left: .12em; padding: 0 .14em; }
-    .form-group.has-error input,
-    .form-group.has-error select,
-    .form-group.has-error textarea { border-color: #c2413b; background: #fff6f5; }
-    .field-error { margin: .35rem 0 0; font-size: .82rem; color: #b3342e; }
-    .field-error[hidden] { display: none; }
+    /* =========================================================
+       PAGINA CONTATTI — stile allineato alla home
+       ========================================================= */
+    .ct-body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(to right, rgba(0, 0, 0, .08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, .08) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .home main.ct {
+      flex: 1;
+      width: 100%;
+      max-width: calc(760px + 2 * var(--pad));
+      margin: 0 auto;
+      padding: clamp(3.5rem, 7vw, 6rem) var(--pad) clamp(4rem, 7vw, 6rem);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(2.2rem, 4vw, 3rem);
+    }
+    .ct [hidden] { display: none !important; }
+
+    /* --- colonna di sinistra --- */
+    .ct-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(3.4rem, 7.4vw, 6.6rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
+    .ct-title .h-mark { padding: 0 .1em; }
+    .ct-intro { text-align: center; }
+    .ct-lead {
+      margin: 1.4rem auto 0;
+      max-width: 560px;
+      font-size: clamp(1.08rem, 1.5vw, 1.3rem);
+      line-height: 1.45;
+      font-weight: 500;
+    }
+    .ct-lead em { color: inherit; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.18em; }
+    .ct-lead + .ct-lead { margin-top: .9rem; color: var(--muted); font-size: 1rem; font-weight: 400; }
+
+    /* --- card del form --- */
+    .ct-card {
+      background: var(--paper);
+      border: 1px solid var(--ink);
+      border-radius: 22px;
+      padding: clamp(1.4rem, 3vw, 2.2rem);
+    }
+    .ct-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .ct-field { display: flex; flex-direction: column; margin-bottom: 1.1rem; }
+    .ct-field label { margin-bottom: .45rem; font-size: .85rem; font-weight: 600; }
+    .ct-field input,
+    .ct-field select,
+    .ct-field textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: .75rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: .95rem;
+      line-height: 1.4;
+      transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+    }
+    .ct-field textarea { min-height: 150px; resize: vertical; }
+    .ct-field input::placeholder,
+    .ct-field textarea::placeholder { color: #9a9d95; }
+    .ct-field input:hover, .ct-field select:hover, .ct-field textarea:hover { border-color: #9a9d95; }
+    .ct-field input:focus, .ct-field select:focus, .ct-field textarea:focus {
+      outline: none;
+      border-color: var(--ink);
+      box-shadow: 0 0 0 3px var(--green);
+    }
+    .ct-select { position: relative; }
+    .ct-select select { appearance: none; -webkit-appearance: none; padding-right: 2.6rem; cursor: pointer; }
+    .ct-select select:invalid { color: #9a9d95; }
+    .ct-select::after {
+      content: "";
+      position: absolute;
+      right: 1.1rem;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      border-right: 1.5px solid var(--ink);
+      border-bottom: 1.5px solid var(--ink);
+      transform: translateY(-70%) rotate(45deg);
+      pointer-events: none;
+    }
+    .ct-field.has-error input,
+    .ct-field.has-error select,
+    .ct-field.has-error textarea { border-color: #c2413b; background: #fff6f5; }
+    .field-error { margin: .35rem 0 0; font-size: .8rem; color: #b3342e; }
+    .ct-form-error {
+      margin: 0 0 1rem;
+      padding: .7rem 1rem;
+      border-radius: 12px;
+      background: #fff1ef;
+      color: #b3342e;
+      font-size: .88rem;
+    }
     .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-    .form-note { margin: 1rem 0 0; text-align: center; font-size: .82rem; color: var(--muted); }
-    .button .spinner { display: none; width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: ct-spin .7s linear infinite; }
-    .button.is-loading .spinner { display: inline-block; }
+
+    /* --- pulsanti: stessa misura del "Contact me" della navbar, senza bordo --- */
+    .ct .ct-btn,
+    .ct .ct-btn:hover,
+    .ct .ct-btn:active {
+      min-height: 42px;
+      padding: .45rem 1.2rem;
+      border-color: transparent;
+      box-shadow: none;
+      font-size: 1rem;
+    }
+    .ct .ct-btn:hover { transform: translateY(-3px); }
+    .ct .ct-btn:disabled { opacity: .7; cursor: wait; transform: none; }
+    .ct-actions { margin-top: .4rem; display: flex; justify-content: center; }
+    .ct-btn .spinner { display: none; width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: ct-spin .7s linear infinite; }
+    .ct-btn.is-loading .spinner { display: inline-block; }
     @keyframes ct-spin { to { transform: rotate(360deg); } }
-    .contact-footer footer { text-transform: none; letter-spacing: normal; font-size: .9rem; color: var(--muted); }
-    .contact-footer footer a:hover { color: var(--ink); }
+
+    /* --- grazie --- */
+    .ct-thanks { grid-column: 1 / -1; text-align: center; padding: clamp(2rem, 6vw, 5rem) 0; outline: none; }
+    .ct-thanks .ct-lead { margin-left: auto; margin-right: auto; }
+    .ct-thanks .ct-btn { margin-top: 2rem; }
+
+    /* --- footer come nella home (senza il bottone Contact me) --- */
+    .ct-bottom { padding: 0 var(--pad); }
+    .ct-bottom .h-footer { margin-top: 0; padding: 1rem 0 1.4rem; }
+    .ct-foot-links { display: flex; flex-wrap: wrap; gap: .2rem; margin-right: -1.15rem; }
+    .ct-foot-links .h-social { color: var(--ink); }
+
+    @media (max-width: 600px) {
+      .ct-row { grid-template-columns: 1fr; gap: 0; }
+    }
   </style>
 </head>
 
-<body id="top" class="home contact-body">
+<body id="top" class="home ct-body">
   <a class="skip-link" href="#main" data-it="Vai al contenuto">Skip to content</a>
 
   <header class="site-header">
@@ -42,97 +168,89 @@
       <a href="index.html#process" data-it="Processo">Process</a>
       <a href="index.html#about" data-it="Chi sono">About me</a>
     </nav>
-    <a href="contact.html" class="button button-small" aria-current="page" data-it="Contattami">Contact me</a>
   </header>
 
-  <main id="main" class="contact-page">
-    <div class="contact-container">
+  <main id="main" class="ct">
 
-      <!-- Intestazione iniziale -->
-      <div class="contact-header" id="contact-header">
-        <h1 class="section-title contact-title" data-it="parliamone &lt;span class=&quot;h-mark&quot;&gt;insieme :)&lt;/span&gt;">let’s <span class="h-mark">talk :)</span></h1>
-        <p class="contact-subtitle"
-          data-it="Hai un'idea o un progetto in mente, o vuoi semplicemente collaborare?&lt;br&gt;&lt;span class=&quot;highlight-circle&quot;&gt;Scrivimi un messaggio&lt;/span&gt; e ne parliamo insieme.">
-          Have an idea or a project in mind, or simply want to collaborate?<br>
-          <span class="highlight-circle">Send me a message</span> and let’s talk it through together.
-        </p>
-      </div>
-
-      <!-- Messaggio di ringraziamento (nascosto finché non si invia) -->
-      <div class="contact-header" id="thank-you-header" role="status" aria-live="polite" tabindex="-1" hidden>
-        <h1 class="section-title contact-title" data-it="grazie &lt;span class=&quot;h-mark&quot;&gt;mille :)&lt;/span&gt;">thank <span class="h-mark">you :)</span></h1>
-        <p class="contact-subtitle"
-          data-it="Il tuo messaggio è stato inviato.&lt;br&gt;Ti risponderò il prima possibile.">
-          Your message has been sent successfully.<br>
-          I’ll get back to you as soon as possible.
-        </p>
-        <button type="button" class="button button-static" id="send-another" data-it="Invia un altro messaggio">Send another message</button>
-      </div>
-
-      <!-- Card del form -->
-      <div class="contact-card" id="form-card-wrapper">
-        <form class="contact-form" id="contact-form" novalidate>
-          <!-- campo trappola per i bot: le persone non lo vedono -->
-          <div class="hp-field" aria-hidden="true">
-            <label for="contact-website">Website</label>
-            <input type="text" id="contact-website" name="botcheck" tabindex="-1" autocomplete="off">
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="contact-name" data-it="Nome">Name</label>
-              <input type="text" id="contact-name" name="name" placeholder="Your name" data-it-placeholder="Il tuo nome"
-                autocomplete="name" required aria-describedby="err-name">
-              <p class="field-error" id="err-name" hidden></p>
-            </div>
-            <div class="form-group">
-              <label for="contact-email">Email</label>
-              <input type="email" id="contact-email" name="email" placeholder="you@email.com"
-                data-it-placeholder="tu@email.com" autocomplete="email" required aria-describedby="err-email">
-              <p class="field-error" id="err-email" hidden></p>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="contact-type" data-it="Tipo di richiesta">Request type</label>
-            <div class="select-wrapper">
-              <select id="contact-type" name="request_type" required aria-describedby="err-type">
-                <option value="" disabled selected data-it="Seleziona il tipo di richiesta">Select the type of request</option>
-                <option value="ux-ui" data-it="Progetto UX / UI">UX / UI project</option>
-                <option value="html-css">HTML / CSS</option>
-                <option value="graphic-design" data-it="Progetto di graphic design">Graphic design project</option>
-                <option value="collaboration" data-it="Collaborazione o lavoro">Collaboration or job opportunity</option>
-                <option value="other" data-it="Altro">Other</option>
-              </select>
-            </div>
-            <p class="field-error" id="err-type" hidden></p>
-          </div>
-
-          <div class="form-group">
-            <label for="contact-message" data-it="Messaggio">Message</label>
-            <textarea id="contact-message" name="message" rows="6" placeholder="Tell me what you’re working on..."
-              data-it-placeholder="Raccontami a cosa stai lavorando..." required minlength="10"
-              aria-describedby="err-message"></textarea>
-            <p class="field-error" id="err-message" hidden></p>
-          </div>
-
-          <p class="form-error" id="form-error" role="alert" hidden></p>
-
-          <div class="form-actions">
-            <button type="submit" class="button" id="submit-btn"><span class="spinner" aria-hidden="true"></span><span
-                class="btn-label" data-it="Invia messaggio">Send message</span></button>
-          </div>
-          <p class="form-note" data-it="Di solito rispondo entro 2 giorni lavorativi.">I usually reply within 2 working days.</p>
-        </form>
-      </div>
-
+    <!-- Colonna sinistra: titolo e testo -->
+    <div class="ct-intro" id="contact-header">
+      <h1 class="ct-title" data-it="parliamone &lt;span class=&quot;h-mark&quot;&gt;insieme :)&lt;/span&gt;">let’s <span class="h-mark">talk :)</span></h1>
+      <p class="ct-lead" data-it="Hai un'idea o un progetto in mente, o vuoi semplicemente collaborare? &lt;em&gt;Scrivimi un messaggio&lt;/em&gt; e ne parliamo insieme.">Have an idea or a project in mind, or simply want to collaborate? <em>Send me a message</em> and let’s talk it through together.</p>
     </div>
+
+    <!-- Colonna destra: form -->
+    <div class="ct-card" id="form-card-wrapper">
+      <form id="contact-form" novalidate>
+        <!-- campo trappola per i bot: le persone non lo vedono -->
+        <div class="hp-field" aria-hidden="true">
+          <label for="contact-website">Website</label>
+          <input type="text" id="contact-website" name="botcheck" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="ct-row">
+          <div class="ct-field">
+            <label for="contact-name" data-it="Nome">Name</label>
+            <input type="text" id="contact-name" name="name" placeholder="Your name" data-it-placeholder="Il tuo nome"
+              autocomplete="name" required aria-describedby="err-name">
+            <p class="field-error" id="err-name" hidden></p>
+          </div>
+          <div class="ct-field">
+            <label for="contact-email">Email</label>
+            <input type="email" id="contact-email" name="email" placeholder="you@email.com"
+              data-it-placeholder="tu@email.com" autocomplete="email" required aria-describedby="err-email">
+            <p class="field-error" id="err-email" hidden></p>
+          </div>
+        </div>
+
+        <div class="ct-field">
+          <label for="contact-type" data-it="Tipo di richiesta">Request type</label>
+          <div class="ct-select">
+            <select id="contact-type" name="request_type" required aria-describedby="err-type">
+              <option value="" disabled selected data-it="Seleziona il tipo di richiesta">Select the type of request</option>
+              <option value="ux-ui" data-it="Progetto UX / UI">UX / UI project</option>
+              <option value="html-css">HTML / CSS</option>
+              <option value="graphic-design" data-it="Progetto di graphic design">Graphic design project</option>
+              <option value="collaboration" data-it="Collaborazione o lavoro">Collaboration or job opportunity</option>
+              <option value="other" data-it="Altro">Other</option>
+            </select>
+          </div>
+          <p class="field-error" id="err-type" hidden></p>
+        </div>
+
+        <div class="ct-field">
+          <label for="contact-message" data-it="Messaggio">Message</label>
+          <textarea id="contact-message" name="message" rows="6" placeholder="Tell me what you’re working on..."
+            data-it-placeholder="Raccontami a cosa stai lavorando..." required minlength="10"
+            aria-describedby="err-message"></textarea>
+          <p class="field-error" id="err-message" hidden></p>
+        </div>
+
+        <p class="ct-form-error" id="form-error" role="alert" hidden></p>
+
+        <div class="ct-actions">
+          <button type="submit" class="button button-small ct-btn" id="submit-btn"><span class="spinner" aria-hidden="true"></span><span
+              class="btn-label" data-it="Invia messaggio">Send message</span></button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Messaggio di ringraziamento (nascosto finché non si invia) -->
+    <div class="ct-thanks" id="thank-you-header" role="status" aria-live="polite" tabindex="-1" hidden>
+      <h1 class="ct-title" data-it="grazie &lt;span class=&quot;h-mark&quot;&gt;mille :)&lt;/span&gt;">thank <span class="h-mark">you :)</span></h1>
+      <p class="ct-lead" data-it="Il tuo messaggio è stato inviato. Ti risponderò il prima possibile.">Your message has been sent successfully. I’ll get back to you as soon as possible.</p>
+      <button type="button" class="button button-small ct-btn" id="send-another" data-it="Invia un altro messaggio">Send another message</button>
+    </div>
+
   </main>
 
-  <div class="contact-footer">
-    <footer>
+  <div class="ct-bottom">
+    <footer class="h-footer">
       <span>© 2026 Morena Nobile</span>
-      <a href="index.html" data-it="← Torna alla home">← Back to home</a>
+      <nav class="ct-foot-links" aria-label="Social">
+        <a class="h-social" href="https://www.linkedin.com/in/morenanobile8/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="h-social" href="https://www.instagram.com/morena.psd/" target="_blank" rel="noopener">Instagram</a>
+        <a class="h-social" href="https://github.com/marlena08" target="_blank" rel="noopener">GitHub</a>
+      </nav>
     </footer>
   </div>
 
@@ -199,7 +317,7 @@
       const box = document.getElementById("err-" + key);
       box.textContent = msg;
       box.hidden = !msg;
-      el.closest(".form-group").classList.toggle("has-error", !!msg);
+      el.closest(".ct-field").classList.toggle("has-error", !!msg);
       el.setAttribute("aria-invalid", msg ? "true" : "false");
       return !msg;
     }
@@ -209,7 +327,7 @@
       const el = fields[key];
       el.addEventListener("blur", () => { if (el.value.trim()) check(key); });
       el.addEventListener(key === "type" ? "change" : "input", () => {
-        if (el.closest(".form-group").classList.contains("has-error")) check(key);
+        if (el.closest(".ct-field").classList.contains("has-error")) check(key);
       });
     });
 
@@ -283,7 +401,7 @@
       form.reset();
       Object.keys(fields).forEach(k => {
         document.getElementById("err-" + k).hidden = true;
-        fields[k].closest(".form-group").classList.remove("has-error");
+        fields[k].closest(".ct-field").classList.remove("has-error");
         fields[k].removeAttribute("aria-invalid");
       });
       errorMsg.hidden = true;
@@ -298,7 +416,7 @@
     document.addEventListener("langchange", () => {
       if (!btn.disabled) btnLabel.textContent = t("send");
       Object.keys(fields).forEach(k => {
-        if (fields[k].closest(".form-group").classList.contains("has-error")) check(k);
+        if (fields[k].closest(".ct-field").classList.contains("has-error")) check(k);
       });
       errorMsg.hidden = true;
     });
