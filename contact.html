@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Get in touch with Morena Nobile, UX/UI Designer, for projects and collaborations."
+    data-it-content="Contatta Morena Nobile, UX/UI Designer, per progetti e collaborazioni.">
+  <title data-it="Contattami — Morena Nobile">Contact me — Morena Nobile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="lang.js"></script>
+  <style>
+    /* ---- Pagina contatti: piccoli ritocchi ---- */
+    .contact-title .h-mark { margin-left: .12em; padding: 0 .14em; }
+    .form-group.has-error input,
+    .form-group.has-error select,
+    .form-group.has-error textarea { border-color: #c2413b; background: #fff6f5; }
+    .field-error { margin: .35rem 0 0; font-size: .82rem; color: #b3342e; }
+    .field-error[hidden] { display: none; }
+    .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .form-note { margin: 1rem 0 0; text-align: center; font-size: .82rem; color: var(--muted); }
+    .button .spinner { display: none; width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: ct-spin .7s linear infinite; }
+    .button.is-loading .spinner { display: inline-block; }
+    @keyframes ct-spin { to { transform: rotate(360deg); } }
+    .contact-footer footer { text-transform: none; letter-spacing: normal; font-size: .9rem; color: var(--muted); }
+    .contact-footer footer a:hover { color: var(--ink); }
+  </style>
+</head>
+
+<body id="top" class="home contact-body">
+  <a class="skip-link" href="#main" data-it="Vai al contenuto">Skip to content</a>
+
+  <header class="site-header">
+    <nav aria-label="Main navigation" data-it-aria-label="Navigazione principale">
+      <a href="index.html#top">Home</a>
+      <a href="index.html#work" data-it="Progetti">Projects</a>
+      <a href="index.html#process" data-it="Processo">Process</a>
+      <a href="index.html#about" data-it="Chi sono">About me</a>
+    </nav>
+    <a href="contact.html" class="button button-small" aria-current="page" data-it="Contattami">Contact me</a>
+  </header>
+
+  <main id="main" class="contact-page">
+    <div class="contact-container">
+
+      <!-- Intestazione iniziale -->
+      <div class="contact-header" id="contact-header">
+        <h1 class="section-title contact-title" data-it="parliamone &lt;span class=&quot;h-mark&quot;&gt;insieme :)&lt;/span&gt;">let’s <span class="h-mark">talk :)</span></h1>
+        <p class="contact-subtitle"
+          data-it="Hai un'idea o un progetto in mente, o vuoi semplicemente collaborare?&lt;br&gt;&lt;span class=&quot;highlight-circle&quot;&gt;Scrivimi un messaggio&lt;/span&gt; e ne parliamo insieme.">
+          Have an idea or a project in mind, or simply want to collaborate?<br>
+          <span class="highlight-circle">Send me a message</span> and let’s talk it through together.
+        </p>
+      </div>
+
+      <!-- Messaggio di ringraziamento (nascosto finché non si invia) -->
+      <div class="contact-header" id="thank-you-header" role="status" aria-live="polite" tabindex="-1" hidden>
+        <h1 class="section-title contact-title" data-it="grazie &lt;span class=&quot;h-mark&quot;&gt;mille :)&lt;/span&gt;">thank <span class="h-mark">you :)</span></h1>
+        <p class="contact-subtitle"
+          data-it="Il tuo messaggio è stato inviato.&lt;br&gt;Ti risponderò il prima possibile.">
+          Your message has been sent successfully.<br>
+          I’ll get back to you as soon as possible.
+        </p>
+        <button type="button" class="button button-static" id="send-another" data-it="Invia un altro messaggio">Send another message</button>
+      </div>
+
+      <!-- Card del form -->
+      <div class="contact-card" id="form-card-wrapper">
+        <form class="contact-form" id="contact-form" novalidate>
+          <!-- campo trappola per i bot: le persone non lo vedono -->
+          <div class="hp-field" aria-hidden="true">
+            <label for="contact-website">Website</label>
+            <input type="text" id="contact-website" name="botcheck" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="contact-name" data-it="Nome">Name</label>
+              <input type="text" id="contact-name" name="name" placeholder="Your name" data-it-placeholder="Il tuo nome"
+                autocomplete="name" required aria-describedby="err-name">
+              <p class="field-error" id="err-name" hidden></p>
+            </div>
+            <div class="form-group">
+              <label for="contact-email">Email</label>
+              <input type="email" id="contact-email" name="email" placeholder="you@email.com"
+                data-it-placeholder="tu@email.com" autocomplete="email" required aria-describedby="err-email">
+              <p class="field-error" id="err-email" hidden></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-type" data-it="Tipo di richiesta">Request type</label>
+            <div class="select-wrapper">
+              <select id="contact-type" name="request_type" required aria-describedby="err-type">
+                <option value="" disabled selected data-it="Seleziona il tipo di richiesta">Select the type of request</option>
+                <option value="ux-ui" data-it="Progetto UX / UI">UX / UI project</option>
+                <option value="html-css">HTML / CSS</option>
+                <option value="graphic-design" data-it="Progetto di graphic design">Graphic design project</option>
+                <option value="collaboration" data-it="Collaborazione o lavoro">Collaboration or job opportunity</option>
+                <option value="other" data-it="Altro">Other</option>
+              </select>
+            </div>
+            <p class="field-error" id="err-type" hidden></p>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-message" data-it="Messaggio">Message</label>
+            <textarea id="contact-message" name="message" rows="6" placeholder="Tell me what you’re working on..."
+              data-it-placeholder="Raccontami a cosa stai lavorando..." required minlength="10"
+              aria-describedby="err-message"></textarea>
+            <p class="field-error" id="err-message" hidden></p>
+          </div>
+
+          <p class="form-error" id="form-error" role="alert" hidden></p>
+
+          <div class="form-actions">
+            <button type="submit" class="button" id="submit-btn"><span class="spinner" aria-hidden="true"></span><span
+                class="btn-label" data-it="Invia messaggio">Send message</span></button>
+          </div>
+          <p class="form-note" data-it="Di solito rispondo entro 2 giorni lavorativi.">I usually reply within 2 working days.</p>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="contact-footer">
+    <footer>
+      <span>© 2026 Morena Nobile</span>
+      <a href="index.html" data-it="← Torna alla home">← Back to home</a>
+    </footer>
+  </div>
+
+  <script>
+    /* =========================================================
+       INVIO DEL FORM
+       I messaggi vengono inviati a richieste.php, che li salva
+       e li mostra nell'area riservata (richieste.php aperto nel browser).
+       ========================================================= */
+    const ENDPOINT = "richieste.php";
+
+    const T = {
+      en: {
+        sending: "Sending...", send: "Send message",
+        name: "Please tell me your name.",
+        email: "Please enter your email.", emailBad: "This email doesn’t look right.",
+        type: "Please choose the type of request.",
+        message: "Please write a short message.", messageShort: "Could you add a few more words?",
+        error: "Something went wrong and your message wasn’t sent. Please try again in a moment.",
+        offline: "You seem to be offline. Check your connection and try again.",
+        tooMany: "You’ve just sent a message. Please wait a few seconds before sending another one.",
+        subject: "New message from the portfolio"
+      },
+      it: {
+        sending: "Invio in corso...", send: "Invia messaggio",
+        name: "Scrivi il tuo nome.",
+        email: "Inserisci la tua email.", emailBad: "Questa email non sembra corretta.",
+        type: "Scegli il tipo di richiesta.",
+        message: "Scrivi un breve messaggio.", messageShort: "Puoi aggiungere qualche parola in più?",
+        error: "Qualcosa è andato storto e il messaggio non è stato inviato. Riprova tra un momento.",
+        offline: "Sembra che tu sia offline. Controlla la connessione e riprova.",
+        tooMany: "Hai appena inviato un messaggio. Aspetta qualche secondo prima di inviarne un altro.",
+        subject: "Nuovo messaggio dal portfolio"
+      }
+    };
+    const t = key => (T[document.documentElement.lang === "it" ? "it" : "en"])[key];
+
+    const form = document.getElementById("contact-form");
+    const contactHeader = document.getElementById("contact-header");
+    const thankYouHeader = document.getElementById("thank-you-header");
+    const formCard = document.getElementById("form-card-wrapper");
+    const btn = document.getElementById("submit-btn");
+    const btnLabel = btn.querySelector(".btn-label");
+    const errorMsg = document.getElementById("form-error");
+
+    const fields = {
+      name: document.getElementById("contact-name"),
+      email: document.getElementById("contact-email"),
+      type: document.getElementById("contact-type"),
+      message: document.getElementById("contact-message")
+    };
+
+    function check(key) {
+      const el = fields[key];
+      const v = el.value.trim();
+      let msg = "";
+      if (key === "name" && !v) msg = t("name");
+      if (key === "email") msg = !v ? t("email") : (!el.checkValidity() || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? t("emailBad") : "");
+      if (key === "type" && !v) msg = t("type");
+      if (key === "message") msg = !v ? t("message") : (v.length < 10 ? t("messageShort") : "");
+      const box = document.getElementById("err-" + key);
+      box.textContent = msg;
+      box.hidden = !msg;
+      el.closest(".form-group").classList.toggle("has-error", !!msg);
+      el.setAttribute("aria-invalid", msg ? "true" : "false");
+      return !msg;
+    }
+
+    // controlla un campo quando lo lasci, e ricontrolla mentre lo correggi
+    Object.keys(fields).forEach(key => {
+      const el = fields[key];
+      el.addEventListener("blur", () => { if (el.value.trim()) check(key); });
+      el.addEventListener(key === "type" ? "change" : "input", () => {
+        if (el.closest(".form-group").classList.contains("has-error")) check(key);
+      });
+    });
+
+    function setLoading(on) {
+      btn.disabled = on;
+      btn.classList.toggle("is-loading", on);
+      btnLabel.textContent = on ? t("sending") : t("send");
+    }
+
+    function showError(text) {
+      errorMsg.textContent = text;
+      errorMsg.hidden = false;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorMsg.hidden = true;
+
+      const results = Object.keys(fields).map(check);
+      if (results.includes(false)) {
+        const firstBad = Object.keys(fields).find((k, i) => !results[i]);
+        fields[firstBad].focus();
+        return;
+      }
+      if (form.botcheck.value) return; // bot: ignora in silenzio
+
+      if (!navigator.onLine) { showError(t("offline")); return; }
+
+      setLoading(true);
+      const data = new FormData(form);
+      data.append("request_label", fields.type.options[fields.type.selectedIndex].text);
+      data.append("language", document.documentElement.lang);
+
+      try {
+        const response = await fetch(ENDPOINT, { method: "POST", body: data, headers: { "Accept": "application/json" } });
+        const res = await response.json().catch(() => ({}));
+        if (response.status === 429) { showError(t("tooMany")); return; }
+        if (!response.ok || res.success === false) throw new Error(res.message || "HTTP " + response.status);
+
+        formCard.hidden = true;
+        contactHeader.hidden = true;
+        thankYouHeader.hidden = false;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        thankYouHeader.focus({ preventScroll: true });
+      } catch (err) {
+        console.error("Contact form:", err);
+        showError(t("error"));
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    document.getElementById("send-another").addEventListener("click", () => {
+      form.reset();
+      Object.keys(fields).forEach(k => {
+        document.getElementById("err-" + k).hidden = true;
+        fields[k].closest(".form-group").classList.remove("has-error");
+        fields[k].removeAttribute("aria-invalid");
+      });
+      errorMsg.hidden = true;
+      setLoading(false);
+      thankYouHeader.hidden = true;
+      contactHeader.hidden = false;
+      formCard.hidden = false;
+      fields.name.focus();
+    });
+
+    // se cambi lingua, aggiorna anche i testi gestiti dallo script
+    document.addEventListener("langchange", () => {
+      if (!btn.disabled) btnLabel.textContent = t("send");
+      Object.keys(fields).forEach(k => {
+        if (fields[k].closest(".form-group").classList.contains("has-error")) check(k);
+      });
+      errorMsg.hidden = true;
+    });
+  </script>
+</body>
+
+</html>

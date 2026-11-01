@@ -1,0 +1,1402 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Homizy: a UX/UI case study on compatibility-based coliving in Milan, by Morena Nobile." data-it-content="Homizy: un case study UX/UI sul coliving basato sulla compatibilità a Milano, di Morena Nobile.">
+  <title data-it="Homizy — Case study · Morena Nobile">Homizy — Case study · Morena Nobile</title>
+  <style>
+:root {
+  --ink: #101010;
+  --paper: #f5f6f2;
+  --green: #c0df97;
+  --green-dark: #9fc76b;
+  --line: #c8cac4;
+  --muted: #666962;
+  --white: #fff;
+  --radius: 22px
+}
+* {
+  box-sizing: border-box
+}
+html {
+  scroll-behavior: smooth
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.8
+}
+button,
+a {
+  font: inherit
+}
+a {
+  color: inherit;
+  text-decoration: none
+}
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: -5rem;
+  background: #000;
+  color: #fff;
+  padding: .8rem 1rem;
+  z-index: 99
+}
+.skip-link:focus {
+  top: 1rem
+}
+.site-header {
+  height: 64px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 clamp(1.25rem, 5vw, 5rem);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  background: rgba(245, 246, 242, .9);
+  backdrop-filter: blur(16px);
+  z-index: 20
+}
+.site-header nav {
+  gap: 0.5rem;
+}
+.site-header nav a {
+  padding: 0.55rem 1.15rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.site-header nav a:hover {
+  background-color: var(--green);
+  border-color: var(--ink);
+  transform: translateY(-2px);
+}
+.site-header nav a::after {
+  display: none;
+}
+.site-header nav a,
+.text-link,
+.socials a {
+  position: relative
+}
+.site-header nav a:after,
+.text-link:after,
+.socials a:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  transition: .25s
+}
+.site-header nav a:hover:after,
+.text-link:hover:after,
+.socials a:hover:after {
+  right: 0
+}
+.site-header>.button {
+  justify-self: end
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .8rem;
+  background: var(--green);
+  border: 1px solid var(--ink);
+  padding: 1rem 1.4rem;
+  border-radius: 100px;
+  font-weight: 600;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: .2s
+}
+.button:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--ink);
+  background: var(--green-dark)
+}
+.button-small {
+  padding: .65rem 1rem;
+  box-shadow: none
+}
+.button-small:hover {
+  transform: none
+}
+footer {
+  border-top: 1px solid #7da34e;
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .06em
+}
+@media(max-width:900px) {
+.site-header {
+    grid-template-columns: 1fr auto
+  }
+.site-header nav {
+    display: none
+  }
+}
+@media(max-width:600px) {
+.site-header {
+    height: 70px;
+    padding: 0 1rem
+  }
+.button-small {
+    font-size: .82rem
+  }
+footer {
+    gap: 1rem;
+    flex-wrap: wrap
+  }
+footer span:last-child {
+    display: none
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+html {
+    scroll-behavior: auto
+  }
+.photo-window,
+  .project,
+  .project-media img,
+  .button {
+    transition: none
+  }
+}
+@media(min-width:901px) {
+.site-header nav {
+    grid-column: 2;
+    justify-content: center;
+  }
+.site-header>.button {
+    grid-column: 3;
+    justify-self: end;
+  }
+}
+.button,
+.button-small,
+.button-dark {
+  min-height: 58px;
+  padding: .8rem 1.65rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--green);
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: .01em;
+  box-shadow: 0 0 0 var(--ink);
+  transform: translate(0, 0);
+  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+.button:hover,
+.button-small:hover,
+.button-dark:hover {
+  background: var(--green-dark);
+  color: var(--ink);
+  transform: translateY(-3px);
+  box-shadow: 6px 7px 0 var(--ink);
+}
+.button:active,
+.button-small:active,
+.button-dark:active {
+  transform: translate(0, 0);
+  box-shadow: 0 0 0 var(--ink);
+}
+.button:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 5px;
+}
+.site-header .button-small {
+  min-height: 42px;
+  padding: 0.45rem 1.2rem;
+}
+.site-header .button-small,
+.site-header nav a {
+  border: 1px solid transparent;
+}
+.site-header nav a:hover {
+  border-color: transparent;
+}
+.section-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-size: clamp(4rem, 8vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-top: 0;
+  /* Rimuove eventuali margini superiori */
+  padding-top: 2rem;
+  /* Regola questo valore se vuoi spostarlo ancora più su */
+  margin-bottom: 2rem;
+  /* Ridotto per spostare in alto anche il contenuto sotto */
+  color: var(--ink, #101010);
+}
+.section-title mark.highlight {
+  display: inline-block;
+  background-color: #b3db87;
+  color: var(--ink, #101010);
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+  padding: 0.05em 0.3em;
+  margin-top: -0.18em;
+  /* Valore negativo per avvicinarlo alla riga sopra */
+  line-height: 0.85;
+  /* Ridotto per compattare ulteriormente */
+}
+.contact-footer {
+  padding: 0 clamp(1.25rem, 4vw, 4rem) 2rem;
+}
+.site-header .button-small[aria-current="page"] {
+  background: var(--green-dark);
+}
+.pd-hero {
+  text-align: center;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 4vw, 4rem) 4rem;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.pd-back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.section-title.pd-title {
+  font-size: clamp(3.4rem, 10vw, 7rem);
+  padding-top: 0;
+}
+.pd-lead {
+  max-width: 640px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+.pd-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto 2.5rem;
+  text-align: left;
+}
+.pd-meta div,
+.pd-card {
+  background: var(--white);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+.pd-meta div {
+  padding: 1rem 1.2rem;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.pd-meta dt {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+.pd-meta dd {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.pd-shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--white);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+}
+.pd-hero .pd-shot {
+  max-width: 900px;
+  margin: 0 auto;
+  box-shadow: 10px 10px 0 var(--ink);
+}
+.pd {
+  padding: 0 clamp(1.25rem, 4vw, 4rem) 4rem;
+}
+.pd-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: clamp(3rem, 6vw, 5.5rem);
+}
+.pd-kicker {
+  margin: 0 0 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.pd-section h2 {
+  margin: 0 0 1rem;
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.pd-section h2 mark {
+  background: #b3db87;
+  color: var(--ink);
+  font-style: italic;
+  padding: 0 0.2em;
+}
+.pd-intro {
+  max-width: none;
+  margin: 0 0 2rem;
+  line-height: 1.65;
+}
+.pd-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.pd-grid.c3 { grid-template-columns: repeat(3, 1fr); }
+.pd-grid.c4 { grid-template-columns: repeat(4, 1fr); }
+.pd-card {
+  padding: 1.4rem 1.5rem;
+}
+.pd-card h3 {
+  margin: 0 0 0.5rem;
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.1;
+}
+.pd-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.pd-card .pd-num {
+  display: inline-block;
+  margin-bottom: 0.6rem;
+  padding: 0.1rem 0.7rem;
+  background: var(--green);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.pd-stat {
+  text-align: center;
+}
+.pd-stat strong {
+  display: block;
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-size: 4rem;
+  line-height: 1;
+}
+.pd-profile {
+  border-top: 10px solid var(--c, var(--green));
+}
+.pd-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.pd-split.rev > :first-child {
+  order: 2;
+}
+.pd-split p {
+  line-height: 1.65;
+}
+.pd-bars {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.pd-bars li {
+  display: grid;
+  grid-template-columns: 110px 1fr 40px;
+  gap: 0.6rem;
+  align-items: center;
+  font-size: 0.85rem;
+}
+.pd-bars i {
+  display: block;
+  height: 14px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--green);
+  width: var(--w);
+}
+.pd-quote {
+  margin: 2rem 0;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: var(--green);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: 8px 8px 0 var(--ink);
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+.pd-flow {
+  margin-bottom: 1rem;
+  background: var(--white);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+}
+.pd-flow summary {
+  padding: 1rem 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pd-scroll {
+  overflow-x: auto;
+  padding: 0 1rem 1rem;
+}
+.pd-scroll img {
+  display: block;
+  width: 1500px;
+  max-width: none;
+  height: auto;
+}
+.pd-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+@media (max-width: 800px) {
+.pd-grid.c2, .pd-grid.c3, .pd-grid.c4, .pd-split { grid-template-columns: 1fr; }
+.pd-split.rev > :first-child { order: 0; }
+.pd-bars li { grid-template-columns: 90px 1fr 36px; }
+}
+.pd-sub {
+  margin: 2rem 0 0.8rem;
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  line-height: 1.1;
+}
+.pd-split .pd-sub {
+  margin-top: 0;
+}
+.pd-section > .pd-shot,
+.pd-section > .pd-split {
+  margin-bottom: 2rem;
+}
+.pd-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+  background: var(--white);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+.pd-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.pd-table th,
+.pd-table td {
+  padding: 0.8rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+}
+.pd-table thead th {
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+.pd-table tbody th {
+  text-align: left;
+  padding-left: 1.2rem;
+}
+.pd-table tbody tr:last-child th,
+.pd-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.pd-stars {
+  font-size: 1.15rem;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.pd-stars s {
+  text-decoration: none;
+  color: var(--line);
+}
+
+/* ---- Timeline ---- */
+.pd-timeline { padding: clamp(1.2rem, 3vw, 2rem); margin-bottom: 2rem; }
+.pd-timeline .pd-sub { margin-top: 0; }
+.tl-scroll { overflow-x: auto; }
+.tl { min-width: 720px; }
+.tl-weeks { display: grid; grid-template-columns: repeat(4, 1fr); }
+.tl-weeks span { justify-self: center; padding: 0.3rem 1.8rem; background: var(--green); border: 1px solid var(--ink); border-radius: 10px; font-size: 0.85rem; font-weight: 600; }
+.tl-body {
+  margin-top: 1rem; padding: 0.4rem 0;
+  background:
+    repeating-linear-gradient(to bottom, var(--line) 0 6px, transparent 6px 12px) 0 0 / 1px 100% no-repeat,
+    repeating-linear-gradient(to bottom, var(--line) 0 6px, transparent 6px 12px) 25% 0 / 1px 100% no-repeat,
+    repeating-linear-gradient(to bottom, var(--line) 0 6px, transparent 6px 12px) 50% 0 / 1px 100% no-repeat,
+    repeating-linear-gradient(to bottom, var(--line) 0 6px, transparent 6px 12px) 75% 0 / 1px 100% no-repeat,
+    repeating-linear-gradient(to bottom, var(--line) 0 6px, transparent 6px 12px) 100% 0 / 1px 100% no-repeat;
+}
+.tl-row { position: relative; height: 3rem; }
+.tl-bar { position: absolute; top: 0.35rem; height: 2.3rem; display: flex; align-items: center; justify-content: center; padding: 0 0.5rem; overflow: hidden; background: #e9f3d8; border: 1px solid var(--ink); border-radius: 10px; font-size: 0.85rem; font-weight: 500; line-height: 1.2; white-space: nowrap; }
+
+/* ---- Research charts ---- */
+.pd-chart { margin: 0 0 2rem; padding: clamp(1.2rem, 3vw, 2rem); }
+.pd-chart figcaption { max-width: 640px; margin-bottom: 1.5rem; font-family: "Instrument Serif", serif; font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1.15; }
+.ch1 { display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem; align-items: end; }
+.bars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; align-items: end; padding-right: 1.5rem; border-right: 1px dashed var(--ink); }
+.bc { display: flex; flex-direction: column; justify-content: flex-end; text-align: center; font-size: 0.78rem; line-height: 1.2; }
+.bc b { margin-bottom: 0.35rem; font-size: 0.9rem; }
+.bc i { display: block; width: 100%; height: calc(var(--p) * 2.4px); background: var(--green-dark); background: color-mix(in srgb, var(--green-dark) calc(var(--t) * 100%), #fff); border: 1px solid var(--ink); border-radius: 10px 10px 0 0; }
+.bc span { margin-top: 0.5rem; min-height: 2.4em; }
+.people { display: grid; grid-template-columns: repeat(13, 1fr); gap: 0.6rem 0.3rem; }
+.pp { display: block; width: 100%; height: auto; fill: var(--line); }
+.pp.on { fill: var(--green-dark); }
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin: 1.2rem 0 0; font-size: 0.85rem; line-height: 1.3; }
+.legend .pp { width: 12px; height: 20px; margin-left: 0.6rem; }
+.legend .pp:first-child { margin-left: 0; }
+.ch2 { position: relative; max-width: 900px; margin: 0 auto; aspect-ratio: 16 / 9; }
+.ch2-circles { position: absolute; right: 0; bottom: 0; height: 100%; aspect-ratio: 1; }
+.ch2-circles .ring { position: absolute; bottom: 0; left: 50%; aspect-ratio: 1; transform: translateX(-50%); border: 1px solid var(--ink); border-radius: 50%; }
+.r1 { width: 100%; background: #eef6e0; }
+.r2 { width: 64%; background: #d9eab9; }
+.r3 { width: 32%; background: var(--green-dark); }
+.ch2-circles b { position: absolute; left: 50%; transform: translate(-50%, -50%); font-family: "Instrument Serif", serif; font-weight: 400; font-size: clamp(1.5rem, 5vw, 3.2rem); line-height: 1; }
+.ch2-labels { margin: 0; padding: 0; list-style: none; }
+.ch2-labels li { position: absolute; left: 0; width: 46%; display: flex; align-items: center; gap: 0.5rem; transform: translateY(-50%); font-size: clamp(0.7rem, 1.8vw, 0.95rem); font-weight: 600; line-height: 1.2; }
+.ch2-labels li span { flex: none; max-width: 42%; }
+.ch2-labels li i { flex: 1; height: 1px; background: var(--ink); }
+
+/* ---- Insights ---- */
+.pd-insights { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+.pd-insight { padding: clamp(1.6rem, 3vw, 2.4rem); background: var(--white); border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: 6px 6px 0 var(--ink); }
+.pd-insight.alt { background: var(--green); }
+.pd-insight .num { display: inline-block; margin-bottom: 1rem; padding: 0.05rem 0.8rem; background: var(--paper); border: 1px solid var(--ink); border-radius: 999px; font-family: "Instrument Serif", serif; font-style: italic; font-size: 1.3rem; line-height: 1.4; }
+.pd-insight h3 { margin: 0 0 0.8rem; font-family: "Instrument Serif", serif; font-weight: 400; font-size: clamp(2rem, 3.4vw, 2.8rem); line-height: 1.02; letter-spacing: -0.01em; }
+.pd-insight p { margin: 0; font-size: 1.05rem; line-height: 1.6; }
+
+/* ---- Personas ---- */
+.pd-personas { display: grid; gap: 1.5rem; margin-bottom: 2rem; }
+.pd-persona { display: grid; grid-template-columns: 340px 1fr; gap: 2rem; padding: clamp(1.4rem, 3vw, 2rem); border-top: 12px solid var(--green); }
+.pd-persona header { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.2rem; }
+.pd-persona header img { flex: none; width: 110px; height: 110px; object-fit: cover; border: 1.5px solid var(--ink); border-radius: 50%; }
+.pd-persona h3 { margin: 0 0 0.4rem; font-size: 2.6rem; }
+.pd-persona dl { display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.7rem; margin: 0; font-size: 0.85rem; line-height: 1.4; }
+.pd-persona dt { color: var(--muted); font-weight: 600; }
+.pd-persona dd { margin: 0; }
+.pd-persona .pq { margin: 0; padding: 0.7rem 1rem; background: var(--green); border-radius: 14px; font-family: "Instrument Serif", serif; font-style: italic; font-size: 1.7rem; line-height: 1.1; }
+.pr { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; align-content: start; }
+.pr .wide { grid-column: 1 / -1; }
+.pd-persona h4 { margin: 0 0 0.4rem; padding-top: 0.2rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.pr > div { margin-bottom: 1.1rem; }
+.pd-persona ul { margin: 0; padding-left: 1.1rem; font-size: 0.92rem; line-height: 1.5; }
+
+/* ---- User flow ---- */
+.pd-userflow { padding: clamp(1.2rem, 3vw, 2rem); margin-bottom: 2rem; }
+.pd-userflow .pd-sub { margin-top: 0; }
+.uf { display: grid; grid-template-columns: repeat(5, 1fr); column-gap: 1rem; row-gap: 1rem; margin-top: 1.5rem; }
+.uf-group { position: relative; padding-bottom: 1.1rem; text-align: center; font-size: 0.85rem; grid-row: 1; }
+.uf-group::after { content: ""; position: absolute; left: 10%; right: 10%; bottom: 0; height: 12px; border: 1.5px solid var(--ink); border-bottom: 0; }
+.g1 { grid-column: 1 / 3; }
+.g2 { grid-column: 3 / 6; }
+.uf-step { position: relative; grid-row: 2; text-align: center; }
+.s1 { grid-column: 1; } .s2 { grid-column: 2; } .s3 { grid-column: 3; } .s4 { grid-column: 4; } .s5 { grid-column: 5; }
+.uf-step:not(.s5)::after { content: ""; position: absolute; top: 42px; left: calc(50% + 50px); width: calc(100% - 100px + 1rem); border-top: 1.5px dashed var(--ink); }
+.tile { display: grid; place-items: center; width: 84px; height: 84px; margin: 0 auto 1rem; background: var(--green); border: 1.5px solid var(--ink); border-radius: 18px; box-shadow: 4px 4px 0 var(--ink); font-family: "Instrument Serif", serif; font-size: 2.2rem; line-height: 1; }
+.uf-step h4 { margin: 0 0 0.4rem; font-size: 1rem; line-height: 1.3; }
+.uf-step p { margin: 0; font-size: 0.88rem; line-height: 1.5; }
+
+@media (max-width: 900px) {
+  .pd-persona { grid-template-columns: 1fr; gap: 1rem; }
+}
+@media (max-width: 800px) {
+  .ch1, .pd-insights, .pr { grid-template-columns: 1fr; }
+  .bars { padding: 0 0 1.5rem; border-right: 0; border-bottom: 1px dashed var(--ink); }
+  .uf { grid-template-columns: 1fr; }
+  .uf-group, .uf-step { grid-column: 1; grid-row: auto; }
+  .g1 { order: 0; } .s1 { order: 1; } .s2 { order: 2; } .g2 { order: 3; } .s3 { order: 4; } .s4 { order: 5; } .s5 { order: 6; }
+  .uf-group { padding: 0 0 0.4rem; border-bottom: 1.5px solid var(--ink); text-align: left; font-weight: 600; }
+  .uf-group::after, .uf-step::after { display: none; }
+}
+
+
+/* ==========================================================
+   HOMIZY LOOK: giallo + nero + tipografia dell'app
+   (per tornare al serif del sito: --pd-head: "Instrument Serif", serif)
+   ========================================================== */
+:root { --hy: #ffd233; --hy-soft: #fff3c4; --pd-head: "DM Sans", sans-serif; }
+
+.pd-hero { background-color: #111; background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px); }
+.pd-hero .section-title { color: #fff; }
+.section-title.pd-title { font-family: var(--pd-head); font-weight: 800; letter-spacing: -0.04em; font-size: clamp(3.2rem, 9vw, 6.5rem); }
+.pd-hero .section-title mark.highlight { background: var(--hy); color: #111; font-family: var(--pd-head); font-style: normal; font-weight: 800; }
+.pd-hero .pd-lead { color: #e4e4de; }
+.pd-hero .pd-meta div { box-shadow: 4px 4px 0 var(--hy); }
+.pd-hero .pd-shot { border-color: #111; box-shadow: 10px 10px 0 var(--hy); }
+
+.pd-kicker { display: inline-block; padding: 0.1rem 0.75rem; background: var(--hy); border: 1px solid var(--ink); border-radius: 999px; }
+.pd-section h2, .pd-sub, .pd-card h3, .pd-insight h3, .pd-persona h3, .pd-chart figcaption, .pd-stat strong,
+.pd-quote, .pd-persona .pq, .tile, .ch2-circles b, .pd-insight .num {
+  font-family: var(--pd-head); font-weight: 700; font-style: normal; letter-spacing: -0.02em;
+}
+.pd-section h2 { font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.05; }
+.pd-section h2 mark { background: var(--hy); font-style: normal; padding: 0 0.15em; }
+.pd-sub { font-size: clamp(1.4rem, 2.4vw, 1.8rem); }
+.pd-sub-s { margin: 2rem 0 0.8rem; font-size: 1.2rem; }
+.pd-card h3 { font-size: 1.35rem; }
+.pd-card .pd-num { background: var(--hy); }
+.pd-stat strong { font-size: 3.4rem; font-weight: 800; }
+.pd-chart figcaption { font-size: clamp(1.2rem, 2.2vw, 1.6rem); }
+
+.tl-weeks span { background: var(--hy); }
+.tl-bar { background: var(--hy-soft); border-color: rgba(0,0,0,.25); }
+.bc i { background: var(--hy); background: color-mix(in srgb, var(--hy) calc(var(--t) * 100%), #fff); }
+.pp.on { fill: var(--hy); }
+.r1 { background: #fff4c6; } .r2 { background: #ffe98a; } .r3 { background: var(--hy); }
+.ch2-circles b { font-weight: 800; font-size: clamp(1.4rem, 4.4vw, 2.8rem); }
+
+.pd-insight { padding: clamp(1.3rem, 2.4vw, 1.8rem); }
+.pd-insight h3 { font-size: clamp(1.5rem, 2.4vw, 2rem); line-height: 1.1; }
+.pd-insight p { font-size: 0.98rem; }
+.pd-insight .num { background: var(--hy); font-size: 1rem; }
+
+.pd-persona { border-top-width: 1.5px; border-top-color: var(--ink); }
+.pd-persona h3 { font-size: 2.2rem; }
+.pd-persona .pq { padding: 0; background: none; border-radius: 0; font-size: 2rem; line-height: 1.15; }
+
+.pd-quote { background: var(--hy); font-size: clamp(1.6rem, 3.6vw, 2.6rem); line-height: 1.15; }
+.tile { background: var(--hy); font-size: 1.8rem; font-weight: 800; }
+.pd-bars i { background: var(--hy); }
+
+.pd-flow summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; list-style: none; }
+.pd-flow summary::-webkit-details-marker { display: none; }
+.pd-flow summary::after { content: ""; flex: none; width: 0.6rem; height: 0.6rem; border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink); transform: translateY(-25%) rotate(45deg); transition: transform 0.2s; }
+.pd-flow[open] summary { background: var(--hy); border-radius: calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0 0; }
+.pd-flow[open] summary::after { transform: translateY(25%) rotate(-135deg); }
+
+/* ritocchi */
+.section-title.pd-title { line-height: 1; }
+.pd-hero .section-title mark.highlight { margin-top: 0.08em; }
+.pd-section h2 { margin-bottom: 1.5rem; }
+.pd-timeline .pd-kicker { margin-bottom: 0.8rem; }
+
+/* ---- Capitoli: solo testo, più grande ---- */
+.pd-section > .pd-kicker { display: block; margin: 0 0 0.9rem; padding: 0; background: none; border: 0; border-radius: 0; font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 700; letter-spacing: 0.06em; }
+
+/* ---- Personas: foto quadrate più grandi ---- */
+.pd-persona { grid-template-columns: 420px 1fr; }
+.pd-persona header img { width: 160px; height: 160px; border-radius: 24px; }
+.pd-persona header { gap: 1.4rem; }
+
+/* ---- Accordion: numero ---- */
+.pd-flow .fn { margin-right: 0.9rem; }
+
+/* ---- CTA finale ---- */
+.pd-final { margin-bottom: 2rem; padding: clamp(2rem, 5vw, 4rem); background: #111; color: #fff; border: 1.5px solid #111; border-radius: var(--radius); box-shadow: 10px 10px 0 var(--hy); text-align: center; }
+.pd-final h2 { margin: 0 0 1rem; color: #fff; }
+.pd-final p { max-width: 560px; margin: 0 auto 2rem; color: #dcdcd6; line-height: 1.6; }
+.pd-final-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+.pd-cta { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 1.9rem; background: var(--hy); color: #111; border: 1.5px solid var(--hy); border-radius: 999px; font-family: var(--pd-head); font-weight: 700; font-size: 1.05rem; line-height: 1; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.pd-cta:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 #fff; }
+.pd-cta-alt { background: transparent; color: #fff; border-color: #fff; }
+.pd-cta-alt:hover { box-shadow: 4px 4px 0 #fff; }
+
+@media (max-width: 900px) {
+  .pd-persona { grid-template-columns: minmax(0, 1fr); }
+  .pd-persona header { flex-wrap: wrap; }
+}
+@media (max-width: 480px) {
+  .pd-persona header img { width: 120px; height: 120px; }
+}
+.pd-timeline .pd-sub { margin-bottom: 1.3rem; }
+
+/* ---- ZyMate: solo i telefoni, a filo con il bordo destro della pagina ---- */
+.pd { --gutter: clamp(1.25rem, 4vw, 4rem); --bleed: calc((100vw - min(1100px, 100vw - 2 * var(--gutter))) / 2); overflow-x: clip; }
+.pd-split.bleed { grid-template-columns: 1fr 1.25fr; }
+.pd-split.bleed > img { width: calc(100% + var(--bleed)); max-width: none; margin-right: calc(-1 * var(--bleed)); background: transparent; border: 0; border-radius: 0; box-shadow: none; mix-blend-mode: multiply; }
+@media (max-width: 800px) {
+  .pd-split.bleed { grid-template-columns: 1fr; }
+  .pd-split.bleed > img { width: 100%; margin-right: 0; }
+}
+
+/* ---- Sezione 6: ZyMatch / ZyMate / ZyTime ---- */
+.pd-label { margin: 0 0 0.6rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.pd-badge { display: inline-block; padding: 0.1rem 0.75rem; background: var(--hy); border: 1px solid var(--ink); border-radius: 999px; font-family: var(--pd-head); font-size: 0.85rem; font-weight: 700; line-height: 1.5; }
+.pd-stage { padding: clamp(1.5rem, 3vw, 2.5rem); background: var(--hy-soft); border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: 6px 6px 0 var(--ink); }
+.pd-phones3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.pd-phones3 figure { margin: 0; text-align: center; }
+.pd-phones3 img { display: block; width: min(100%, 270px); height: auto; margin: 0 auto 1.2rem; }
+.pd-phones3 figcaption { text-align: left; max-width: 300px; margin: 0 auto; }
+.pd-phones3 figcaption b { display: block; margin: 0.5rem 0 0.2rem; font-family: var(--pd-head); font-size: 1.15rem; }
+.pd-phones3 figcaption p { margin: 0; font-size: 0.92rem; line-height: 1.5; }
+.pd-feature { display: grid; grid-template-columns: 1fr 480px; gap: 3rem; align-items: start; margin-top: 4rem; }
+.pd-feature.flip { grid-template-columns: 480px 1fr; }
+.pd-feature.flip .vis { order: -1; }
+.pd-feature .txt { position: sticky; top: 6rem; }
+.pd-feature .txt .pd-sub { margin-top: 0; }
+.pd-feature .txt > p { line-height: 1.65; }
+.pd-feature .vis img { display: block; width: 100%; height: auto; }
+.pd-feature .vis.stage { padding: 1.5rem; background: var(--hy-soft); border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: 6px 6px 0 var(--ink); }
+.pd-houses { grid-template-columns: 1fr; gap: 1rem; margin: 1.5rem 0 0; }
+.pd-houses .pd-card { padding: 1rem 1.3rem; }
+.pd-houses .pd-card h3 { margin-bottom: 0.2rem; font-size: 1.15rem; }
+.pd-steps { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; gap: 1.1rem; }
+.pd-steps li { display: grid; grid-template-columns: auto 1fr; gap: 0.9rem; align-items: start; }
+.pd-steps b { display: block; font-family: var(--pd-head); font-size: 1.1rem; }
+.pd-steps p { margin: 0.1rem 0 0; font-size: 0.95rem; line-height: 1.5; }
+@media (max-width: 900px) {
+  .pd-phones3 { grid-template-columns: 1fr; gap: 2.5rem; }
+  .pd-feature, .pd-feature.flip { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  .pd-feature.flip .vis { order: 0; }
+  .pd-feature .txt { position: static; }
+  .pd-feature .vis img { max-width: 440px; margin: 0 auto; }
+}
+.pd-sub + .pd-split { align-items: start; }
+@media (max-width: 900px) { .pd-phones3 img { width: min(100%, 230px); } }
+
+/* ---- ZyMatch: tre schermate sfalsate, senza pannelli; numeri senza riquadro ---- */
+.pd-badge { padding: 0; background: none; border: 0; border-radius: 0; font-size: 1.05rem; line-height: 1.4; min-width: 1.6rem; }
+.pd-feature .vis.trio { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; justify-items: center; }
+.trio .ph { margin: 0; }
+.trio .ph.a { grid-column: 1; grid-row: 1; }
+.trio .ph.c { grid-column: 1; grid-row: 2; }
+.trio .ph.b { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+.trio .ph-n { display: block; margin-bottom: 0.5rem; font-family: var(--pd-head); font-size: 1.05rem; font-weight: 700; }
+.pd-feature .vis.trio img { width: 100%; max-width: 225px; }
+.pd-feature .txt .pd-label { margin-top: 1.8rem; }
+@media (max-width: 900px) {
+  .pd-feature .vis.trio { grid-template-columns: 1fr; }
+  .trio .ph.a, .trio .ph.b, .trio .ph.c { grid-column: 1; grid-row: auto; }
+  .pd-feature .vis.trio img { max-width: 230px; }
+}
+
+/* ==========================================================
+   Revisione: numeri senza riquadro, elementi sullo sfondo,
+   fascia info dell'hero, personas compatte
+   ========================================================== */
+
+/* numeri delle card (Challenge e Insight): niente riquadro giallo */
+.pd-card .pd-num, .pd-insight .num {
+  display: block; margin: 0 0 0.7rem; padding: 0; background: none; border: 0; border-radius: 0;
+  font-family: var(--pd-head); font-style: normal; font-weight: 800; font-size: 2.4rem; line-height: 1;
+  letter-spacing: -0.03em; color: rgba(17, 17, 17, 0.2);
+}
+
+/* hero: fascia info senza blocchi */
+.pd-hero .pd-meta { grid-template-columns: 0.85fr 0.65fr 1.5fr 1.3fr; gap: 0; max-width: 1100px; margin: 0 auto 3rem; padding: 0; border-top: 1px solid rgba(255,255,255,.25); border-bottom: 1px solid rgba(255,255,255,.25); }
+.pd-hero .pd-meta div { padding: 1.4rem 1.5rem; background: none; border: 0; border-left: 1px solid rgba(255,255,255,.25); border-radius: 0; box-shadow: none; }
+.pd-hero .pd-meta div:first-child { border-left: 0; padding-left: 0; }
+.pd-hero .pd-meta dt { margin-bottom: 0.4rem; color: rgba(255,255,255,.6); font-size: 0.72rem; letter-spacing: 0.14em; }
+.pd-hero .pd-meta dd { color: #fff; font-family: var(--pd-head); font-weight: 700; font-size: clamp(1.1rem, 1.9vw, 1.5rem); line-height: 1.2; letter-spacing: -0.01em; }
+
+/* elementi sullo sfondo della pagina, senza blocco */
+.pd-grid + .pd-sub { margin-top: 0; }
+.pd-timeline { padding: 0; margin: 0 0 2rem; }
+.pd-chart { margin: 0 0 3rem; padding: 0; }
+.pd-userflow { padding: 0; margin: 0 0 2rem; }
+.pd-table-wrap { background: none; border: 0; border-radius: 0; box-shadow: none; }
+.pd-table th, .pd-table td { border-bottom-color: rgba(17,17,17,.15); }
+.pd-table thead th { border-bottom: 1.5px solid var(--ink); }
+
+/* personas: più compatte */
+.pd-persona { grid-template-columns: 440px 1fr; gap: 1.5rem; padding: 1.5rem 1.8rem; }
+.pd-persona header { gap: 1.2rem; margin-bottom: 1rem; }
+.pd-persona header img { width: 140px; height: 140px; }
+.pd-persona h3 { margin-bottom: 0.3rem; font-size: 2rem; }
+.pd-persona dl { font-size: 0.82rem; line-height: 1.35; }
+.pd-persona .pq { font-size: 1.8rem; }
+.pr { grid-template-columns: repeat(6, 1fr); gap: 0 1.5rem; }
+.pr > div { margin-bottom: 0.9rem; }
+.pr > div:nth-child(1) { grid-column: 1 / span 2; }
+.pr > div:nth-child(2) { grid-column: 3 / span 2; }
+.pr > div:nth-child(4) { grid-column: 5 / span 2; grid-row: 1; }
+.pr > div:nth-child(3) { grid-column: 1 / span 3; grid-row: 2; }
+.pr .wide { grid-column: 4 / span 3; grid-row: 2; }
+.pr .wide, .pr > div:nth-child(3) { margin-bottom: 0; }
+.pd-persona h4 { margin-bottom: 0.3rem; }
+.pd-persona ul { font-size: 0.88rem; line-height: 1.4; }
+@media (max-width: 900px) {
+  .pd-hero .pd-meta { grid-template-columns: 1fr 1fr; }
+  .pd-hero .pd-meta div:nth-child(3) { border-left: 0; padding-left: 0; }
+  .pd-hero .pd-meta div:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,.25); }
+  .pd-persona { grid-template-columns: minmax(0, 1fr); }
+  .pr { grid-template-columns: 1fr 1fr; }
+  .pr > div:nth-child(n), .pr .wide { grid-column: auto; grid-row: auto; }
+  .pr .wide { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) {
+  .pr { grid-template-columns: 1fr; }
+  .pr .wide { grid-column: auto; }
+}
+.pd-chart figcaption { font-size: clamp(1.4rem, 2.4vw, 1.8rem); }
+.pd-sub + .pd-timeline { margin-top: 1.2rem; }
+.pd-sub + .pd-userflow { margin-top: 1.5rem; }
+
+/* ==========================================================
+   Revisione 3
+   ========================================================== */
+
+/* ---- HERO: griglia info 2x2 + telefoni inclinati ---- */
+.pd-hero .pd-meta { grid-template-columns: 1fr 1fr; gap: 0; max-width: 960px; margin: 0 auto 2.5rem; border-top: 1px solid rgba(255,255,255,.3); border-bottom: 1px solid rgba(255,255,255,.3); }
+.pd-hero .pd-meta div { padding: 1.5rem 0 1.5rem 1.6rem; border: 0; border-left: 1px solid rgba(255,255,255,.3); }
+.pd-hero .pd-meta div:nth-child(odd) { padding-left: 0; border-left: 0; }
+.pd-hero .pd-meta div:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,.3); }
+.pd-hero .pd-meta div:nth-child(n+3) { border-top: 0; }
+.pd-hero .pd-meta dd { font-size: clamp(1.1rem, 1.9vw, 1.45rem); }
+.hero-phones { position: relative; max-width: 960px; height: clamp(320px, 50vw, 540px); margin: 0 auto; overflow: hidden; }
+.hero-phones .hp { position: absolute; top: clamp(8px, 2vw, 28px); width: clamp(180px, 36vw, 390px); height: auto; filter: drop-shadow(0 24px 40px rgba(0,0,0,.55)); }
+.hp-l { left: 5%; transform: rotate(-9deg); }
+.hp-r { right: 5%; transform: rotate(9deg); top: clamp(30px, 6vw, 70px); }
+
+/* ---- Methodology nello stile del sito ---- */
+.tl-weeks span { justify-self: stretch; margin: 0 0.6rem; padding: 0 0 0.4rem; background: none; border: 0; border-bottom: 1.5px solid var(--ink); border-radius: 0; text-align: center; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.tl-bar { background: #fff; border: 1.5px solid var(--ink); border-radius: 999px; box-shadow: 2px 2px 0 var(--ink); font-weight: 500; }
+
+/* ---- Objectives (a scalini) ---- */
+.pd-objs { display: grid; gap: 1.1rem; margin-bottom: 1rem; }
+.obj { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: 1.2rem; width: 78%; padding: 1.3rem 1.8rem; background: #fff; border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: 5px 5px 0 var(--ink); }
+.obj.o2 { margin-left: 7.3%; } .obj.o3 { margin-left: 14.6%; } .obj.o4 { margin-left: 22%; }
+.obj .n { font-family: var(--pd-head); font-weight: 800; font-size: 4rem; line-height: 1; letter-spacing: -0.04em; color: var(--hy); }
+.obj h4 { margin: 0 0 0.3rem; font-family: var(--pd-head); font-size: 1.15rem; font-weight: 700; }
+.obj p { margin: 0; font-size: 0.95rem; line-height: 1.55; }
+
+/* ---- Insight con immagine ---- */
+.pd-insight { display: flex; flex-direction: column; }
+.pd-insight .stat { margin: 1rem 0 1.3rem; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.02em; }
+.pd-insight > img { display: block; width: 100%; aspect-ratio: 3 / 2; margin-top: auto; object-fit: cover; border-radius: 16px; }
+
+/* ---- Personas: card verticali affiancate ---- */
+.pd-personas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: stretch; }
+.pd-persona { display: flex; flex-direction: column; padding: 1rem 1rem 1.5rem; }
+.pd-persona .pp-photo { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; margin: 0 0 1.1rem; border: 0; border-radius: 22px; }
+.pd-persona > h3 { margin: 0 0 0.4rem; padding: 0 0.6rem; font-size: 2rem; }
+.pd-persona > dl { margin: 0 0 0.9rem; padding: 0 0.6rem; }
+.pd-persona .pq { margin: 0 0 1rem; padding: 0 0.6rem; font-size: 1.5rem; }
+.pd-persona .pc2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; padding: 0 0.6rem; }
+.pd-persona > h4, .pd-persona > ul { padding-left: 0.6rem; padding-right: 0.6rem; }
+.pd-persona > ul { padding-left: 1.7rem; }
+.pd-persona h4 { margin: 0.9rem 0 0.3rem; }
+
+/* ---- User flow: testi a sinistra ---- */
+.uf-step { text-align: left; }
+.uf-step .tile { margin: 0 0 1rem; }
+.uf-step:not(.s5)::after { left: 96px; width: calc(100% + 1rem - 108px); }
+.uf-group { text-align: left; padding-left: 0.2rem; }
+.uf-group::after { left: 0; right: 1rem; }
+
+/* ---- Banner finale ---- */
+.pd-banner { position: relative; margin: 0 0 2rem; overflow: hidden; border-radius: var(--radius); }
+.pd-banner img { display: block; width: 100%; height: auto; min-height: 300px; object-fit: cover; }
+.pd-banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.15) 65%); }
+.pd-banner figcaption { position: absolute; z-index: 1; left: clamp(1.2rem, 4vw, 3rem); right: clamp(1.2rem, 4vw, 3rem); bottom: clamp(1.2rem, 4vw, 2.6rem); color: #fff; font-family: var(--pd-head); font-weight: 800; font-size: clamp(1.7rem, 4.4vw, 3.4rem); line-height: 1.08; letter-spacing: -0.03em; }
+.pd-banner mark { background: none; color: var(--hy); }
+
+@media (max-width: 900px) {
+  .pd-hero .pd-meta { grid-template-columns: 1fr; }
+  .pd-hero .pd-meta div, .pd-hero .pd-meta div:nth-child(odd) { padding: 1.1rem 0; border-left: 0; border-bottom: 1px solid rgba(255,255,255,.3); }
+  .pd-hero .pd-meta div:last-child { border-bottom: 0; }
+  .obj, .obj.o2, .obj.o3, .obj.o4 { width: 100%; margin-left: 0; grid-template-columns: 70px 1fr; padding: 1.1rem 1.2rem; }
+  .obj .n { font-size: 2.6rem; }
+  .pd-personas { grid-template-columns: 1fr; }
+  .uf-group { border-bottom: 1.5px solid var(--ink); }
+}
+
+.pd-persona h4 { margin: 1rem 0 0.35rem; line-height: 1.2; }
+.pd-persona ul { margin: 0; line-height: 1.45; }
+.pd-persona .pq { min-height: 2.4em; }
+
+/* ==========================================================
+   Revisione 4
+   ========================================================== */
+
+/* ---- HERO: testo centrale compatto, telefoni ai lati interi ---- */
+.hero-grid { display: grid; grid-template-columns: minmax(170px, 250px) minmax(0, 620px) minmax(170px, 250px); gap: clamp(1.5rem, 3vw, 3rem); align-items: center; justify-content: center; max-width: 1240px; margin: 0 auto; }
+.hero-grid .hp { position: static; width: 100%; height: auto; filter: drop-shadow(0 18px 28px rgba(0,0,0,.5)); }
+.hero-grid .hp-l { transform: rotate(-7deg); }
+.hero-grid .hp-r { transform: rotate(7deg); }
+.hero-center .section-title.pd-title { font-size: clamp(2.6rem, 5.4vw, 4.4rem); }
+.hero-center .pd-lead { max-width: 520px; margin: 0 auto 1.6rem; font-size: 0.95rem; line-height: 1.55; }
+.hero-center .pd-meta { max-width: none; margin: 0; }
+.hero-center .pd-meta div { padding: 1rem 0 1rem 1.2rem; }
+.hero-center .pd-meta div:nth-child(odd) { padding-left: 0; }
+.hero-center .pd-meta dd { font-size: clamp(0.95rem, 1.3vw, 1.1rem); }
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .hero-center { grid-column: 1 / -1; order: -1; }
+  .hero-grid .hp { max-width: 230px; justify-self: center; }
+}
+
+/* ---- Methodology: fasce per settimana, bordi non tagliati ---- */
+.tl-scroll { padding: 4px 6px 10px; }
+.tl-weeks { padding: 0 6px; }
+.tl-weeks span { margin: 0; padding: 0 0 0.6rem; border: 0; font-size: 0.8rem; }
+.tl-body { margin-top: 0; padding: 0.7rem 6px; border-radius: 16px; background: linear-gradient(to right, rgba(17,17,17,.05) 0 25%, transparent 25% 50%, rgba(17,17,17,.05) 50% 75%, transparent 75% 100%); }
+.tl-bar { box-shadow: none; }
+
+/* ---- Objectives: griglia 2x2 con filetto ---- */
+.pd-objs { grid-template-columns: 1fr 1fr; gap: 2.4rem 3.5rem; margin: 0.5rem 0 1rem; }
+.pd-objs .obj, .pd-objs .obj.o2, .pd-objs .obj.o3, .pd-objs .obj.o4 { display: block; width: auto; margin: 0; padding: 1.2rem 0 0; background: none; border: 0; border-top: 1.5px solid var(--ink); border-radius: 0; box-shadow: none; }
+.pd-objs .obj .n { display: block; margin-bottom: 0.8rem; font-size: 3.6rem; }
+@media (max-width: 800px) { .pd-objs { grid-template-columns: 1fr; gap: 1.6rem; } }
+
+/* ---- Personas: più larghe e basse ---- */
+.pd-personas { --w: min(1360px, 100vw - 2 * var(--gutter)); width: var(--w); margin-left: calc((100% - var(--w)) / 2); }
+.pd-persona { display: grid; grid-template-columns: 112px 1fr; column-gap: 1.2rem; align-content: start; padding: 1.3rem 1.5rem 1.5rem; }
+.pd-persona .pp-photo { grid-column: 1; grid-row: 1 / span 2; width: 100%; margin: 0; border-radius: 18px; }
+.pd-persona > h3 { grid-column: 2; grid-row: 1; align-self: end; margin: 0 0 0.3rem; padding: 0; font-size: 1.9rem; }
+.pd-persona > dl { grid-column: 2; grid-row: 2; align-self: start; margin: 0; padding: 0; }
+.pd-persona .pq { grid-column: 1 / -1; min-height: 0; margin: 1.1rem 0 0.4rem; padding: 0; font-size: 1.35rem; }
+.pd-persona .pc2, .pd-persona .pc1 { grid-column: 1 / -1; padding: 0; }
+.pd-persona .pc2 { gap: 0 1.2rem; }
+.pd-persona h4 { margin: 0.9rem 0 0.3rem; }
+.pd-persona ul { padding-left: 1.1rem; margin: 0; }
+@media (max-width: 900px) { .pd-personas { width: 100%; margin-left: 0; } }
+
+/* ---- User flow: tile senza giallo ---- */
+.tile { background: #fff; }
+
+/* ---- Benchmark: pallini al posto delle stelle ---- */
+.rt { display: inline-flex; gap: 6px; vertical-align: middle; }
+.rt i { display: block; width: 14px; height: 14px; border: 1.5px solid var(--ink); border-radius: 50%; }
+.rt i.on { background: var(--hy); }
+.tl-body { border-radius: 0; }
+.pd-persona .pq { margin: 1rem 0 0.2rem; }
+.pd-persona .pc2 h4:first-child, .pd-persona .pc2 > div > h4 { margin-top: 0.7rem; }
+.pd-banner::after { background: linear-gradient(to top, rgba(0,0,0,.82), rgba(0,0,0,.2) 70%); }
+@media (max-width: 900px) { .hero-center .pd-meta div, .hero-center .pd-meta div:nth-child(odd) { padding-left: 0; } }
+
+/* ==========================================================
+   Personas: scheda con testata nera e dettagli a chip
+   ========================================================== */
+.pd-persona[data-new] { display: block; padding: 0; overflow: hidden; }
+.pp-head { padding: 1.4rem 1.5rem 1.5rem; color: #fff; background-color: #111; background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px); background-size: 20px 20px; }
+.pp-top { display: grid; grid-template-columns: 118px 1fr; gap: 1.2rem; align-items: end; }
+.pd-persona .pp-top .pp-photo { grid-column: auto; grid-row: auto; display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; margin: 0; border: 2px solid var(--hy); border-radius: 18px; }
+.pp-id h3 { margin: 0; color: #fff; font-size: 2rem; line-height: 1.05; }
+.pp-age { margin: 0.5rem 0 0.4rem; display: flex; align-items: baseline; gap: 0.5rem; font-size: 0.8rem; color: rgba(255,255,255,.65); }
+.pp-age b { color: var(--hy); font-family: var(--pd-head); font-weight: 800; font-size: 2.6rem; line-height: 1; letter-spacing: -0.04em; }
+.pp-id dl { display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.6rem; margin: 0; font-size: 0.8rem; line-height: 1.35; }
+.pp-id dt { color: rgba(255,255,255,.55); font-weight: 600; }
+.pp-id dd { margin: 0; color: #fff; }
+.pd-persona .pp-head .pq { margin: 1.2rem 0 0; padding: 0; background: none; font-size: 1.3rem; line-height: 1.6; }
+.pp-head .pq { color: #111; }
+.pd-persona .pp-head .pq { display: inline; padding: 0.15em 0.5em; background: var(--hy); box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.pp-body { padding: 0.5rem 1.5rem 1.6rem; }
+.pd-persona .pp-body h4 { display: flex; align-items: center; gap: 0.5rem; margin: 1.1rem 0 0.5rem; }
+.pd-persona .pp-body h4::before { content: ""; width: 14px; height: 4px; border-radius: 2px; background: var(--hy); }
+.pd-persona ul.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+.chips li { padding: 0.2rem 0.8rem; background: #fff; border: 1.5px solid var(--ink); border-radius: 999px; font-size: 0.85rem; font-weight: 500; line-height: 1.5; }
+.chips.alt li { background: var(--hy-soft); }
+.pd-persona ul.dots { margin: 0; padding: 0; list-style: none; }
+.dots li { position: relative; padding-left: 1.15rem; margin-bottom: 0.3rem; font-size: 0.88rem; line-height: 1.4; }
+.dots li::before { content: ""; position: absolute; left: 0; top: 0.35em; width: 8px; height: 8px; border: 1.5px solid var(--ink); border-radius: 50%; background: var(--hy); }
+.pd-persona .pp-body .pc2 { gap: 0 1.2rem; }
+@media (max-width: 480px) { .pp-top { grid-template-columns: 96px 1fr; } .pp-age b { font-size: 2.2rem; } }
+.pp-top { margin-bottom: 1.3rem; }
+
+/* ---- Personas: via pallini e trattini gialli, titoletti in bold ---- */
+.dots li { padding-left: 0; }
+.dots li::before { content: none; }
+.pd-persona .pp-body h4::before { content: none; }
+.pd-persona .pp-body h4 { margin: 1.2rem 0 0.5rem; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.06em; color: #111; }
+
+/* ---- Personas: senza bordo nero e ombra ---- */
+.pd-card.pd-persona { border: 0; box-shadow: none; }
+
+/* ==========================================================
+   Card: stroke nero sottile (1px), nessuna ombra nera.
+   Eccezioni: statistiche e casate di ZyMate tengono il bordo attuale.
+   L'ombra gialla resta solo su .pd-final.
+   ========================================================== */
+.pd-card, .pd-insight, .pd-quote, .tile, .pd-flow, .pd-stage, .pd-feature .vis.stage { box-shadow: none; }
+.pd-card, .pd-insight, .pd-quote, .tile, .pd-flow, .pd-stage, .pd-feature .vis.stage { border-width: 1px; }
+.pd-card.pd-persona { border: 1px solid var(--ink); box-shadow: none; }
+.pd-card.pd-stat { border-width: 1.5px; }
+.pd-houses .pd-card.pd-profile { border-width: 1.5px; border-top-width: 10px; }
+
+/* ==========================================================
+   Revisione 5
+   ========================================================== */
+
+/* ---- Frase "Believing in compatibility…": invertita, come il blocco finale ---- */
+.pd-quote { background: #111; color: #fff; border: 1.5px solid #111; box-shadow: 10px 10px 0 var(--hy); }
+
+/* ---- Methodology: tag rettangolari con angoli arrotondati ---- */
+.tl-bar { border-radius: 10px; }
+
+/* ---- Benchmark: casette al posto dei pallini ---- */
+.rt { gap: 4px; }
+.rt .hs { display: block; width: 18px; height: 18px; fill: none; stroke: var(--ink); stroke-width: 1.3; }
+.rt .hs.on { fill: var(--hy); }
+.rt .hs:not(.on) { stroke: rgba(17,17,17,.3); }
+
+/* ---- Insight: 4 card verticali affiancate, più compatte ---- */
+.pd-insights { --w: min(1360px, 100vw - 2 * var(--gutter)); width: var(--w); margin-left: calc((100% - var(--w)) / 2); grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; }
+.pd-insight { padding: 1.3rem 1.3rem 1.4rem; }
+.pd-insight .num { font-size: 2rem; margin-bottom: 0.6rem; }
+.pd-insight h3 { font-size: 1.3rem; line-height: 1.15; margin-bottom: 0.6rem; }
+.pd-insight p { font-size: 0.88rem; line-height: 1.55; }
+.pd-insight .stat { margin: 0.9rem 0 1.1rem; font-size: 0.78rem; }
+.pd-insight > img { aspect-ratio: 4 / 3; border-radius: 12px; }
+@media (max-width: 1100px) { .pd-insights { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .pd-insights { width: 100%; margin-left: 0; } }
+@media (max-width: 600px) { .pd-insights { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---- Personas: contenuti allineati sulla stessa riga tra le 3 card ---- */
+@media (min-width: 901px) {
+  .pd-personas { grid-template-rows: repeat(8, auto); row-gap: 0; }
+  .pd-persona[data-new] { display: grid; grid-row: span 8; grid-template-rows: subgrid; padding-bottom: 1.6rem;  grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .pd-persona[data-new] > *, .pd-persona[data-new] .pp-body > * { grid-column: 1; }
+  .pd-persona[data-new] .pp-body { display: contents; }
+  .pd-persona[data-new] .pp-body > * { margin-left: 1.5rem; margin-right: 1.5rem; }
+  .pd-persona[data-new] .pp-head { display: flex; flex-direction: column; }
+  .pd-persona[data-new] .pp-head .pq { margin-top: auto; align-self: flex-start; }
+  .pd-persona[data-new] .pp-top { margin-bottom: 1.3rem; }
+  .pd-persona[data-new] .pp-body > h4:first-child { margin-top: 1.4rem; }
+  .pd-persona[data-new] .pp-body > ul { align-self: start; }
+}
+
+/* casette tutte gialle; vuote solo contorno grigio */
+.rt .hs { stroke: none; }
+.rt .hs.on { fill: var(--hy); stroke: none; }
+.rt .hs:not(.on) { fill: none; stroke: rgba(17,17,17,.3); stroke-width: 1.3; }
+.pd-intro b, .pd-feature .txt > p b, .pd-lead b { font-weight: 700; }
+</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&display=swap"
+    rel="stylesheet">
+  <style>
+
+/* =========================================================
+   SELETTORE LINGUA IT / EN (navbar, tutte le pagine)
+   ========================================================= */
+.lang-toggle {
+  grid-column: 1;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: .15rem;
+  font-size: .9rem;
+}
+.lang-toggle span { color: var(--muted); }
+.lang-toggle button {
+  padding: .3rem .75rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: .04em;
+  line-height: 1.6;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, transform .2s ease;
+}
+.lang-toggle button:hover { color: var(--ink); transform: translateY(-2px); }
+.lang-toggle button.is-active { background: var(--green); color: var(--ink); }
+.lang-toggle button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+@media (max-width: 900px) {
+  .site-header > .button { grid-column: 2; }
+}
+</style>
+  <script src="lang.js"></script>
+</head>
+
+<body id="top">
+  <a class="skip-link" href="#main" data-it="Vai al contenuto">Skip to content</a>
+
+  <header class="site-header">
+    <nav aria-label="Main navigation" data-it-aria-label="Navigazione principale">
+      <a href="index.html#top">Home</a>
+      <a href="index.html#work" data-it="Progetti">Projects</a>
+      <a href="index.html#process" data-it="Processo">Process</a>
+      <a href="index.html#about" data-it="Chi sono">About me</a>
+    </nav>
+    <a href="contact.html" class="button button-small" data-it="Contattami">Contact me</a>
+  </header>
+
+  <main id="main">
+
+    <section class="pd-hero">
+      <div class="hero-grid">
+        <img class="hp hp-l" src="assets/homizy-phone-site.webp" alt="Homizy website on mobile: ZyMatch start screen" data-it-alt="Sito Homizy su mobile: schermata iniziale di ZyMatch">
+        <div class="hero-center">
+          <h1 class="section-title pd-title"><span>homizy</span><mark class="highlight">case study</mark></h1>
+          <p class="pd-lead" data-it="Homizy nasce dall&#x27;esigenza di migliorare l&#x27;esperienza abitativa negli spazi di coliving, puntando sulla &lt;b&gt;compatibilità tra coinquilini&lt;/b&gt; e sulla costruzione di &lt;b&gt;relazioni autentiche&lt;/b&gt;.">Homizy stems from the need to improve the living experience in coliving environments, focusing on <b>compatibility between roommates</b> and the building of <b>authentic relationships</b>.</p>
+          <dl class="pd-meta">
+        <div><dt data-it="Ruolo">Role</dt><dd>UX/UI Designer</dd></div>
+        <div><dt data-it="Durata">Timeline</dt><dd data-it="4 settimane">4 weeks</dd></div>
+        <div><dt>Target</dt><dd data-it="Studenti e giovani professionisti a Milano">Students &amp; young professionals in Milan</dd></div>
+        <div><dt data-it="Consegne">Deliverables</dt><dd data-it="Ricerca, flussi, sito e app">Research, flows, website &amp; app</dd></div>
+      </dl>
+        </div>
+        <img class="hp hp-r" src="assets/homizy-phone-app.webp" alt="Homizy app home screen with the ZyTime challenge banner" data-it-alt="Home dell&#x27;app Homizy con il banner della sfida ZyTime">
+      </div>
+    </section>
+
+    <div class="pd">
+
+      <section class="pd-section" id="challenge">
+        <p class="pd-kicker" data-it="01 — La sfida">01 — The challenge</p>
+        <h2 data-it="Trovare una stanza è facile. Trovare &lt;mark&gt;le persone giuste&lt;/mark&gt; no.">Finding a room is easy. Finding <mark>the right people</mark> is not.</h2>
+        <p class="pd-intro" data-it="Homizy propone una formula di coliving costruita su un &lt;b&gt;livello sociale&lt;/b&gt;. L&#x27;obiettivo era progettare un sistema che abbini le persone in base a &lt;b&gt;stile di vita e personalità&lt;/b&gt;, e che poi &lt;b&gt;aiuti la community a crescere&lt;/b&gt; una volta trasferite.">Homizy offers a coliving formula built on a <b>social layer</b>. The goal was to design a system that matches people on <b>lifestyle and personality</b>, then <b>helps the community grow</b> once they move in.</p>
+<h3 class="pd-sub" data-it="Metodologia">Methodology</h3>
+        <div class="pd-timeline">
+          <div class="tl-scroll"><div class="tl">
+            <div class="tl-weeks" data-it="&lt;span&gt;Settimana 1&lt;/span&gt;&lt;span&gt;Settimana 2&lt;/span&gt;&lt;span&gt;Settimana 3&lt;/span&gt;&lt;span&gt;Settimana 4&lt;/span&gt;"><span>Week 1</span><span>Week 2</span><span>Week 3</span><span>Week 4</span></div>
+            <div class="tl-body"><div class="tl-row" data-it="&lt;span class=&quot;tl-bar&quot; style=&quot;left:0%;width:19%&quot;&gt;Desk Research&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:21.5%;width:27.1%&quot;&gt;Interviste&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:53.7%;width:21.9%&quot;&gt;Customer Journey&lt;/span&gt;"><span class="tl-bar" style="left:0%;width:19%">Desk Research</span><span class="tl-bar" style="left:21.5%;width:27.1%">Interviews</span><span class="tl-bar" style="left:53.7%;width:21.9%">Customer Journey</span></div><div class="tl-row" data-it="&lt;span class=&quot;tl-bar&quot; style=&quot;left:2.2%;width:22.3%&quot;&gt;Osservazione digitale&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:28%;width:25.3%&quot;&gt;Survey&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:57.4%;width:28.3%&quot;&gt;Wireframe&lt;/span&gt;"><span class="tl-bar" style="left:2.2%;width:22.3%">Digital Observation</span><span class="tl-bar" style="left:28%;width:25.3%">Survey</span><span class="tl-bar" style="left:57.4%;width:28.3%">Wireframes</span></div><div class="tl-row" data-it="&lt;span class=&quot;tl-bar&quot; style=&quot;left:1.7%;width:26.7%&quot;&gt;Benchmark&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:34%;width:25.1%&quot;&gt;Insight&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:73.3%;width:26.7%&quot;&gt;Prototipazione e UI&lt;/span&gt;"><span class="tl-bar" style="left:1.7%;width:26.7%">Benchmark</span><span class="tl-bar" style="left:34%;width:25.1%">Insights</span><span class="tl-bar" style="left:73.3%;width:26.7%">Prototyping &amp; UI</span></div><div class="tl-row" data-it="&lt;span class=&quot;tl-bar&quot; style=&quot;left:36.1%;width:23.0%&quot;&gt;User Personas&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:84.9%;width:15.1%&quot;&gt;Pitch finale&lt;/span&gt;"><span class="tl-bar" style="left:36.1%;width:23.0%">User Personas</span><span class="tl-bar" style="left:84.9%;width:15.1%">Final Pitch</span></div></div>
+          </div></div>
+        </div>
+        <h3 class="pd-sub" data-it="Obiettivi">Objectives</h3>
+        <div class="pd-objs"><article class="obj o1"><span class="n">01</span><div><h4 data-it="Esperienze passate">Past experiences</h4><p data-it="Capire i principali problemi e successi delle convivenze passate, per progettare un matching più efficace.">Understand the main problems and successes in past cohabitation experiences, to design a more effective matching.</p></div></article><article class="obj o2"><span class="n">02</span><div><h4 data-it="Compatibilità">Compatibility</h4><p data-it="Individuare le variabili che influenzano la compatibilità tra coinquilini e con la community, capendo cosa cercano gli utenti in un potenziale coinquilino e/o negli eventi.">Identify the variables that influence compatibility between housemates and community, understanding what users look for in a potential roommate and/or events.</p></div></article><article class="obj o3"><span class="n">03</span><div><h4 data-it="Rituali">Rituals</h4><p data-it="Capire come avere dei rituali possa avvicinare gli utenti.">Understand how having rituals can bring users together.</p></div></article><article class="obj o4"><span class="n">04</span><div><h4 data-it="Eventi e community">Events &amp; community</h4><p data-it="Esplorare come gli utenti possano sentirsi parte di una community e quali attività, spazi o strumenti rendano più facile creare legami.">Explore how users can feel part of a community and which activities, spaces or tools make it easier to create bonds.</p></div></article></div>
+      </section>
+
+      <section class="pd-section" id="research">
+        <p class="pd-kicker" data-it="02 — Ricerca">02 — Research</p>
+        <h2 data-it="Cosa cercano &lt;mark&gt;davvero le persone&lt;/mark&gt;">What people <mark>really look for</mark></h2>
+        <div class="pd-grid c4">
+          <div class="pd-card pd-stat"><strong>103</strong><p data-it="risposte al questionario">survey responses</p></div>
+          <div class="pd-card pd-stat"><strong>16</strong><p data-it="interviste">interviews</p></div>
+          <div class="pd-card pd-stat"><strong>7</strong><p data-it="competitor analizzati">competitors analysed</p></div>
+          <div class="pd-card pd-stat"><strong>3</strong><p data-it="forum di Reddit esaminati">Reddit forums examined</p></div>
+        </div>
+        <p class="pd-intro" data-it="&lt;b&gt;La compatibilità pratica viene prima&lt;/b&gt;: due terzi dei rispondenti (67%) la mettono davanti a quella sociale (33%). &lt;b&gt;Orari, abitudini e gestione degli spazi comuni&lt;/b&gt; contano più degli interessi in comune. &lt;b&gt;La pulizia è il fattore principale&lt;/b&gt; (78,6%), seguita da personalità (53,4%), età (40,8%) e abitudini sociali (36,9%)."><b>Practical compatibility came first</b>: two thirds of respondents (67%) put it ahead of social compatibility (33%). <b>Schedules, habits and the management of shared spaces</b> mattered more than shared interests. <b>Cleanliness was the top factor</b> (78.6%), followed by personality (53.4%), age (40.8%) and social habits (36.9%).</p>
+        <figure class="pd-chart">
+          <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="pp" viewBox="0 0 24 40"><circle cx="12" cy="5.5" r="4.5"/><path d="M5 13h14a3 3 0 0 1 3 3v10h-4v12H6V26H2V16a3 3 0 0 1 3-3z"/></symbol></svg>
+          <figcaption data-it="Quali aspetti considerano più importanti gli utenti in una convivenza?">Which aspects do users consider most important in a cohabitation?</figcaption>
+          <div class="ch1">
+            <div class="bars"><div class="bc" data-it="&lt;b&gt;36,9%&lt;/b&gt;&lt;i style=&quot;--p:36.9;--t:0.35&quot;&gt;&lt;/i&gt;&lt;span&gt;Abitudini sociali&lt;/span&gt;"><b>36.9%</b><i style="--p:36.9;--t:0.35"></i><span>Social habits</span></div><div class="bc" data-it="&lt;b&gt;40,8%&lt;/b&gt;&lt;i style=&quot;--p:40.8;--t:0.57&quot;&gt;&lt;/i&gt;&lt;span&gt;Età&lt;/span&gt;"><b>40.8%</b><i style="--p:40.8;--t:0.57"></i><span>Age</span></div><div class="bc" data-it="&lt;b&gt;53,4%&lt;/b&gt;&lt;i style=&quot;--p:53.4;--t:0.78&quot;&gt;&lt;/i&gt;&lt;span&gt;Personalità&lt;/span&gt;"><b>53.4%</b><i style="--p:53.4;--t:0.78"></i><span>Personality</span></div><div class="bc" data-it="&lt;b&gt;78,6%&lt;/b&gt;&lt;i style=&quot;--p:78.6;--t:1.00&quot;&gt;&lt;/i&gt;&lt;span&gt;Pulizia&lt;/span&gt;"><b>78.6%</b><i style="--p:78.6;--t:1.00"></i><span>Cleanliness</span></div></div>
+            <div class="people-wrap"><div class="people"><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg></div>
+              <p class="legend" data-it="&lt;svg class=&quot;pp on&quot; viewBox=&quot;0 0 24 40&quot;&gt;&lt;use href=&quot;#pp&quot;/&gt;&lt;/svg&gt;&lt;b&gt;67%&lt;/b&gt; Compatibilità pratica &lt;svg class=&quot;pp&quot; viewBox=&quot;0 0 24 40&quot;&gt;&lt;use href=&quot;#pp&quot;/&gt;&lt;/svg&gt;&lt;b&gt;33%&lt;/b&gt; Compatibilità sociale"><svg class="pp on" viewBox="0 0 24 40"><use href="#pp"/></svg><b>67%</b> Practical compatibility <svg class="pp" viewBox="0 0 24 40"><use href="#pp"/></svg><b>33%</b> Social compatibility</p>
+            </div>
+          </div>
+        </figure>
+        <p class="pd-intro" data-it="Prima di trasferirsi, le persone vogliono conoscere le &lt;b&gt;abitudini quotidiane&lt;/b&gt; (65%), il rapporto con alcol e fumo (47,6%) ed eventuali esigenze particolari (43,7%).">Before moving in, people want to know <b>daily routines</b> (65%), alcohol and smoking habits (47.6%) and any special needs (43.7%).</p>
+        <figure class="pd-chart">
+          <figcaption data-it="Cosa vorrebbero sapere gli inquilini dei propri coinquilini prima di trasferirsi?">What would tenants like to know about their housemates before moving in?</figcaption>
+          <div class="ch2">
+            <ul class="ch2-labels">
+              <li style="top:19%" data-it="&lt;span&gt;Orari abituali&lt;/span&gt;&lt;i&gt;&lt;/i&gt;"><span>Usual schedules</span><i></i></li>
+              <li style="top:50%" data-it="&lt;span&gt;Alcol o fumo&lt;/span&gt;&lt;i&gt;&lt;/i&gt;"><span>Alcohol or smoking</span><i></i></li>
+              <li style="top:81%" data-it="&lt;span&gt;Esigenze particolari o disabilità&lt;/span&gt;&lt;i&gt;&lt;/i&gt;"><span>Special needs or disabilities</span><i></i></li>
+            </ul>
+            <div class="ch2-circles" role="img" aria-label="65% usual schedules, 47.6% alcohol or smoking, 43.7% special needs or disabilities" data-it-aria-label="65% orari abituali, 47,6% alcol o fumo, 43,7% esigenze particolari o disabilità">
+              <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+              <b style="top:17%">65%</b><b style="top:49%">47.6%</b><b style="top:81%">43.7%</b>
+            </div>
+          </div>
+        </figure>
+        <p class="pd-intro" data-it="A livello sociale, le persone sono attratte dagli altri per &lt;b&gt;personalità, umorismo e socievolezza&lt;/b&gt;, poi per interessi e valori condivisi. L&#x27;età ha un ruolo secondario. Molti &lt;b&gt;rinunciano agli eventi per timidezza&lt;/b&gt; o perché non conoscono nessuno.">Socially, people are drawn to others through <b>personality, humour and sociability</b>, then shared interests and values. Age plays a secondary role. Many <b>give up on events out of shyness</b> or because they don’t know anyone there.</p>
+        <h3 class="pd-sub" data-it="Benchmark dei competitor">Competitor benchmark</h3>
+        <p class="pd-intro" data-it="Ho valutato &lt;b&gt;sette realtà di coliving&lt;/b&gt; da 0 a 3 su sei criteri. Gli eventi di community erano ben coperti quasi ovunque, mentre &lt;b&gt;la profilazione della compatibilità era l&#x27;area più debole&lt;/b&gt;: nessun competitor ha ottenuto il punteggio pieno e due la coprivano appena."><b>Seven coliving players</b> were rated from 0 to 3 on six criteria. Community events were well covered almost everywhere, while <b>compatibility profiling was the weakest area</b>: no competitor scored full marks, and two barely covered it at all.</p>
+        <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="hs" viewBox="0 0 16 16"><path d="M2 7.2 8 2l6 5.2V14H2z" stroke-linejoin="round"/></symbol></svg><div class="pd-table-wrap"><table class="pd-table"><thead><tr><th scope="col">Competitor</th><th scope="col" data-it="Automazione digitale">Digital automation</th><th scope="col" data-it="Presentazione dell&#x27;offerta">Offer presentation</th><th scope="col" data-it="Profilazione per il match">Match profiling</th><th scope="col" data-it="Eventi di community">Community events</th><th scope="col" data-it="Gestione degli alloggi">Accommodation management</th><th scope="col" data-it="Trasparenza dei prezzi">Pricing transparency</th></tr></thead><tbody><tr><th scope="row">Campus</th><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="1 out of 3" data-it-aria-label="1 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="3 out of 3" data-it-aria-label="3 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="1 out of 3" data-it-aria-label="1 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="3 out of 3" data-it-aria-label="3 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td></tr><tr><th scope="row">IN-Domus</th><td><span class="rt" role="img" aria-label="3 out of 3" data-it-aria-label="3 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="3 out of 3" data-it-aria-label="3 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="3 out of 3" data-it-aria-label="3 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="3 out of 3" data-it-aria-label="3 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td></tr><tr><th scope="row">Colive</th><td><span class="rt" role="img" aria-label="1 out of 3" data-it-aria-label="1 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="3 out of 3" data-it-aria-label="3 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="1 out of 3" data-it-aria-label="1 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="1 out of 3" data-it-aria-label="1 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td></tr><tr><th scope="row">Coliving</th><td><span class="rt" role="img" aria-label="3 out of 3" data-it-aria-label="3 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="1 out of 3" data-it-aria-label="1 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="3 out of 3" data-it-aria-label="3 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td></tr><tr><th scope="row">Habyt</th><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="1 out of 3" data-it-aria-label="1 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="0 out of 3" data-it-aria-label="0 su 3"><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="1 out of 3" data-it-aria-label="1 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="0 out of 3" data-it-aria-label="0 su 3"><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td></tr><tr><th scope="row">Joivy</th><td><span class="rt" role="img" aria-label="3 out of 3" data-it-aria-label="3 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="0 out of 3" data-it-aria-label="0 su 3"><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="0 out of 3" data-it-aria-label="0 su 3"><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td></tr><tr><th scope="row">CoHabs</th><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="1 out of 3" data-it-aria-label="1 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td><td><span class="rt" role="img" aria-label="2 out of 3" data-it-aria-label="2 su 3"><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs on" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg><svg class="hs" viewBox="0 0 16 16" aria-hidden="true"><use href="#hs"/></svg></span></td></tr></tbody></table></div>
+      </section>
+
+      <section class="pd-section" id="insights">
+        <p class="pd-kicker" data-it="03 — Insight">03 — Insights</p>
+        <h2 data-it="Quattro cose che la ricerca &lt;mark&gt;ha chiarito&lt;/mark&gt;">Four things the research <mark>made clear</mark></h2>
+        <div class="pd-insights"><article class="pd-insight"><span class="num">01</span><h3 data-it="Quando il legame diventa l&#x27;esperienza">When the bond becomes the experience</h3><p data-it="Una community non nasce solo dallo stare nello stesso posto, ma dal sentirsi davvero accolti e ascoltati. Senza qualcuno con cui condividerla, anche l&#x27;esperienza più interessante perde valore. Non conta il luogo o l&#x27;evento, ma con chi lo vivi.">A community isn’t born just from being in the same place, but from feeling truly welcomed and listened to. Without someone to share them with, even the most interesting experience loses value. It’s not the place or the event that matters, but who you live it with.</p><p class="stat" data-it="10 intervistati su 16 hanno toccato questo tema">10 of 16 interviewees mentioned this topic</p><img src="assets/homizy-insight-1.webp" alt="People raising glasses under falling confetti" loading="lazy" data-it-alt="Persone che brindano sotto una pioggia di coriandoli"></article><article class="pd-insight"><span class="num">02</span><h3 data-it="Con qualcuno che ti capisce davvero">With someone who truly gets you</h3><p data-it="Le persone non cercano semplicemente qualcuno con cui dividere la casa, ma coinquilini con cui costruire un equilibrio umano e quotidiano, basato su affinità emotive e di valori.">People aren’t simply looking for someone to share a home with, but for housemates with whom to build a human, everyday balance, based on emotional and value-based affinities.</p><p class="stat" data-it="10 intervistati su 16 hanno toccato questo tema">10 of 16 interviewees mentioned this topic</p><img src="assets/homizy-insight-2.webp" alt="Two women laughing together by a window" loading="lazy" data-it-alt="Due donne che ridono insieme vicino a una finestra"></article><article class="pd-insight"><span class="num">03</span><h3 data-it="L&#x27;armonia nasce dalla comunicazione">Harmony comes from communication</h3><p data-it="Una convivenza armoniosa si basa su equilibrio, rispetto e comunicazione. Un&#x27;organizzazione chiara della casa e regole condivise favoriscono l&#x27;armonia e riducono i conflitti, perché anche decisioni apparentemente banali, come chi invitare o quanti ospiti accogliere, possono rivelare differenze profonde nel modo di vivere socialità e privacy.">A harmonious living situation is based on balance, respect and communication. Clear organisation of the house and shared rules foster harmony and reduce conflicts, because even apparently trivial decisions, like who to invite or how many guests to host, can reveal deep differences in how people live sociability and privacy.</p><p class="stat" data-it="11 intervistati su 16 hanno toccato questo tema">11 of 16 interviewees mentioned this topic</p><img src="assets/homizy-insight-3.webp" alt="Friends talking around a table" loading="lazy" data-it-alt="Amici che chiacchierano intorno a un tavolo"></article><article class="pd-insight"><span class="num">04</span><h3 data-it="Dove lo spazio rafforza i legami">Where space strengthens bonds</h3><p data-it="Gli spazi comuni sono essenziali perché permettono di condividere rituali e attività nella vita di tutti i giorni. Cucine, soggiorni, terrazze e altri luoghi condivisi diventano punti d&#x27;incontro naturali, dove piccoli gesti quotidiani rafforzano i legami e favoriscono la nascita di una vera community.">Common spaces are essential because they let people share rituals and activities in daily life. Kitchens, living rooms, terraces and other shared places become natural meeting points, where small everyday gestures strengthen bonds and foster the creation of a real community.</p><p class="stat" data-it="11 intervistati su 16 hanno toccato questo tema">11 of 16 interviewees mentioned this topic</p><img src="assets/homizy-insight-4.webp" alt="People in a shared café space" loading="lazy" data-it-alt="Persone in un bar condiviso"></article></div>
+      </section>
+
+      <section class="pd-section" id="personas">
+        <p class="pd-kicker" data-it="04 — Personas">04 — Personas</p>
+        <h2 data-it="Tre persone, &lt;mark&gt;tre bisogni&lt;/mark&gt;">Three people, <mark>three needs</mark></h2>
+        <div class="pd-personas">
+          <article class="pd-card pd-persona" data-new="1">
+            <div class="pp-head">
+              <div class="pp-top">
+                <img class="pp-photo" src="assets/homizy-persona-matteo-photo.webp" alt="Portrait of Matteo" style="object-position:50% 20%" loading="lazy" data-it-alt="Ritratto di Matteo">
+                <div class="pp-id">
+                  <h3>Matteo</h3>
+                  <p class="pp-age" data-it="&lt;b&gt;24&lt;/b&gt; anni"><b>24</b> years old</p>
+                  <dl><dt data-it="Vive a">Lives in</dt><dd data-it="Milano, in una residenza universitaria">Milan, in a student residence</dd><dt data-it="Lavoro">Job</dt><dd data-it="Studente al Politecnico di Milano">Student at Politecnico di Milano</dd></dl>
+                </div>
+              </div>
+              <p class="pq" data-it="“L&#x27;organizzatore pieno di energia”">“The energetic organiser”</p>
+            </div>
+            <div class="pp-body">
+              <h4 data-it="Personalità">Personality</h4><ul class="chips"><li data-it="Energico">Energetic</li><li data-it="Determinato">Determined</li><li data-it="Estroverso">Outgoing</li></ul>
+              <h4 data-it="Interessi">Interests</h4><ul class="chips alt"><li>Sport</li><li data-it="Eventi universitari">University events</li><li data-it="Partite e serate con gli amici">Matches and evenings with friends</li></ul>
+              <div class="pc2"><div><h4 data-it="Obiettivi">Goals</h4><ul class="dots"><li data-it="Vivere in un ambiente ordinato">Live in a tidy environment</li><li data-it="Costruire relazioni">Build relationships</li></ul></div><div><h4 data-it="Comportamento sociale">Social behaviour</h4><ul class="dots"><li data-it="Adora stare con gli altri">Loves being with others</li><li data-it="Timido all&#x27;inizio, ma si apre in fretta">Shy at first, but opens up quickly</li></ul></div></div>
+              <h4 data-it="Frustrazioni">Frustrations</h4><ul class="dots"><li data-it="Coinquilini che non rispettano gli accordi sulle pulizie">Housemates who don’t respect cleaning agreements</li><li data-it="Disorganizzazione domestica">Domestic disorganisation</li><li data-it="Comunicazione poco chiara con i coinquilini">Unclear communication with housemates</li></ul>
+            </div>
+          </article>
+          <article class="pd-card pd-persona" data-new="1">
+            <div class="pp-head">
+              <div class="pp-top">
+                <img class="pp-photo" src="assets/homizy-persona-clara-photo.webp" alt="Portrait of Clara" style="object-position:50% 30%" loading="lazy" data-it-alt="Ritratto di Clara">
+                <div class="pp-id">
+                  <h3>Clara</h3>
+                  <p class="pp-age" data-it="&lt;b&gt;26&lt;/b&gt; anni"><b>26</b> years old</p>
+                  <dl><dt data-it="Vive a">Lives in</dt><dd data-it="Milano, in un appartamento condiviso">Milan, in a shared apartment</dd><dt data-it="Lavoro">Job</dt><dd data-it="Medica specializzanda">Medical resident</dd></dl>
+                </div>
+              </div>
+              <p class="pq" data-it="“L&#x27;empatica sempre disponibile”">“The empathetic, available one”</p>
+            </div>
+            <div class="pp-body">
+              <h4 data-it="Personalità">Personality</h4><ul class="chips"><li data-it="Solare">Sunny</li><li data-it="Disponibile">Helpful</li><li data-it="Empatica">Empathetic</li></ul>
+              <h4 data-it="Interessi">Interests</h4><ul class="chips alt"><li data-it="Scienza">Science</li><li data-it="Animali">Animals</li><li data-it="Lettura">Reading</li></ul>
+              <div class="pc2"><div><h4 data-it="Obiettivi">Goals</h4><ul class="dots"><li data-it="Trovare un equilibrio ideale tra lavoro e vita privata">Achieve an ideal work-life balance</li><li data-it="Conoscere persone fuori dall&#x27;ambito medico">Meet people outside the medical field</li></ul></div><div><h4 data-it="Comportamento sociale">Social behaviour</h4><ul class="dots"><li data-it="Sempre pronta ad aiutare">Always ready to help</li><li data-it="Introversa">Introverted</li></ul></div></div>
+              <h4 data-it="Frustrazioni">Frustrations</h4><ul class="dots"><li data-it="Non sopporta i coinquilini che fumano in casa">Can’t stand housemates who smoke at home</li><li data-it="Orari che si scontrano con quelli dei coinquilini">Schedules that clash with her housemates’</li></ul>
+            </div>
+          </article>
+          <article class="pd-card pd-persona" data-new="1">
+            <div class="pp-head">
+              <div class="pp-top">
+                <img class="pp-photo" src="assets/homizy-persona-tommaso-photo.webp" alt="Portrait of Tommaso" style="object-position:82% 30%" loading="lazy" data-it-alt="Ritratto di Tommaso">
+                <div class="pp-id">
+                  <h3>Tommaso</h3>
+                  <p class="pp-age" data-it="&lt;b&gt;25&lt;/b&gt; anni"><b>25</b> years old</p>
+                  <dl><dt data-it="Vive a">Lives in</dt><dd data-it="Milano, in un appartamento condiviso">Milan, in a shared apartment</dd><dt data-it="Lavoro">Job</dt><dd>Designer</dd></dl>
+                </div>
+              </div>
+              <p class="pq" data-it="“Il creativo silenzioso”">“The quiet creative”</p>
+            </div>
+            <div class="pp-body">
+              <h4 data-it="Personalità">Personality</h4><ul class="chips"><li data-it="Timido">Shy</li><li data-it="Artistico">Artistic</li><li data-it="Organizzato">Organised</li></ul>
+              <h4 data-it="Interessi">Interests</h4><ul class="chips alt"><li>Design</li><li data-it="Musei">Museums</li><li>Sport</li></ul>
+              <div class="pc2"><div><h4 data-it="Obiettivi">Goals</h4><ul class="dots"><li data-it="Conoscere persone di altre culture per arricchire la propria">Meet people from other cultures to enrich his own</li><li data-it="Sentirsi a proprio agio in un gruppo">Feel at ease within a group</li></ul></div><div><h4 data-it="Comportamento sociale">Social behaviour</h4><ul class="dots"><li data-it="Lascia che siano gli altri a fare il primo passo">Lets others make the first move</li><li data-it="Evita i conflitti">Avoids conflict</li></ul></div></div>
+              <h4 data-it="Frustrazioni">Frustrations</h4><ul class="dots"><li data-it="Un continuo via vai di persone in casa">A constant flow of people in the house</li><li data-it="Non avere la compagnia giusta per andare agli eventi">Not having the right company to go to events</li><li data-it="Coinquilini con una differenza d&#x27;età troppo ampia">Housemates with too wide an age gap</li></ul>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="pd-section" id="flows">
+        <p class="pd-kicker" data-it="05 — Concept e user flow">05 — Concept &amp; user flows</p>
+        <h2 data-it="Una soluzione con una &lt;mark&gt;doppia anima&lt;/mark&gt;">A solution with a <mark>dual soul</mark></h2>
+        <div class="pd-quote" data-it="Credere nella compatibilità, mettendola al centro dell&#x27;esperienza.">Believing in compatibility, putting it at the centre of the experience.</div>
+        <p class="pd-intro" data-it="Il percorso ha &lt;b&gt;cinque step&lt;/b&gt;: un questionario pratico, il matching della stanza, i questionari sociali, una casa e il matching della community. Il &lt;b&gt;lato pratico&lt;/b&gt; vive sul sito, il &lt;b&gt;lato sociale&lt;/b&gt; nell&#x27;app.">The journey has <b>five steps</b>: a practical questionnaire, room matching, social questionnaires, a house, and community matching. The <b>practical side</b> lives on the website, the <b>social side</b> in the app.</p>
+        <h3 class="pd-sub">User flow</h3>
+        <div class="pd-userflow">
+                    <div class="uf"><div class="uf-group g1" data-it="Sito Homizy">Homizy website</div><div class="uf-group g2" data-it="App Homizy">Homizy app</div><div class="uf-step s1"><span class="tile">01</span><h4 data-it="Questionario pratico">Practical questionnaire</h4><p data-it="Durante l&#x27;onboarding sul sito, si compila un questionario basato su criteri pratici.">During website onboarding, fill in a questionnaire based on practical criteria.</p></div><div class="uf-step s2"><span class="tile">02</span><h4 data-it="Matching della stanza">Room matching</h4><p data-it="Trova coinquilini compatibili in base alle tue risposte.">Find compatible housemates based on your answers.</p></div><div class="uf-step s3"><span class="tile">03</span><h4 data-it="Questionario sociale">Social questionnaire</h4><p data-it="Nell&#x27;app, compila il questionario sociale per trovare persone come te.">In the app, fill in the social questionnaire to find people like you.</p></div><div class="uf-step s4"><span class="tile">04</span><h4 data-it="Casa">House</h4><p data-it="L&#x27;algoritmo ti assegna a una casa della community Homizy.">The algorithm assigns you to a house in the Homizy community.</p></div><div class="uf-step s5"><span class="tile">05</span><h4 data-it="Matching della community">Community matching</h4><p data-it="Partecipa a ZyTime, una sfida settimanale tra le case della community Homizy.">Take part in ZyTime, a weekly challenge between the houses of the Homizy community.</p></div></div>
+        </div>
+        <h3 class="pd-sub">Customer journey</h3>
+        <details class="pd-flow"><summary data-it="&lt;span&gt;&lt;b class=&quot;fn&quot;&gt;1&lt;/b&gt;Onboarding sul sito e matching della stanza&lt;/span&gt;"><span><b class="fn">1</b>Website onboarding and room matching</span></summary><div class="pd-scroll"><img style="width:3160px" src="assets/homizy-flow-1.webp" alt="Flow: registration, questionnaire, matching algorithm, room choice" loading="lazy" data-it-alt="Flusso: registrazione, questionario, algoritmo di matching, scelta della stanza"></div></details>
+        <details class="pd-flow"><summary data-it="&lt;span&gt;&lt;b class=&quot;fn&quot;&gt;2&lt;/b&gt;Credenziali, reset della password e accesso all&#x27;app&lt;/span&gt;"><span><b class="fn">2</b>Credentials, password reset and access to the app</span></summary><div class="pd-scroll"><img style="width:2030px" src="assets/homizy-flow-2.webp" alt="Flow: credentials entry and verification, password reset, app access" loading="lazy" data-it-alt="Flusso: inserimento e verifica delle credenziali, reset della password, accesso all&#x27;app"></div></details>
+        <details class="pd-flow"><summary data-it="&lt;span&gt;&lt;b class=&quot;fn&quot;&gt;3&lt;/b&gt;Matching della community e assegnazione della casa&lt;/span&gt;"><span><b class="fn">3</b>Community matching and house assignment</span></summary><div class="pd-scroll"><img style="width:2890px" src="assets/homizy-flow-3.webp" alt="Flow: app access, community questionnaire, house matching" loading="lazy" data-it-alt="Flusso: accesso all&#x27;app, questionario della community, matching della casa"></div></details>
+        <details class="pd-flow"><summary data-it="&lt;span&gt;&lt;b class=&quot;fn&quot;&gt;4&lt;/b&gt;Sfida settimanale ZyTime&lt;/span&gt;"><span><b class="fn">4</b>ZyTime weekly challenge</span></summary><div class="pd-scroll"><img style="width:2660px" src="assets/homizy-flow-4.webp" alt="Flow: ZyTime notification, checks, challenge proposal, post view" loading="lazy" data-it-alt="Flusso: notifica ZyTime, controlli, proposta della sfida, visualizzazione del post"></div></details>
+      </section>
+
+      <section class="pd-section" id="solutions">
+        <p class="pd-kicker" data-it="06 — La soluzione">06 — The solution</p>
+        <h2 data-it="ZyMatch, ZyMate &lt;mark&gt;e ZyTime&lt;/mark&gt;">ZyMatch, ZyMate <mark>&amp; ZyTime</mark></h2>
+
+        <!-- ZyMatch -->
+        <div class="pd-feature flip">
+          <div class="txt">
+            <h3 class="pd-sub" data-it="ZyMatch - il sito">ZyMatch - the website</h3>
+            <p data-it="Il lato pratico di Homizy vive sul sito. Un &lt;b&gt;questionario di compatibilità&lt;/b&gt; valuta gli aspetti concreti della convivenza e genera un &lt;b&gt;matching della stanza&lt;/b&gt;, suggerendo case e coinquilini compatibili.">The practical side of Homizy lives on the website. A <b>compatibility questionnaire</b> evaluates concrete aspects of cohabitation and generates a <b>room matching</b>, suggesting compatible homes and housemates.</p>
+            <ol class="pd-steps">
+              <li><span class="pd-badge">01</span><div><b data-it="Questionario">Questionnaire</b><p data-it="Valuta gli aspetti concreti della convivenza.">Evaluates the concrete aspects of cohabitation.</p></div></li>
+              <li><span class="pd-badge">02</span><div><b data-it="Alloggi">Housing</b><p data-it="Tipologie di stanza in base alle risposte, con dettagli, planimetria e prezzo.">Room types based on the answers, with details, floor plan and price.</p></div></li>
+              <li><span class="pd-badge">03</span><div><b data-it="Compatibilità">Compatibility</b><p data-it="Ogni stanza mostra la sua percentuale di compatibilità con gli altri coinquilini, suddivisa per categoria.">Every room shows its compatibility percentage with the other housemates, broken down by category.</p></div></li>
+            </ol>
+            <p class="pd-label" data-it="Come viene pesata la compatibilità">How compatibility is weighted</p>
+            <ul class="pd-bars">
+              <li data-it="Orari&lt;i style=&quot;--w:100%&quot;&gt;&lt;/i&gt;&lt;b&gt;25%&lt;/b&gt;">Schedules<i style="--w:100%"></i><b>25%</b></li>
+              <li data-it="Pulizia&lt;i style=&quot;--w:100%&quot;&gt;&lt;/i&gt;&lt;b&gt;25%&lt;/b&gt;">Cleanliness<i style="--w:100%"></i><b>25%</b></li>
+              <li data-it="Lingua&lt;i style=&quot;--w:80%&quot;&gt;&lt;/i&gt;&lt;b&gt;20%&lt;/b&gt;">Language<i style="--w:80%"></i><b>20%</b></li>
+              <li data-it="Vita sociale&lt;i style=&quot;--w:40%&quot;&gt;&lt;/i&gt;&lt;b&gt;10%&lt;/b&gt;">Social life<i style="--w:40%"></i><b>10%</b></li>
+              <li data-it="Età&lt;i style=&quot;--w:40%&quot;&gt;&lt;/i&gt;&lt;b&gt;10%&lt;/b&gt;">Age<i style="--w:40%"></i><b>10%</b></li>
+              <li data-it="Cultura&lt;i style=&quot;--w:20%&quot;&gt;&lt;/i&gt;&lt;b&gt;5%&lt;/b&gt;">Culture<i style="--w:20%"></i><b>5%</b></li>
+              <li data-it="Hobby&lt;i style=&quot;--w:20%&quot;&gt;&lt;/i&gt;&lt;b&gt;5%&lt;/b&gt;">Hobbies<i style="--w:20%"></i><b>5%</b></li>
+            </ul>
+          </div>
+          <div class="vis trio">
+            <figure class="ph a"><img src="assets/homizy-zymatch-1.webp" alt="ZyMatch questionnaire: tell us about yourself" loading="lazy" data-it-alt="Questionario ZyMatch: parlaci di te"></figure>
+            <figure class="ph b"><img src="assets/homizy-zymatch-2.webp" alt="List of available rooms with floor plan and price" loading="lazy" data-it-alt="Elenco delle stanze disponibili con planimetria e prezzo"></figure>
+            <figure class="ph c"><img src="assets/homizy-zymatch-3.webp" alt="Room detail with the total compatibility percentage" loading="lazy" data-it-alt="Dettaglio della stanza con la percentuale totale di compatibilità"></figure>
+          </div>
+        </div>
+
+        <!-- ZyMate -->
+        <div class="pd-feature">
+          <div class="txt">
+            <h3 class="pd-sub" data-it="ZyMate - l&#x27;app">ZyMate - the app</h3>
+            <p data-it="Il lato sociale vive nell&#x27;app. Un &lt;b&gt;questionario di personalità&lt;/b&gt; assegna ogni utente a &lt;b&gt;una casa&lt;/b&gt; (Metodici, Sognatori, Affidabili, Appassionati) per favorire &lt;b&gt;senso di appartenenza e interazioni significative&lt;/b&gt;. Ogni casa riflette un profilo di personalità emerso dalla ricerca.">The social side lives in the app. A <b>personality questionnaire</b> assigns each user to <b>a house</b> (Methodicals, Dreamers, Trustworthy, Passionates) to foster <b>belonging and meaningful interactions</b>. Each house reflects a personality profile that emerged from the research.</p>
+            <div class="pd-grid pd-houses">
+          <article class="pd-card pd-profile" style="--c:#35d27c"><h3 data-it="Metodici">Methodicals</h3><p data-it="Analitici e precisi. Amano l&#x27;ordine, la pianificazione e l&#x27;efficienza; il loro limite è la rigidità.">Analytical and precise. They love order, planning and efficiency; their limit is rigidity.</p></article>
+          <article class="pd-card pd-profile" style="--c:#8bf0ff"><h3 data-it="Sognatori">Dreamers</h3><p data-it="Pensatori profondi, con una mente lucida ma caotica. Riflettono molto e trovano soluzioni all&#x27;ultimo minuto.">Deep thinkers with a lucid but chaotic mind. They reflect a lot and find solutions at the last minute.</p></article>
+          <article class="pd-card pd-profile" style="--c:#ffb0dc"><h3 data-it="Affidabili">Trustworthy</h3><p data-it="Guidati dal cuore, ma attratti dalla routine e dalla stabilità. Una presenza calma e affidabile per chi gli sta intorno.">Guided by the heart, yet drawn to routine and stability. A calm, reliable presence for those around them.</p></article>
+          <article class="pd-card pd-profile" style="--c:#ff9500"><h3 data-it="Appassionati">Passionates</h3><p data-it="Creativi, curiosi e impulsivi. Ispirano gli altri con la loro energia, ma rischiano di esaurirsi in fretta.">Creative, curious and impulsive. They inspire others with their energy, but may burn out fast.</p></article>
+            </div>
+          </div>
+          <div class="vis"><img src="assets/homizy-zymate-houses.webp" alt="Welcome screens of the four houses: Dreamers, Methodicals, Trustworthy and Passionates" loading="lazy" data-it-alt="Schermate di benvenuto delle quattro case: Sognatori, Metodici, Affidabili e Appassionati"></div>
+        </div>
+
+        <!-- ZyTime -->
+        <div class="pd-feature flip">
+          <div class="txt">
+            <h3 class="pd-sub" data-it="ZyTime - la gamification">ZyTime - the gamification</h3>
+            <p data-it="Una &lt;b&gt;sfida settimanale&lt;/b&gt; con un tema giocoso. Ogni casa partecipa, i membri pubblicano le loro foto e una classifica finale premia i vincitori, trasformando &lt;b&gt;i momenti condivisi in community&lt;/b&gt;.">A <b>weekly challenge</b> with a playful theme. Each house takes part, members post their photos and a final ranking rewards the winners, turning <b>shared moments into community</b>.</p>
+            <ol class="pd-steps">
+              <li><span class="pd-badge">01</span><div><b data-it="Entra in ZyTime">Enter ZyTime</b><p data-it="Ogni domenica viene pubblicato un nuovo tema della sfida nella sezione ZyTime.">Every Sunday a new challenge theme is published in the ZyTime section.</p></div></li>
+              <li><span class="pd-badge">02</span><div><b data-it="Accetta la sfida">Accept the challenge</b><p data-it="Un membro viene scelto per rappresentare la sua casa e può accettare o rifiutare.">A member is selected to represent their house and can accept or decline.</p></div></li>
+              <li><span class="pd-badge">03</span><div><b data-it="Carica il post">Upload the post</b><p data-it="Cattura il tema, per esempio un oggetto fuori posto, e condividilo nel feed.">Capture the theme, such as an object that doesn’t belong where it is, and share it in the feed.</p></div></li>
+              <li><span class="pd-badge">04</span><div><b data-it="Classifica finale">Final ranking</b><p data-it="I vincitori della sfida e la classifica delle case, con i punti di ciascuna.">The challenge winners and the leaderboard of the houses, with points for each one.</p></div></li>
+            </ol>
+          </div>
+          <div class="vis"><img src="assets/homizy-zytime-screens.webp" alt="ZyTime screens: welcome, challenge, feed and ranking" loading="lazy" data-it-alt="Schermate ZyTime: benvenuto, sfida, feed e classifica"></div>
+        </div>
+      </section>
+
+      <section class="pd-section" id="outcome">
+        <figure class="pd-banner">
+          <img src="assets/homizy-banner.webp" alt="Two friends laughing under falling confetti" loading="lazy" data-it-alt="Due amiche che ridono sotto una pioggia di coriandoli">
+          <figcaption data-it="Cambiare il modo di abitare, &lt;mark&gt;partendo da chi ci vive&lt;/mark&gt;">Changing the way of living, <mark>starting with those who live there</mark></figcaption>
+        </figure>
+        <div class="pd-final">
+          <h2 data-it="Vuoi vedere come funziona?">Want to see how it works?</h2>
+          <p data-it="Esplora il prototipo interattivo, oppure apri il file di design per vedere componenti, stili e flussi.">Explore the interactive prototype, or dive into the design file to see components, styles and flows.</p>
+          <div class="pd-final-actions" data-it="&lt;a class=&quot;pd-cta&quot; href=&quot;https://www.figma.com/proto/WWk0IkApT8u1eNct6EtaKE/Homizy?node-id=2090-17842&amp;amp;viewport=361%2C259%2C0.02&amp;amp;t=1KtHbE871z8G1LLA-0&amp;amp;scaling=scale-down&amp;amp;content-scaling=fixed&amp;amp;starting-point-node-id=2090%3A17842&amp;amp;show-proto-sidebar=1&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Prototipo completo qui&lt;/a&gt; &lt;a class=&quot;pd-cta pd-cta-alt&quot; href=&quot;https://www.figma.com/design/WWk0IkApT8u1eNct6EtaKE/Homizy?node-id=2090-9712&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Guarda su Figma&lt;/a&gt;">
+            <a class="pd-cta" href="https://www.figma.com/proto/WWk0IkApT8u1eNct6EtaKE/Homizy?node-id=2090-17842&amp;viewport=361%2C259%2C0.02&amp;t=1KtHbE871z8G1LLA-0&amp;scaling=scale-down&amp;content-scaling=fixed&amp;starting-point-node-id=2090%3A17842&amp;show-proto-sidebar=1" target="_blank" rel="noopener">Full prototype here</a>
+            <a class="pd-cta pd-cta-alt" href="https://www.figma.com/design/WWk0IkApT8u1eNct6EtaKE/Homizy?node-id=2090-9712" target="_blank" rel="noopener">View in Figma</a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <div class="contact-footer">
+    <footer>
+      <span>© 2026 Morena Nobile</span>
+    </footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,2596 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Moku: a UX/UI case study on a manga reading, cataloguing and community app, by Morena Nobile." data-it-content="Moku: un case study UX/UI su un&#x27;app per leggere, catalogare e discutere di manga, di Morena Nobile.">
+  <title data-it="Moku — Case study · Morena Nobile">Moku — Case study · Morena Nobile</title>
+  <style>
+:root {
+  --ink: #101010;
+  --paper: #f5f6f2;
+  --green: #c0df97;
+  --green-dark: #9fc76b;
+  --line: #c8cac4;
+  --muted: #666962;
+  --white: #fff;
+  --radius: 22px
+}
+* {
+  box-sizing: border-box
+}
+html {
+  scroll-behavior: smooth
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.8
+}
+button,
+a {
+  font: inherit
+}
+a {
+  color: inherit;
+  text-decoration: none
+}
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: -5rem;
+  background: #000;
+  color: #fff;
+  padding: .8rem 1rem;
+  z-index: 99
+}
+.skip-link:focus {
+  top: 1rem
+}
+.site-header {
+  height: 64px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 clamp(1.25rem, 5vw, 5rem);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  background: rgba(245, 246, 242, .9);
+  backdrop-filter: blur(16px);
+  z-index: 20
+}
+.site-header nav {
+  gap: 0.5rem;
+}
+.site-header nav a {
+  padding: 0.55rem 1.15rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.site-header nav a:hover {
+  background-color: var(--green);
+  border-color: var(--ink);
+  transform: translateY(-2px);
+}
+.site-header nav a::after {
+  display: none;
+}
+.site-header nav a,
+.text-link,
+.socials a {
+  position: relative
+}
+.site-header nav a:after,
+.text-link:after,
+.socials a:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  transition: .25s
+}
+.site-header nav a:hover:after,
+.text-link:hover:after,
+.socials a:hover:after {
+  right: 0
+}
+.site-header>.button {
+  justify-self: end
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .8rem;
+  background: var(--green);
+  border: 1px solid var(--ink);
+  padding: 1rem 1.4rem;
+  border-radius: 100px;
+  font-weight: 600;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: .2s
+}
+.button:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--ink);
+  background: var(--green-dark)
+}
+.button-small {
+  padding: .65rem 1rem;
+  box-shadow: none
+}
+.button-small:hover {
+  transform: none
+}
+footer {
+  border-top: 1px solid #7da34e;
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .06em
+}
+@media(max-width:900px) {
+.site-header {
+    grid-template-columns: 1fr auto
+  }
+.site-header nav {
+    display: none
+  }
+}
+@media(max-width:600px) {
+.site-header {
+    height: 70px;
+    padding: 0 1rem
+  }
+.button-small {
+    font-size: .82rem
+  }
+footer {
+    gap: 1rem;
+    flex-wrap: wrap
+  }
+footer span:last-child {
+    display: none
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+html {
+    scroll-behavior: auto
+  }
+.photo-window,
+  .project,
+  .project-media img,
+  .button {
+    transition: none
+  }
+}
+@media(min-width:901px) {
+.site-header nav {
+    grid-column: 2;
+    justify-content: center;
+  }
+.site-header>.button {
+    grid-column: 3;
+    justify-self: end;
+  }
+}
+.button,
+.button-small,
+.button-dark {
+  min-height: 58px;
+  padding: .8rem 1.65rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--green);
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: .01em;
+  box-shadow: 0 0 0 var(--ink);
+  transform: translate(0, 0);
+  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+.button:hover,
+.button-small:hover,
+.button-dark:hover {
+  background: var(--green-dark);
+  color: var(--ink);
+  transform: translateY(-3px);
+  box-shadow: 6px 7px 0 var(--ink);
+}
+.button:active,
+.button-small:active,
+.button-dark:active {
+  transform: translate(0, 0);
+  box-shadow: 0 0 0 var(--ink);
+}
+.button:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 5px;
+}
+.site-header .button-small {
+  min-height: 42px;
+  padding: 0.45rem 1.2rem;
+}
+.site-header .button-small,
+.site-header nav a {
+  border: 1px solid transparent;
+}
+.site-header nav a:hover {
+  border-color: transparent;
+}
+.section-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-size: clamp(4rem, 8vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-top: 0;
+  /* Rimuove eventuali margini superiori */
+  padding-top: 2rem;
+  /* Regola questo valore se vuoi spostarlo ancora più su */
+  margin-bottom: 2rem;
+  /* Ridotto per spostare in alto anche il contenuto sotto */
+  color: var(--ink, #101010);
+}
+.section-title mark.highlight {
+  display: inline-block;
+  background-color: #b3db87;
+  color: var(--ink, #101010);
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+  padding: 0.05em 0.3em;
+  margin-top: -0.18em;
+  /* Valore negativo per avvicinarlo alla riga sopra */
+  line-height: 0.85;
+  /* Ridotto per compattare ulteriormente */
+}
+.contact-footer {
+  padding: 0 clamp(1.25rem, 4vw, 4rem) 2rem;
+}
+.site-header .button-small[aria-current="page"] {
+  background: var(--green-dark);
+}
+.pd-hero {
+  text-align: center;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 4vw, 4rem) 4rem;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.pd-back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.section-title.pd-title {
+  font-size: clamp(3.4rem, 10vw, 7rem);
+  padding-top: 0;
+}
+.pd-lead {
+  max-width: 640px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+.pd-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto 2.5rem;
+  text-align: left;
+}
+.pd-meta div,
+.pd-card {
+  background: var(--white);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+.pd-meta div {
+  padding: 1rem 1.2rem;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.pd-meta dt {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+.pd-meta dd {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.pd-shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--white);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+}
+.pd-hero .pd-shot {
+  max-width: 900px;
+  margin: 0 auto;
+  box-shadow: 10px 10px 0 var(--ink);
+}
+.pd {
+  padding: 0 clamp(1.25rem, 4vw, 4rem) 4rem;
+}
+.pd-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: clamp(3rem, 6vw, 5.5rem);
+}
+.pd-kicker {
+  margin: 0 0 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.pd-section h2 {
+  margin: 0 0 1rem;
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.pd-section h2 mark {
+  background: #b3db87;
+  color: var(--ink);
+  font-style: italic;
+  padding: 0 0.2em;
+}
+.pd-intro {
+  max-width: none;
+  margin: 0 0 2rem;
+  line-height: 1.65;
+}
+.pd-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.pd-grid.c3 { grid-template-columns: repeat(3, 1fr); }
+.pd-grid.c4 { grid-template-columns: repeat(4, 1fr); }
+.pd-card {
+  padding: 1.4rem 1.5rem;
+}
+.pd-card h3 {
+  margin: 0 0 0.5rem;
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.1;
+}
+.pd-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.pd-card .pd-num {
+  display: inline-block;
+  margin-bottom: 0.6rem;
+  padding: 0.1rem 0.7rem;
+  background: var(--green);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.pd-stat {
+  text-align: center;
+}
+.pd-stat strong {
+  display: block;
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-size: 4rem;
+  line-height: 1;
+}
+.pd-profile {
+  border-top: 10px solid var(--c, var(--green));
+}
+.pd-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.pd-split.rev > :first-child {
+  order: 2;
+}
+.pd-split p {
+  line-height: 1.65;
+}
+.pd-bars {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.pd-bars li {
+  display: grid;
+  grid-template-columns: 110px 1fr 40px;
+  gap: 0.6rem;
+  align-items: center;
+  font-size: 0.85rem;
+}
+.pd-bars i {
+  display: block;
+  height: 14px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--green);
+  width: var(--w);
+}
+.pd-quote {
+  margin: 2rem 0;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: var(--green);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: 8px 8px 0 var(--ink);
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+.pd-flow {
+  margin-bottom: 1rem;
+  background: var(--white);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+}
+.pd-flow summary {
+  padding: 1rem 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pd-scroll {
+  overflow-x: auto;
+  padding: 0 1rem 1rem;
+}
+.pd-scroll img {
+  display: block;
+  width: 1500px;
+  max-width: none;
+  height: auto;
+}
+.pd-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+@media (max-width: 800px) {
+.pd-grid.c2, .pd-grid.c3, .pd-grid.c4, .pd-split { grid-template-columns: 1fr; }
+.pd-split.rev > :first-child { order: 0; }
+.pd-bars li { grid-template-columns: 90px 1fr 36px; }
+}
+.pd-sub {
+  margin: 2rem 0 0.8rem;
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  line-height: 1.1;
+}
+.pd-split .pd-sub {
+  margin-top: 0;
+}
+.pd-section > .pd-shot,
+.pd-section > .pd-split {
+  margin-bottom: 2rem;
+}
+.pd-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+  background: var(--white);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+.pd-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.pd-table th,
+.pd-table td {
+  padding: 0.8rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+}
+.pd-table thead th {
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+.pd-table tbody th {
+  text-align: left;
+  padding-left: 1.2rem;
+}
+.pd-table tbody tr:last-child th,
+.pd-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.pd-stars {
+  font-size: 1.15rem;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.pd-stars s {
+  text-decoration: none;
+  color: var(--line);
+}
+
+/* ---- Timeline ---- */
+.pd-timeline { padding: clamp(1.2rem, 3vw, 2rem); margin-bottom: 2rem; }
+.pd-timeline .pd-sub { margin-top: 0; }
+.tl-scroll { overflow-x: auto; }
+.tl { min-width: 720px; }
+.tl-weeks { display: grid; grid-template-columns: repeat(4, 1fr); }
+.tl-weeks span { justify-self: center; padding: 0.3rem 1.8rem; background: var(--green); border: 1px solid var(--ink); border-radius: 10px; font-size: 0.85rem; font-weight: 600; }
+.tl-body {
+  margin-top: 1rem; padding: 0.4rem 0;
+  background:
+    repeating-linear-gradient(to bottom, var(--line) 0 6px, transparent 6px 12px) 0 0 / 1px 100% no-repeat,
+    repeating-linear-gradient(to bottom, var(--line) 0 6px, transparent 6px 12px) 25% 0 / 1px 100% no-repeat,
+    repeating-linear-gradient(to bottom, var(--line) 0 6px, transparent 6px 12px) 50% 0 / 1px 100% no-repeat,
+    repeating-linear-gradient(to bottom, var(--line) 0 6px, transparent 6px 12px) 75% 0 / 1px 100% no-repeat,
+    repeating-linear-gradient(to bottom, var(--line) 0 6px, transparent 6px 12px) 100% 0 / 1px 100% no-repeat;
+}
+.tl-row { position: relative; height: 3rem; }
+.tl-bar { position: absolute; top: 0.35rem; height: 2.3rem; display: flex; align-items: center; justify-content: center; padding: 0 0.5rem; overflow: hidden; background: #e9f3d8; border: 1px solid var(--ink); border-radius: 10px; font-size: 0.85rem; font-weight: 500; line-height: 1.2; white-space: nowrap; }
+
+/* ---- Research charts ---- */
+.pd-chart { margin: 0 0 2rem; padding: clamp(1.2rem, 3vw, 2rem); }
+.pd-chart figcaption { max-width: 640px; margin-bottom: 1.5rem; font-family: "Instrument Serif", serif; font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1.15; }
+.ch1 { display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem; align-items: end; }
+.bars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; align-items: end; padding-right: 1.5rem; border-right: 1px dashed var(--ink); }
+.bc { display: flex; flex-direction: column; justify-content: flex-end; text-align: center; font-size: 0.78rem; line-height: 1.2; }
+.bc b { margin-bottom: 0.35rem; font-size: 0.9rem; }
+.bc i { display: block; width: 100%; height: calc(var(--p) * 2.4px); background: var(--green-dark); background: color-mix(in srgb, var(--green-dark) calc(var(--t) * 100%), #fff); border: 1px solid var(--ink); border-radius: 10px 10px 0 0; }
+.bc span { margin-top: 0.5rem; min-height: 2.4em; }
+.people { display: grid; grid-template-columns: repeat(13, 1fr); gap: 0.6rem 0.3rem; }
+.pp { display: block; width: 100%; height: auto; fill: var(--line); }
+.pp.on { fill: var(--green-dark); }
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin: 1.2rem 0 0; font-size: 0.85rem; line-height: 1.3; }
+.legend .pp { width: 12px; height: 20px; margin-left: 0.6rem; }
+.legend .pp:first-child { margin-left: 0; }
+.ch2 { position: relative; max-width: 900px; margin: 0 auto; aspect-ratio: 16 / 9; }
+.ch2-circles { position: absolute; right: 0; bottom: 0; height: 100%; aspect-ratio: 1; }
+.ch2-circles .ring { position: absolute; bottom: 0; left: 50%; aspect-ratio: 1; transform: translateX(-50%); border: 1px solid var(--ink); border-radius: 50%; }
+.r1 { width: 100%; background: #eef6e0; }
+.r2 { width: 64%; background: #d9eab9; }
+.r3 { width: 32%; background: var(--green-dark); }
+.ch2-circles b { position: absolute; left: 50%; transform: translate(-50%, -50%); font-family: "Instrument Serif", serif; font-weight: 400; font-size: clamp(1.5rem, 5vw, 3.2rem); line-height: 1; }
+.ch2-labels { margin: 0; padding: 0; list-style: none; }
+.ch2-labels li { position: absolute; left: 0; width: 46%; display: flex; align-items: center; gap: 0.5rem; transform: translateY(-50%); font-size: clamp(0.7rem, 1.8vw, 0.95rem); font-weight: 600; line-height: 1.2; }
+.ch2-labels li span { flex: none; max-width: 42%; }
+.ch2-labels li i { flex: 1; height: 1px; background: var(--ink); }
+
+/* ---- Insights ---- */
+.pd-insights { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+.pd-insight { padding: clamp(1.6rem, 3vw, 2.4rem); background: var(--white); border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: 6px 6px 0 var(--ink); }
+.pd-insight.alt { background: var(--green); }
+.pd-insight .num { display: inline-block; margin-bottom: 1rem; padding: 0.05rem 0.8rem; background: var(--paper); border: 1px solid var(--ink); border-radius: 999px; font-family: "Instrument Serif", serif; font-style: italic; font-size: 1.3rem; line-height: 1.4; }
+.pd-insight h3 { margin: 0 0 0.8rem; font-family: "Instrument Serif", serif; font-weight: 400; font-size: clamp(2rem, 3.4vw, 2.8rem); line-height: 1.02; letter-spacing: -0.01em; }
+.pd-insight p { margin: 0; font-size: 1.05rem; line-height: 1.6; }
+
+/* ---- Personas ---- */
+.pd-personas { display: grid; gap: 1.5rem; margin-bottom: 2rem; }
+.pd-persona { display: grid; grid-template-columns: 340px 1fr; gap: 2rem; padding: clamp(1.4rem, 3vw, 2rem); border-top: 12px solid var(--green); }
+.pd-persona header { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.2rem; }
+.pd-persona header img { flex: none; width: 110px; height: 110px; object-fit: cover; border: 1.5px solid var(--ink); border-radius: 50%; }
+.pd-persona h3 { margin: 0 0 0.4rem; font-size: 2.6rem; }
+.pd-persona dl { display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.7rem; margin: 0; font-size: 0.85rem; line-height: 1.4; }
+.pd-persona dt { color: var(--muted); font-weight: 600; }
+.pd-persona dd { margin: 0; }
+.pd-persona .pq { margin: 0; padding: 0.7rem 1rem; background: var(--green); border-radius: 14px; font-family: "Instrument Serif", serif; font-style: italic; font-size: 1.7rem; line-height: 1.1; }
+.pr { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; align-content: start; }
+.pr .wide { grid-column: 1 / -1; }
+.pd-persona h4 { margin: 0 0 0.4rem; padding-top: 0.2rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.pr > div { margin-bottom: 1.1rem; }
+.pd-persona ul { margin: 0; padding-left: 1.1rem; font-size: 0.92rem; line-height: 1.5; }
+
+/* ---- User flow ---- */
+.pd-userflow { padding: clamp(1.2rem, 3vw, 2rem); margin-bottom: 2rem; }
+.pd-userflow .pd-sub { margin-top: 0; }
+.uf { display: grid; grid-template-columns: repeat(5, 1fr); column-gap: 1rem; row-gap: 1rem; margin-top: 1.5rem; }
+.uf-group { position: relative; padding-bottom: 1.1rem; text-align: center; font-size: 0.85rem; grid-row: 1; }
+.uf-group::after { content: ""; position: absolute; left: 10%; right: 10%; bottom: 0; height: 12px; border: 1.5px solid var(--ink); border-bottom: 0; }
+.g1 { grid-column: 1 / 3; }
+.g2 { grid-column: 3 / 6; }
+.uf-step { position: relative; grid-row: 2; text-align: center; }
+.s1 { grid-column: 1; } .s2 { grid-column: 2; } .s3 { grid-column: 3; } .s4 { grid-column: 4; } .s5 { grid-column: 5; }
+.uf-step:not(.s5)::after { content: ""; position: absolute; top: 42px; left: calc(50% + 50px); width: calc(100% - 100px + 1rem); border-top: 1.5px dashed var(--ink); }
+.tile { display: grid; place-items: center; width: 84px; height: 84px; margin: 0 auto 1rem; background: var(--green); border: 1.5px solid var(--ink); border-radius: 18px; box-shadow: 4px 4px 0 var(--ink); font-family: "Instrument Serif", serif; font-size: 2.2rem; line-height: 1; }
+.uf-step h4 { margin: 0 0 0.4rem; font-size: 1rem; line-height: 1.3; }
+.uf-step p { margin: 0; font-size: 0.88rem; line-height: 1.5; }
+
+@media (max-width: 900px) {
+  .pd-persona { grid-template-columns: 1fr; gap: 1rem; }
+}
+@media (max-width: 800px) {
+  .ch1, .pd-insights, .pr { grid-template-columns: 1fr; }
+  .bars { padding: 0 0 1.5rem; border-right: 0; border-bottom: 1px dashed var(--ink); }
+  .uf { grid-template-columns: 1fr; }
+  .uf-group, .uf-step { grid-column: 1; grid-row: auto; }
+  .g1 { order: 0; } .s1 { order: 1; } .s2 { order: 2; } .g2 { order: 3; } .s3 { order: 4; } .s4 { order: 5; } .s5 { order: 6; }
+  .uf-group { padding: 0 0 0.4rem; border-bottom: 1.5px solid var(--ink); text-align: left; font-weight: 600; }
+  .uf-group::after, .uf-step::after { display: none; }
+}
+
+
+/* ==========================================================
+   HOMIZY LOOK: giallo + nero + tipografia dell'app
+   (per tornare al serif del sito: --pd-head: "Instrument Serif", serif)
+   ========================================================== */
+:root { --hy: #ffd233; --hy-soft: #fff3c4; --pd-head: "DM Sans", sans-serif; }
+
+.pd-hero { background-color: #111; background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px); }
+.pd-hero .section-title { color: #fff; }
+.section-title.pd-title { font-family: var(--pd-head); font-weight: 800; letter-spacing: -0.04em; font-size: clamp(3.2rem, 9vw, 6.5rem); }
+.pd-hero .section-title mark.highlight { background: var(--hy); color: #111; font-family: var(--pd-head); font-style: normal; font-weight: 800; }
+.pd-hero .pd-lead { color: #e4e4de; }
+.pd-hero .pd-meta div { box-shadow: 4px 4px 0 var(--hy); }
+.pd-hero .pd-shot { border-color: #111; box-shadow: 10px 10px 0 var(--hy); }
+
+.pd-kicker { display: inline-block; padding: 0.1rem 0.75rem; background: var(--hy); border: 1px solid var(--ink); border-radius: 999px; }
+.pd-section h2, .pd-sub, .pd-card h3, .pd-insight h3, .pd-persona h3, .pd-chart figcaption, .pd-stat strong,
+.pd-quote, .pd-persona .pq, .tile, .ch2-circles b, .pd-insight .num {
+  font-family: var(--pd-head); font-weight: 700; font-style: normal; letter-spacing: -0.02em;
+}
+.pd-section h2 { font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.05; }
+.pd-section h2 mark { background: var(--hy); font-style: normal; padding: 0 0.15em; }
+.pd-sub { font-size: clamp(1.4rem, 2.4vw, 1.8rem); }
+.pd-sub-s { margin: 2rem 0 0.8rem; font-size: 1.2rem; }
+.pd-card h3 { font-size: 1.35rem; }
+.pd-card .pd-num { background: var(--hy); }
+.pd-stat strong { font-size: 3.4rem; font-weight: 800; }
+.pd-chart figcaption { font-size: clamp(1.2rem, 2.2vw, 1.6rem); }
+
+.tl-weeks span { background: var(--hy); }
+.tl-bar { background: var(--hy-soft); border-color: rgba(0,0,0,.25); }
+.bc i { background: var(--hy); background: color-mix(in srgb, var(--hy) calc(var(--t) * 100%), #fff); }
+.pp.on { fill: var(--hy); }
+.r1 { background: #fff4c6; } .r2 { background: #ffe98a; } .r3 { background: var(--hy); }
+.ch2-circles b { font-weight: 800; font-size: clamp(1.4rem, 4.4vw, 2.8rem); }
+
+.pd-insight { padding: clamp(1.3rem, 2.4vw, 1.8rem); }
+.pd-insight h3 { font-size: clamp(1.5rem, 2.4vw, 2rem); line-height: 1.1; }
+.pd-insight p { font-size: 0.98rem; }
+.pd-insight .num { background: var(--hy); font-size: 1rem; }
+
+.pd-persona { border-top-width: 1.5px; border-top-color: var(--ink); }
+.pd-persona h3 { font-size: 2.2rem; }
+.pd-persona .pq { padding: 0; background: none; border-radius: 0; font-size: 2rem; line-height: 1.15; }
+
+.pd-quote { background: var(--hy); font-size: clamp(1.6rem, 3.6vw, 2.6rem); line-height: 1.15; }
+.tile { background: var(--hy); font-size: 1.8rem; font-weight: 800; }
+.pd-bars i { background: var(--hy); }
+
+.pd-flow summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; list-style: none; }
+.pd-flow summary::-webkit-details-marker { display: none; }
+.pd-flow summary::after { content: ""; flex: none; width: 0.6rem; height: 0.6rem; border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink); transform: translateY(-25%) rotate(45deg); transition: transform 0.2s; }
+.pd-flow[open] summary { background: var(--hy); border-radius: calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0 0; }
+.pd-flow[open] summary::after { transform: translateY(25%) rotate(-135deg); }
+
+/* ritocchi */
+.section-title.pd-title { line-height: 1; }
+.pd-hero .section-title mark.highlight { margin-top: 0.08em; }
+.pd-section h2 { margin-bottom: 1.5rem; }
+.pd-timeline .pd-kicker { margin-bottom: 0.8rem; }
+
+/* ---- Capitoli: solo testo, più grande ---- */
+.pd-section > .pd-kicker { display: block; margin: 0 0 0.9rem; padding: 0; background: none; border: 0; border-radius: 0; font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 700; letter-spacing: 0.06em; }
+
+/* ---- Personas: foto quadrate più grandi ---- */
+.pd-persona { grid-template-columns: 420px 1fr; }
+.pd-persona header img { width: 160px; height: 160px; border-radius: 24px; }
+.pd-persona header { gap: 1.4rem; }
+
+/* ---- Accordion: numero ---- */
+.pd-flow .fn { margin-right: 0.9rem; }
+
+/* ---- CTA finale ---- */
+.pd-final { margin-bottom: 2rem; padding: clamp(2rem, 5vw, 4rem); background: #111; color: #fff; border: 1.5px solid #111; border-radius: var(--radius); box-shadow: 10px 10px 0 var(--hy); text-align: center; }
+.pd-final h2 { margin: 0 0 1rem; color: #fff; }
+.pd-final p { max-width: 560px; margin: 0 auto 2rem; color: #dcdcd6; line-height: 1.6; }
+.pd-final-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+.pd-cta { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 1.9rem; background: var(--hy); color: #111; border: 1.5px solid var(--hy); border-radius: 999px; font-family: var(--pd-head); font-weight: 700; font-size: 1.05rem; line-height: 1; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.pd-cta:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 #fff; }
+.pd-cta-alt { background: transparent; color: #fff; border-color: #fff; }
+.pd-cta-alt:hover { box-shadow: 4px 4px 0 var(--hy); }
+
+@media (max-width: 900px) {
+  .pd-persona { grid-template-columns: minmax(0, 1fr); }
+  .pd-persona header { flex-wrap: wrap; }
+}
+@media (max-width: 480px) {
+  .pd-persona header img { width: 120px; height: 120px; }
+}
+.pd-timeline .pd-sub { margin-bottom: 1.3rem; }
+
+/* ---- ZyMate: solo i telefoni, a filo con il bordo destro della pagina ---- */
+.pd { --gutter: clamp(1.25rem, 4vw, 4rem); --bleed: calc((100vw - min(1100px, 100vw - 2 * var(--gutter))) / 2); overflow-x: clip; }
+.pd-split.bleed { grid-template-columns: 1fr 1.25fr; }
+.pd-split.bleed > img { width: calc(100% + var(--bleed)); max-width: none; margin-right: calc(-1 * var(--bleed)); background: transparent; border: 0; border-radius: 0; box-shadow: none; mix-blend-mode: multiply; }
+@media (max-width: 800px) {
+  .pd-split.bleed { grid-template-columns: 1fr; }
+  .pd-split.bleed > img { width: 100%; margin-right: 0; }
+}
+
+/* ---- Sezione 6: ZyMatch / ZyMate / ZyTime ---- */
+.pd-label { margin: 0 0 0.6rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.pd-badge { display: inline-block; padding: 0.1rem 0.75rem; background: var(--hy); border: 1px solid var(--ink); border-radius: 999px; font-family: var(--pd-head); font-size: 0.85rem; font-weight: 700; line-height: 1.5; }
+.pd-stage { padding: clamp(1.5rem, 3vw, 2.5rem); background: var(--hy-soft); border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: 6px 6px 0 var(--ink); }
+.pd-phones3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.pd-phones3 figure { margin: 0; text-align: center; }
+.pd-phones3 img { display: block; width: min(100%, 270px); height: auto; margin: 0 auto 1.2rem; }
+.pd-phones3 figcaption { text-align: left; max-width: 300px; margin: 0 auto; }
+.pd-phones3 figcaption b { display: block; margin: 0.5rem 0 0.2rem; font-family: var(--pd-head); font-size: 1.15rem; }
+.pd-phones3 figcaption p { margin: 0; font-size: 0.92rem; line-height: 1.5; }
+.pd-feature { display: grid; grid-template-columns: 1fr 480px; gap: 3rem; align-items: start; margin-top: 4rem; }
+.pd-feature.flip { grid-template-columns: 480px 1fr; }
+.pd-feature.flip .vis { order: -1; }
+.pd-feature .txt { position: sticky; top: 6rem; }
+.pd-feature .txt .pd-sub { margin-top: 0; }
+.pd-feature .txt > p { line-height: 1.65; }
+.pd-feature .vis img { display: block; width: 100%; height: auto; }
+.pd-feature .vis.stage { padding: 1.5rem; background: var(--hy-soft); border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: 6px 6px 0 var(--ink); }
+.pd-houses { grid-template-columns: 1fr; gap: 1rem; margin: 1.5rem 0 0; }
+.pd-houses .pd-card { padding: 1rem 1.3rem; }
+.pd-houses .pd-card h3 { margin-bottom: 0.2rem; font-size: 1.15rem; }
+.pd-steps { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; gap: 1.1rem; }
+.pd-steps li { display: grid; grid-template-columns: auto 1fr; gap: 0.9rem; align-items: start; }
+.pd-steps b { display: block; font-family: var(--pd-head); font-size: 1.1rem; }
+.pd-steps p { margin: 0.1rem 0 0; font-size: 0.95rem; line-height: 1.5; }
+@media (max-width: 900px) {
+  .pd-phones3 { grid-template-columns: 1fr; gap: 2.5rem; }
+  .pd-feature, .pd-feature.flip { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  .pd-feature.flip .vis { order: 0; }
+  .pd-feature .txt { position: static; }
+  .pd-feature .vis img { max-width: 440px; margin: 0 auto; }
+}
+.pd-sub + .pd-split { align-items: start; }
+@media (max-width: 900px) { .pd-phones3 img { width: min(100%, 230px); } }
+
+/* ---- ZyMatch: tre schermate sfalsate, senza pannelli; numeri senza riquadro ---- */
+.pd-badge { padding: 0; background: none; border: 0; border-radius: 0; font-size: 1.05rem; line-height: 1.4; min-width: 1.6rem; }
+.pd-feature .vis.trio { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; justify-items: center; }
+.trio .ph { margin: 0; }
+.trio .ph.a { grid-column: 1; grid-row: 1; }
+.trio .ph.c { grid-column: 1; grid-row: 2; }
+.trio .ph.b { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+.trio .ph-n { display: block; margin-bottom: 0.5rem; font-family: var(--pd-head); font-size: 1.05rem; font-weight: 700; }
+.pd-feature .vis.trio img { width: 100%; max-width: 225px; }
+.pd-feature .txt .pd-label { margin-top: 1.8rem; }
+@media (max-width: 900px) {
+  .pd-feature .vis.trio { grid-template-columns: 1fr; }
+  .trio .ph.a, .trio .ph.b, .trio .ph.c { grid-column: 1; grid-row: auto; }
+  .pd-feature .vis.trio img { max-width: 230px; }
+}
+
+/* ==========================================================
+   Revisione: numeri senza riquadro, elementi sullo sfondo,
+   fascia info dell'hero, personas compatte
+   ========================================================== */
+
+/* numeri delle card (Challenge e Insight): niente riquadro giallo */
+.pd-card .pd-num, .pd-insight .num {
+  display: block; margin: 0 0 0.7rem; padding: 0; background: none; border: 0; border-radius: 0;
+  font-family: var(--pd-head); font-style: normal; font-weight: 800; font-size: 2.4rem; line-height: 1;
+  letter-spacing: -0.03em; color: rgba(17, 17, 17, 0.2);
+}
+
+/* hero: fascia info senza blocchi */
+.pd-hero .pd-meta { grid-template-columns: 0.85fr 0.65fr 1.5fr 1.3fr; gap: 0; max-width: 1100px; margin: 0 auto 3rem; padding: 0; border-top: 1px solid rgba(255,255,255,.25); border-bottom: 1px solid rgba(255,255,255,.25); }
+.pd-hero .pd-meta div { padding: 1.4rem 1.5rem; background: none; border: 0; border-left: 1px solid rgba(255,255,255,.25); border-radius: 0; box-shadow: none; }
+.pd-hero .pd-meta div:first-child { border-left: 0; padding-left: 0; }
+.pd-hero .pd-meta dt { margin-bottom: 0.4rem; color: rgba(255,255,255,.6); font-size: 0.72rem; letter-spacing: 0.14em; }
+.pd-hero .pd-meta dd { color: #fff; font-family: var(--pd-head); font-weight: 700; font-size: clamp(1.1rem, 1.9vw, 1.5rem); line-height: 1.2; letter-spacing: -0.01em; }
+
+/* elementi sullo sfondo della pagina, senza blocco */
+.pd-grid + .pd-sub { margin-top: 0; }
+.pd-timeline { padding: 0; margin: 0 0 2rem; }
+.pd-chart { margin: 0 0 3rem; padding: 0; }
+.pd-userflow { padding: 0; margin: 0 0 2rem; }
+.pd-table-wrap { background: none; border: 0; border-radius: 0; box-shadow: none; }
+.pd-table th, .pd-table td { border-bottom-color: rgba(17,17,17,.15); }
+.pd-table thead th { border-bottom: 1.5px solid var(--ink); }
+
+/* personas: più compatte */
+.pd-persona { grid-template-columns: 440px 1fr; gap: 1.5rem; padding: 1.5rem 1.8rem; }
+.pd-persona header { gap: 1.2rem; margin-bottom: 1rem; }
+.pd-persona header img { width: 140px; height: 140px; }
+.pd-persona h3 { margin-bottom: 0.3rem; font-size: 2rem; }
+.pd-persona dl { font-size: 0.82rem; line-height: 1.35; }
+.pd-persona .pq { font-size: 1.8rem; }
+.pr { grid-template-columns: repeat(6, 1fr); gap: 0 1.5rem; }
+.pr > div { margin-bottom: 0.9rem; }
+.pr > div:nth-child(1) { grid-column: 1 / span 2; }
+.pr > div:nth-child(2) { grid-column: 3 / span 2; }
+.pr > div:nth-child(4) { grid-column: 5 / span 2; grid-row: 1; }
+.pr > div:nth-child(3) { grid-column: 1 / span 3; grid-row: 2; }
+.pr .wide { grid-column: 4 / span 3; grid-row: 2; }
+.pr .wide, .pr > div:nth-child(3) { margin-bottom: 0; }
+.pd-persona h4 { margin-bottom: 0.3rem; }
+.pd-persona ul { font-size: 0.88rem; line-height: 1.4; }
+@media (max-width: 900px) {
+  .pd-hero .pd-meta { grid-template-columns: 1fr 1fr; }
+  .pd-hero .pd-meta div:nth-child(3) { border-left: 0; padding-left: 0; }
+  .pd-hero .pd-meta div:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,.25); }
+  .pd-persona { grid-template-columns: minmax(0, 1fr); }
+  .pr { grid-template-columns: 1fr 1fr; }
+  .pr > div:nth-child(n), .pr .wide { grid-column: auto; grid-row: auto; }
+  .pr .wide { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) {
+  .pr { grid-template-columns: 1fr; }
+  .pr .wide { grid-column: auto; }
+}
+.pd-chart figcaption { font-size: clamp(1.4rem, 2.4vw, 1.8rem); }
+.pd-sub + .pd-timeline { margin-top: 1.2rem; }
+.pd-sub + .pd-userflow { margin-top: 1.5rem; }
+
+/* ==========================================================
+   Revisione 3
+   ========================================================== */
+
+/* ---- HERO: griglia info 2x2 + telefoni inclinati ---- */
+.pd-hero .pd-meta { grid-template-columns: 1fr 1fr; gap: 0; max-width: 960px; margin: 0 auto 2.5rem; border-top: 1px solid rgba(255,255,255,.3); border-bottom: 1px solid rgba(255,255,255,.3); }
+.pd-hero .pd-meta div { padding: 1.5rem 0 1.5rem 1.6rem; border: 0; border-left: 1px solid rgba(255,255,255,.3); }
+.pd-hero .pd-meta div:nth-child(odd) { padding-left: 0; border-left: 0; }
+.pd-hero .pd-meta div:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,.3); }
+.pd-hero .pd-meta div:nth-child(n+3) { border-top: 0; }
+.pd-hero .pd-meta dd { font-size: clamp(1.1rem, 1.9vw, 1.45rem); }
+.hero-phones { position: relative; max-width: 960px; height: clamp(320px, 50vw, 540px); margin: 0 auto; overflow: hidden; }
+.hero-phones .hp { position: absolute; top: clamp(8px, 2vw, 28px); width: clamp(180px, 36vw, 390px); height: auto; filter: drop-shadow(0 24px 40px rgba(0,0,0,.55)); }
+.hp-l { left: 5%; transform: rotate(-9deg); }
+.hp-r { right: 5%; transform: rotate(9deg); top: clamp(30px, 6vw, 70px); }
+
+/* ---- Methodology nello stile del sito ---- */
+.tl-weeks span { justify-self: stretch; margin: 0 0.6rem; padding: 0 0 0.4rem; background: none; border: 0; border-bottom: 1.5px solid var(--ink); border-radius: 0; text-align: center; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.tl-bar { background: #fff; border: 1.5px solid var(--ink); border-radius: 999px; box-shadow: 2px 2px 0 var(--ink); font-weight: 500; }
+
+/* ---- Objectives (a scalini) ---- */
+.pd-objs { display: grid; gap: 1.1rem; margin-bottom: 1rem; }
+.obj { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: 1.2rem; width: 78%; padding: 1.3rem 1.8rem; background: #fff; border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: 5px 5px 0 var(--ink); }
+.obj.o2 { margin-left: 7.3%; } .obj.o3 { margin-left: 14.6%; } .obj.o4 { margin-left: 22%; }
+.obj .n { font-family: var(--pd-head); font-weight: 800; font-size: 4rem; line-height: 1; letter-spacing: -0.04em; color: var(--hy); }
+.obj h4 { margin: 0 0 0.3rem; font-family: var(--pd-head); font-size: 1.15rem; font-weight: 700; }
+.obj p { margin: 0; font-size: 0.95rem; line-height: 1.55; }
+
+/* ---- Insight con immagine ---- */
+.pd-insight { display: flex; flex-direction: column; }
+.pd-insight .stat { margin: 1rem 0 1.3rem; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.02em; }
+.pd-insight > img { display: block; width: 100%; aspect-ratio: 3 / 2; margin-top: auto; object-fit: cover; border-radius: 16px; }
+
+/* ---- Personas: card verticali affiancate ---- */
+.pd-personas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: stretch; }
+.pd-persona { display: flex; flex-direction: column; padding: 1rem 1rem 1.5rem; }
+.pd-persona .pp-photo { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; margin: 0 0 1.1rem; border: 0; border-radius: 22px; }
+.pd-persona > h3 { margin: 0 0 0.4rem; padding: 0 0.6rem; font-size: 2rem; }
+.pd-persona > dl { margin: 0 0 0.9rem; padding: 0 0.6rem; }
+.pd-persona .pq { margin: 0 0 1rem; padding: 0 0.6rem; font-size: 1.5rem; }
+.pd-persona .pc2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; padding: 0 0.6rem; }
+.pd-persona > h4, .pd-persona > ul { padding-left: 0.6rem; padding-right: 0.6rem; }
+.pd-persona > ul { padding-left: 1.7rem; }
+.pd-persona h4 { margin: 0.9rem 0 0.3rem; }
+
+/* ---- User flow: testi a sinistra ---- */
+.uf-step { text-align: left; }
+.uf-step .tile { margin: 0 0 1rem; }
+.uf-step:not(.s5)::after { left: 96px; width: calc(100% + 1rem - 108px); }
+.uf-group { text-align: left; padding-left: 0.2rem; }
+.uf-group::after { left: 0; right: 1rem; }
+
+/* ---- Banner finale ---- */
+.pd-banner { position: relative; margin: 0 0 2rem; overflow: hidden; border-radius: var(--radius); }
+.pd-banner img { display: block; width: 100%; height: auto; min-height: 300px; object-fit: cover; }
+.pd-banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.15) 65%); }
+.pd-banner figcaption { position: absolute; z-index: 1; left: clamp(1.2rem, 4vw, 3rem); right: clamp(1.2rem, 4vw, 3rem); bottom: clamp(1.2rem, 4vw, 2.6rem); color: #fff; font-family: var(--pd-head); font-weight: 800; font-size: clamp(1.7rem, 4.4vw, 3.4rem); line-height: 1.08; letter-spacing: -0.03em; }
+.pd-banner mark { background: none; color: var(--hy); }
+
+@media (max-width: 900px) {
+  .pd-hero .pd-meta { grid-template-columns: 1fr; }
+  .pd-hero .pd-meta div, .pd-hero .pd-meta div:nth-child(odd) { padding: 1.1rem 0; border-left: 0; border-bottom: 1px solid rgba(255,255,255,.3); }
+  .pd-hero .pd-meta div:last-child { border-bottom: 0; }
+  .obj, .obj.o2, .obj.o3, .obj.o4 { width: 100%; margin-left: 0; grid-template-columns: 70px 1fr; padding: 1.1rem 1.2rem; }
+  .obj .n { font-size: 2.6rem; }
+  .pd-personas { grid-template-columns: 1fr; }
+  .uf-group { border-bottom: 1.5px solid var(--ink); }
+}
+
+.pd-persona h4 { margin: 1rem 0 0.35rem; line-height: 1.2; }
+.pd-persona ul { margin: 0; line-height: 1.45; }
+.pd-persona .pq { min-height: 2.4em; }
+
+/* ==========================================================
+   Revisione 4
+   ========================================================== */
+
+/* ---- HERO: testo centrale compatto, telefoni ai lati interi ---- */
+.hero-grid { display: grid; grid-template-columns: minmax(170px, 250px) minmax(0, 620px) minmax(170px, 250px); gap: clamp(1.5rem, 3vw, 3rem); align-items: center; justify-content: center; max-width: 1240px; margin: 0 auto; }
+.hero-grid .hp { position: static; width: 100%; height: auto; filter: drop-shadow(0 18px 28px rgba(0,0,0,.5)); }
+.hero-grid .hp-l { transform: rotate(-7deg); }
+.hero-grid .hp-r { transform: rotate(7deg); }
+.hero-center .section-title.pd-title { font-size: clamp(2.6rem, 5.4vw, 4.4rem); }
+.hero-center .pd-lead { max-width: 520px; margin: 0 auto 1.6rem; font-size: 0.95rem; line-height: 1.55; }
+.hero-center .pd-meta { max-width: none; margin: 0; }
+.hero-center .pd-meta div { padding: 1rem 0 1rem 1.2rem; }
+.hero-center .pd-meta div:nth-child(odd) { padding-left: 0; }
+.hero-center .pd-meta dd { font-size: clamp(0.95rem, 1.3vw, 1.1rem); }
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .hero-center { grid-column: 1 / -1; order: -1; }
+  .hero-grid .hp { max-width: 230px; justify-self: center; }
+}
+
+/* ---- Methodology: fasce per settimana, bordi non tagliati ---- */
+.tl-scroll { padding: 4px 6px 10px; }
+.tl-weeks { padding: 0 6px; }
+.tl-weeks span { margin: 0; padding: 0 0 0.6rem; border: 0; font-size: 0.8rem; }
+.tl-body { margin-top: 0; padding: 0.7rem 6px; border-radius: 16px; background: linear-gradient(to right, rgba(17,17,17,.05) 0 25%, transparent 25% 50%, rgba(17,17,17,.05) 50% 75%, transparent 75% 100%); }
+.tl-bar { box-shadow: none; }
+
+/* ---- Objectives: griglia 2x2 con filetto ---- */
+.pd-objs { grid-template-columns: 1fr 1fr; gap: 2.4rem 3.5rem; margin: 0.5rem 0 1rem; }
+.pd-objs .obj, .pd-objs .obj.o2, .pd-objs .obj.o3, .pd-objs .obj.o4 { display: block; width: auto; margin: 0; padding: 1.2rem 0 0; background: none; border: 0; border-top: 1.5px solid var(--ink); border-radius: 0; box-shadow: none; }
+.pd-objs .obj .n { display: block; margin-bottom: 0.8rem; font-size: 3.6rem; }
+@media (max-width: 800px) { .pd-objs { grid-template-columns: 1fr; gap: 1.6rem; } }
+
+/* ---- Personas: più larghe e basse ---- */
+.pd-personas { --w: min(1360px, 100vw - 2 * var(--gutter)); width: var(--w); margin-left: calc((100% - var(--w)) / 2); }
+.pd-persona { display: grid; grid-template-columns: 112px 1fr; column-gap: 1.2rem; align-content: start; padding: 1.3rem 1.5rem 1.5rem; }
+.pd-persona .pp-photo { grid-column: 1; grid-row: 1 / span 2; width: 100%; margin: 0; border-radius: 18px; }
+.pd-persona > h3 { grid-column: 2; grid-row: 1; align-self: end; margin: 0 0 0.3rem; padding: 0; font-size: 1.9rem; }
+.pd-persona > dl { grid-column: 2; grid-row: 2; align-self: start; margin: 0; padding: 0; }
+.pd-persona .pq { grid-column: 1 / -1; min-height: 0; margin: 1.1rem 0 0.4rem; padding: 0; font-size: 1.35rem; }
+.pd-persona .pc2, .pd-persona .pc1 { grid-column: 1 / -1; padding: 0; }
+.pd-persona .pc2 { gap: 0 1.2rem; }
+.pd-persona h4 { margin: 0.9rem 0 0.3rem; }
+.pd-persona ul { padding-left: 1.1rem; margin: 0; }
+@media (max-width: 900px) { .pd-personas { width: 100%; margin-left: 0; } }
+
+/* ---- User flow: tile senza giallo ---- */
+.tile { background: #fff; }
+
+/* ---- Benchmark: pallini al posto delle stelle ---- */
+.rt { display: inline-flex; gap: 6px; vertical-align: middle; }
+.rt i { display: block; width: 14px; height: 14px; border: 1.5px solid var(--ink); border-radius: 50%; }
+.rt i.on { background: var(--hy); }
+.tl-body { border-radius: 0; }
+.pd-persona .pq { margin: 1rem 0 0.2rem; }
+.pd-persona .pc2 h4:first-child, .pd-persona .pc2 > div > h4 { margin-top: 0.7rem; }
+.pd-banner::after { background: linear-gradient(to top, rgba(0,0,0,.82), rgba(0,0,0,.2) 70%); }
+@media (max-width: 900px) { .hero-center .pd-meta div, .hero-center .pd-meta div:nth-child(odd) { padding-left: 0; } }
+
+/* ==========================================================
+   Personas: scheda con testata nera e dettagli a chip
+   ========================================================== */
+.pd-persona[data-new] { display: block; padding: 0; overflow: hidden; }
+.pp-head { padding: 1.4rem 1.5rem 1.5rem; color: #fff; background-color: #111; background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px); background-size: 20px 20px; }
+.pp-top { display: grid; grid-template-columns: 118px 1fr; gap: 1.2rem; align-items: end; }
+.pd-persona .pp-top .pp-photo { grid-column: auto; grid-row: auto; display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; margin: 0; border: 2px solid var(--hy); border-radius: 18px; }
+.pp-id h3 { margin: 0; color: #fff; font-size: 2rem; line-height: 1.05; }
+.pp-age { margin: 0.5rem 0 0.4rem; display: flex; align-items: baseline; gap: 0.5rem; font-size: 0.8rem; color: rgba(255,255,255,.65); }
+.pp-age b { color: var(--hy); font-family: var(--pd-head); font-weight: 800; font-size: 2.6rem; line-height: 1; letter-spacing: -0.04em; }
+.pp-id dl { display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.6rem; margin: 0; font-size: 0.8rem; line-height: 1.35; }
+.pp-id dt { color: rgba(255,255,255,.55); font-weight: 600; }
+.pp-id dd { margin: 0; color: #fff; }
+.pd-persona .pp-head .pq { margin: 1.2rem 0 0; padding: 0; background: none; font-size: 1.3rem; line-height: 1.6; }
+.pp-head .pq { color: #111; }
+.pd-persona .pp-head .pq { display: inline; padding: 0.15em 0.5em; background: var(--hy); box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.pp-body { padding: 0.5rem 1.5rem 1.6rem; }
+.pd-persona .pp-body h4 { display: flex; align-items: center; gap: 0.5rem; margin: 1.1rem 0 0.5rem; }
+.pd-persona .pp-body h4::before { content: ""; width: 14px; height: 4px; border-radius: 2px; background: var(--hy); }
+.pd-persona ul.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+.chips li { padding: 0.2rem 0.8rem; background: #fff; border: 1.5px solid var(--ink); border-radius: 999px; font-size: 0.85rem; font-weight: 500; line-height: 1.5; }
+.chips.alt li { background: var(--hy-soft); }
+.pd-persona ul.dots { margin: 0; padding: 0; list-style: none; }
+.dots li { position: relative; padding-left: 1.15rem; margin-bottom: 0.3rem; font-size: 0.88rem; line-height: 1.4; }
+.dots li::before { content: ""; position: absolute; left: 0; top: 0.35em; width: 8px; height: 8px; border: 1.5px solid var(--ink); border-radius: 50%; background: var(--hy); }
+.pd-persona .pp-body .pc2 { gap: 0 1.2rem; }
+@media (max-width: 480px) { .pp-top { grid-template-columns: 96px 1fr; } .pp-age b { font-size: 2.2rem; } }
+.pp-top { margin-bottom: 1.3rem; }
+
+/* ---- Personas: via pallini e trattini gialli, titoletti in bold ---- */
+.dots li { padding-left: 0; }
+.dots li::before { content: none; }
+.pd-persona .pp-body h4::before { content: none; }
+.pd-persona .pp-body h4 { margin: 1.2rem 0 0.5rem; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.06em; color: #111; }
+
+/* ---- Personas: senza bordo nero e ombra ---- */
+.pd-card.pd-persona { border: 0; box-shadow: none; }
+
+/* ==========================================================
+   Card: stroke nero sottile (1px), nessuna ombra nera.
+   Eccezioni: statistiche e casate di ZyMate tengono il bordo attuale.
+   L'ombra gialla resta solo su .pd-final.
+   ========================================================== */
+.pd-card, .pd-insight, .pd-quote, .tile, .pd-flow, .pd-stage, .pd-feature .vis.stage { box-shadow: none; }
+.pd-card, .pd-insight, .pd-quote, .tile, .pd-flow, .pd-stage, .pd-feature .vis.stage { border-width: 1px; }
+.pd-card.pd-persona { border: 1px solid var(--ink); box-shadow: none; }
+.pd-card.pd-stat { border-width: 1.5px; }
+.pd-houses .pd-card.pd-profile { border-width: 1.5px; border-top-width: 10px; }
+
+/* ==========================================================
+   Revisione 5
+   ========================================================== */
+
+/* ---- Frase "Believing in compatibility…": invertita, come il blocco finale ---- */
+.pd-quote { background: #111; color: #fff; border: 1.5px solid #111; box-shadow: 10px 10px 0 var(--hy); }
+
+/* ---- Methodology: tag rettangolari con angoli arrotondati ---- */
+.tl-bar { border-radius: 10px; }
+
+/* ---- Benchmark: casette al posto dei pallini ---- */
+.rt { gap: 4px; }
+.rt .hs { display: block; width: 18px; height: 18px; fill: none; stroke: var(--ink); stroke-width: 1.3; }
+.rt .hs.on { fill: var(--hy); }
+.rt .hs:not(.on) { stroke: rgba(17,17,17,.3); }
+
+/* ---- Insight: 4 card verticali affiancate, più compatte ---- */
+.pd-insights { --w: min(1360px, 100vw - 2 * var(--gutter)); width: var(--w); margin-left: calc((100% - var(--w)) / 2); grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; }
+.pd-insight { padding: 1.3rem 1.3rem 1.4rem; }
+.pd-insight .num { font-size: 2rem; margin-bottom: 0.6rem; }
+.pd-insight h3 { font-size: 1.3rem; line-height: 1.15; margin-bottom: 0.6rem; }
+.pd-insight p { font-size: 0.88rem; line-height: 1.55; }
+.pd-insight .stat { margin: 0.9rem 0 1.1rem; font-size: 0.78rem; }
+.pd-insight > img { aspect-ratio: 4 / 3; border-radius: 12px; }
+@media (max-width: 1100px) { .pd-insights { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .pd-insights { width: 100%; margin-left: 0; } }
+@media (max-width: 600px) { .pd-insights { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---- Personas: contenuti allineati sulla stessa riga tra le 3 card ---- */
+@media (min-width: 901px) {
+  .pd-personas { grid-template-rows: repeat(8, auto); row-gap: 0; }
+  .pd-persona[data-new] { display: grid; grid-row: span 8; grid-template-rows: subgrid; padding-bottom: 1.6rem;  grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .pd-persona[data-new] > *, .pd-persona[data-new] .pp-body > * { grid-column: 1; }
+  .pd-persona[data-new] .pp-body { display: contents; }
+  .pd-persona[data-new] .pp-body > * { margin-left: 1.5rem; margin-right: 1.5rem; }
+  .pd-persona[data-new] .pp-head { display: flex; flex-direction: column; }
+  .pd-persona[data-new] .pp-head .pq { margin-top: auto; align-self: flex-start; }
+  .pd-persona[data-new] .pp-top { margin-bottom: 1.3rem; }
+  .pd-persona[data-new] .pp-body > h4:first-child { margin-top: 1.4rem; }
+  .pd-persona[data-new] .pp-body > ul { align-self: start; }
+}
+
+/* ==========================================================
+   MOKU — stessa struttura di Homizy, palette del progetto:
+   Dark Teal #24393E (blocchi scuri e accento),
+   tinta chiara #DDE7E8 (dettagli)
+   ========================================================== */
+:root { --hy: #24393E; --hy-soft: #DDE7E8; --dk: #24393E; }
+.pd-hero { background-color: var(--dk); }
+.pd-final, .pd-quote { background: var(--dk); border-color: var(--dk); }
+.pd-cta, .pd-hero .section-title mark.highlight { color: var(--dk); }
+.pd-cta.pd-cta-alt { color: #fff; }
+
+/* revisione: l'accento diventa verde petrolio */
+.pd-section h2 mark, .section-title mark.highlight { background: var(--hy); color: #fff; }
+.pd-hero .section-title mark.highlight { background: #fff; color: var(--dk); }
+.pd-final, .pd-quote { box-shadow: 10px 10px 0 #1E1E1E; }
+.pd-cta { background: #fff; border-color: #fff; color: var(--dk); }
+.pd-cta:hover { box-shadow: 4px 4px 0 #1E1E1E; }
+.pd-cta.pd-cta-alt { background: transparent; border-color: #fff; color: #fff; }
+.pd-cta.pd-cta-alt:hover { box-shadow: 4px 4px 0 #fff; }
+
+/* hero: telefoni più piccoli e più distanti dal testo */
+.hero-grid { grid-template-columns: minmax(140px, 200px) minmax(0, 580px) minmax(140px, 200px); gap: clamp(2.5rem, 6vw, 6.5rem); }
+@media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; } .hero-grid .hp { max-width: 190px; } }
+
+/* problemi e insight: 3 card senza foto */
+.pd-insights.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1100px) { .pd-insights.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 800px) { .pd-insights.c3 { grid-template-columns: minmax(0, 1fr); } }
+
+/* digital observation */
+.pd-obs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; margin-top: 1.5rem; }
+.pd-obs .pd-card { padding: 1.5rem; }
+.pd-obs .tag { display: inline-block; margin-bottom: .9rem; padding: .15rem .8rem; font-size: .8rem; font-weight: 600; line-height: 1.5; background: var(--hy-soft); border: 1px solid var(--ink); border-radius: 999px; }
+.pd-obs h3 { margin: 0 0 .5rem; }
+.pd-obs p { margin: 0; font-size: .92rem; line-height: 1.55; }
+@media (max-width: 1000px) { .pd-obs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .pd-obs { grid-template-columns: minmax(0, 1fr); } }
+
+/* schermate dell'app */
+.pd-feature .vis.phone img { max-width: 340px; margin: 0 auto; filter: drop-shadow(0 18px 28px rgba(0,0,0,.18)); }
+.pd-feature { align-items: center; }
+
+/* design system */
+.ds { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; align-items: stretch; }
+.ds-block { display: flex; flex-direction: column; }
+.ds-block .pd-sub { margin-top: 0; }
+.ds-type, .ds-ui { flex: 1; padding: 1.6rem 1.8rem; background: #fff; border: 1px solid var(--ink); border-radius: var(--radius); }
+.ds-type p { margin: 0 0 .35em; font-family: "Inter", sans-serif; font-weight: 700; line-height: 1.1; letter-spacing: -.01em; color: #1E1E1E; white-space: nowrap; }
+.ds-type small { font-size: 14px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+.ds-ui { display: block; width: 100%; height: auto; padding: 1.2rem; object-fit: contain; }
+.ds-colors { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .9rem; margin: 0; padding: 0; list-style: none; }
+.ds-colors li { display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 1; padding: .9rem; background: var(--c); color: var(--t); border: 1px solid var(--ink); border-radius: 16px; }
+.ds-colors b { font-size: .9rem; line-height: 1.2; }
+.ds-colors span { font-size: .78rem; opacity: .8; }
+@media (max-width: 900px) {
+  .ds { grid-template-columns: minmax(0, 1fr); }
+  .ds-colors { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .ds-colors { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ds-type { overflow: hidden; }
+  .ds-type p[style*="50px"] { font-size: 38px !important; }
+  .ds-type p[style*="40px"] { font-size: 32px !important; }
+}
+
+/* test e next steps */
+.pd-grid.c3 + .pd-sub { margin-top: 2.5rem; }
+.pd-next { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
+.pd-next .pd-card { padding: 1.6rem 1.8rem; }
+.pd-next h3 { margin: 0 0 .5rem; }
+.pd-next p { margin: 0; line-height: 1.6; }
+@media (max-width: 700px) { .pd-next { grid-template-columns: minmax(0, 1fr); } }
+
+/* ==========================================================
+   MOKU v3: brand identity, survey, benchmark, insight, flow
+   ========================================================== */
+
+/* brand: nome */
+.br-name { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: center; margin: 2.5rem 0; padding: clamp(1.8rem, 4vw, 3rem); background: var(--dk); color: #fff; border-radius: var(--radius); }
+.br-kanji { font-family: "Noto Serif JP", serif; font-size: clamp(3.4rem, 9vw, 7.5rem); font-weight: 700; line-height: 1; letter-spacing: .02em; color: #9DF4FF; }
+.br-name-txt p { margin: 0 0 1rem; line-height: 1.6; color: rgba(255,255,255,.85); }
+.br-name-txt b { color: #fff; }
+.br-romaji { font-family: var(--pd-head); font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; color: #fff !important; letter-spacing: -.01em; }
+.br-parts { display: flex; flex-wrap: wrap; gap: .7rem; margin: 0; padding: 0; list-style: none; }
+.br-parts li { display: flex; flex-direction: column; padding: .6rem 1rem; border: 1px solid rgba(255,255,255,.35); border-radius: 12px; }
+.br-parts b { font-size: 1.05rem; }
+.br-parts span { font-size: .82rem; color: rgba(255,255,255,.7); }
+
+/* brand: card */
+.br-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 1.2rem; margin-bottom: 1.2rem; }
+.br-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 2.5rem; }
+.br-card { margin: 0; padding: 1.6rem; background: #fff; border: 1px solid var(--ink); border-radius: var(--radius); }
+.br-card p { margin: .5rem 0 0; font-size: .95rem; line-height: 1.6; }
+.br-card figcaption { display: flex; flex-direction: column; gap: .35rem; margin-top: 1.2rem; font-size: .95rem; line-height: 1.6; }
+.br-card figcaption b, .br-label { font-family: var(--pd-head); font-size: .8rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.br-logo { display: flex; flex-direction: column; }
+.br-logo img { width: min(220px, 70%); height: auto; margin: auto; }
+.br-logo figcaption { padding-top: 1.5rem; }
+.br-splash { display: flex; flex-direction: column; background: var(--dk); color: #fff; border-color: var(--dk); }
+.br-splash img { width: min(360px, 80%); height: auto; margin: 0 auto; }
+.br-splash figcaption span { color: rgba(255,255,255,.8); }
+.br-claim { font-family: var(--pd-head); font-size: 1.45rem !important; font-weight: 800; line-height: 1.2 !important; margin-top: 1rem !important; }
+.br-claim em { font-style: italic; font-weight: 600; color: var(--dk); }
+.br-swatches { display: flex; margin-top: 1rem; border: 1px solid var(--ink); border-radius: 12px; overflow: hidden; }
+.br-swatches i { flex: 1; height: 64px; }
+.br-type { font-family: "Inter", sans-serif; font-size: 4.2rem !important; font-weight: 700; line-height: 1 !important; margin-top: .8rem !important; }
+@media (max-width: 900px) {
+  .br-grid, .br-grid-3 { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  .br-name { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* survey */
+.sv { margin: 2rem 0; }
+.sv figcaption { margin-bottom: 1.3rem; }
+.sv-bars { display: grid; gap: .8rem; margin: 0; padding: 0; list-style: none; }
+.sv-bars li { display: grid; grid-template-columns: minmax(180px, 330px) minmax(0, 1fr) 56px; gap: 1rem; align-items: center; font-size: .92rem; line-height: 1.3; }
+.sv-bars i { display: block; height: 22px; width: calc(var(--p) * 1%); background: var(--dk); border-radius: 0 6px 6px 0; }
+.sv-bars b { font-family: var(--pd-head); font-weight: 800; }
+.sv-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; margin: 1rem 0 1.5rem; }
+.sv-facts .pd-card { padding: 1.4rem; }
+.sv-facts strong { display: block; font-family: var(--pd-head); font-size: 2.3rem; font-weight: 800; line-height: 1; color: var(--dk); }
+.sv-facts p { margin: .6rem 0 0; font-size: .9rem; line-height: 1.5; }
+@media (max-width: 1000px) { .sv-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) {
+  .sv-bars li { grid-template-columns: minmax(0, 1fr) 52px; gap: .3rem .8rem; }
+  .sv-bars span { grid-column: 1 / -1; }
+  .sv-facts { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* benchmark */
+.bm-criteria { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 2rem; padding: 0; list-style: none; }
+.bm-criteria li { padding: .25rem .9rem; font-size: .85rem; font-weight: 500; background: #fff; border: 1px solid var(--ink); border-radius: 999px; }
+.bm-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 3rem; margin: 0 0 2rem; padding: 0; list-style: none; }
+.bm-list li { display: grid; grid-template-columns: 3.2rem minmax(0, 1fr); gap: 1rem; padding: 1.1rem 0; border-top: 1px solid var(--ink); }
+.bm-list .n { font-family: var(--pd-head); font-size: 2rem; font-weight: 800; line-height: 1; color: var(--dk); }
+.bm-list b { font-family: var(--pd-head); font-size: 1.15rem; }
+.bm-list em { margin-left: .6rem; padding: .05rem .6rem; font-size: .75rem; font-style: normal; background: var(--hy-soft); border-radius: 999px; }
+.bm-list p { margin: .3rem 0 0; font-size: .92rem; line-height: 1.5; }
+@media (max-width: 800px) { .bm-list { grid-template-columns: minmax(0, 1fr); } }
+.bm-table { text-align: left; font-size: .86rem; line-height: 1.45; }
+.bm-table thead th { font-family: var(--pd-head); font-size: .95rem; text-align: left; }
+.bm-table td { vertical-align: top; }
+.bm-table td.pos::before, .bm-table td.neg::before { display: inline-block; width: 1.1rem; font-weight: 800; }
+.bm-table td.pos::before { content: "+"; color: #2c7a5b; }
+.bm-table td.neg::before { content: "–"; color: #b23b2b; }
+
+/* digital observation: citazioni */
+.do-quotes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; margin: 1.5rem 0; }
+.do-quotes blockquote, .in-quotes blockquote { margin: 0; padding: 1.3rem 1.5rem; font-size: .98rem; line-height: 1.55; background: #fff; border: 1px solid var(--ink); border-left: 5px solid var(--dk); border-radius: 14px; }
+@media (max-width: 700px) { .do-quotes { grid-template-columns: minmax(0, 1fr); } }
+
+/* insight */
+.in-quotes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2rem; margin: 2rem 0 3rem; }
+.in-quotes blockquote { font-weight: 600; }
+.in-quotes span { display: block; margin-bottom: .5rem; font-family: var(--pd-head); font-size: 1.6rem; font-weight: 800; line-height: 1; color: var(--dk); }
+@media (max-width: 1000px) { .in-quotes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .in-quotes { grid-template-columns: minmax(0, 1fr); } }
+.hmw { display: grid; grid-template-columns: minmax(0, .8fr) auto minmax(0, 1.4fr); gap: 2rem; align-items: start; }
+.hmw-list { margin: 0; padding: 0; list-style: none; counter-reset: h; }
+.hmw-list li { counter-increment: h; display: flex; gap: .9rem; padding: .75rem 0; border-top: 1px solid var(--ink); font-weight: 600; }
+.hmw-list li::before { content: counter(h, decimal-leading-zero); font-family: var(--pd-head); font-weight: 800; color: var(--dk); }
+.hmw-list li.off { color: #9a9c94; text-decoration: line-through; }
+.hmw-arrow { align-self: center; display: flex; flex-direction: column; align-items: center; gap: .3rem; font-size: 2.6rem; line-height: 1; color: var(--dk); }
+.hmw-arrow span { font-family: var(--pd-head); font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.hmw-sol { display: grid; gap: .8rem; }
+.hmw-sol .pd-label { margin-bottom: 0; }
+.hmw-sol article { padding: 1rem 1.3rem; background: #fff; border: 1px solid var(--ink); border-radius: 14px; }
+.hmw-sol b { font-family: var(--pd-head); }
+.hmw-sol p { margin: .3rem 0 0; font-size: .92rem; line-height: 1.5; }
+@media (max-width: 900px) {
+  .hmw { grid-template-columns: minmax(0, 1fr); }
+  .hmw-arrow { flex-direction: row; font-size: 2rem; transform: none; }
+  .hmw-arrow { rotate: 90deg; }
+  .hmw-arrow span { rotate: -90deg; display: none; }
+}
+
+/* app map & flow */
+.app-map { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; margin: 0 0 1rem; padding: 0; list-style: none; }
+.app-map li { display: flex; align-items: center; gap: .8rem; padding: .9rem 1.1rem; font-weight: 600; background: #fff; border: 1px solid var(--ink); border-radius: 12px; }
+.app-map b { font-family: var(--pd-head); font-weight: 800; color: var(--dk); }
+@media (max-width: 700px) { .app-map { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.open-flow .pd-scroll { max-height: min(640px, 75vh); overflow: auto; padding: 1rem; }
+.open-flow .pd-scroll img { border-radius: 10px; }
+
+/* ==========================================================
+   MOKU v4
+   ========================================================== */
+.pd-hero .section-title mark.highlight { background: #9DF4FF; color: var(--dk); }
+
+/* brand */
+.br-grid-3 { grid-template-columns: minmax(0, .8fr) minmax(0, 1fr) minmax(0, 1fr); }
+.br-logo img { width: min(170px, 60%); margin: 1.2rem auto .4rem; }
+.br-type { font-size: 3.4rem !important; letter-spacing: -.02em; }
+.br-glyphs { font-family: "Inter", sans-serif; font-size: 1.15rem !important; color: var(--muted); margin-top: .2rem !important; }
+
+/* manga: retino a puntini (halftone) riutilizzabile */
+.halftone { background-image: radial-gradient(rgba(17,17,17,.16) 1.2px, transparent 1.4px); background-size: 9px 9px; }
+
+/* research: profilo + grafico */
+.rs-split { display: grid; grid-template-columns: minmax(240px, 300px) minmax(0, 1fr); gap: 2rem; align-items: stretch; margin: 2.5rem 0 1.5rem; }
+.rs-profile { position: relative; padding: 1.6rem; color: #fff; background-color: var(--dk); background-image: radial-gradient(rgba(255,255,255,.12) 1.2px, transparent 1.4px); background-size: 9px 9px; border-radius: var(--radius); overflow: hidden; }
+.rs-tag { display: inline-block; margin: 0 0 .9rem; padding: .15rem .7rem; font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--dk); background: #9DF4FF; border-radius: 999px; }
+.rs-name { margin: 0 0 1.2rem; font-family: var(--pd-head); font-size: 1.6rem; font-weight: 800; line-height: 1.1; }
+.rs-profile dl { display: grid; gap: .8rem; margin: 0; }
+.rs-profile dt { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+.rs-profile dd { margin: .1rem 0 0; font-weight: 600; line-height: 1.35; }
+.rs-note { margin: 1.4rem 0 0; font-size: .8rem; color: rgba(255,255,255,.6); }
+.rs-split .sv { margin: 0; padding: 1.6rem 1.8rem; background: #fff; border: 1px solid var(--ink); border-radius: var(--radius); }
+.sv-bars li { grid-template-columns: minmax(150px, 250px) minmax(0, 1fr) 56px; }
+@media (max-width: 900px) { .rs-split { grid-template-columns: minmax(0, 1fr); } }
+
+/* benchmark: scaffale di volumi */
+.bm-shelf { display: grid; gap: 1rem; }
+.bm-vol { display: grid; grid-template-columns: 92px minmax(0, 1fr); background: #fff; border: 1px solid var(--ink); border-radius: 16px; overflow: hidden; }
+.bm-spine { display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem .5rem; color: #fff; background: var(--dk); }
+.bm-spine span { font-size: .72rem; font-weight: 800; letter-spacing: .08em; color: #9DF4FF; }
+.bm-spine b { writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--pd-head); font-size: 1.25rem; font-weight: 800; letter-spacing: .02em; }
+.bm-body { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr); gap: .4rem 2rem; align-content: center; padding: 1.4rem 1.6rem; }
+.bm-type { grid-column: 1 / -1; margin: 0; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.bm-focus { margin: 0; font-size: .95rem; line-height: 1.55; }
+.bm-focus b { display: block; font-family: var(--pd-head); }
+.bm-pros, .bm-cons { margin: 0; padding: 0; list-style: none; font-size: .9rem; line-height: 1.45; }
+.bm-pros li, .bm-cons li { position: relative; padding: 0 0 .5rem 1.3rem; }
+.bm-pros li::before, .bm-cons li::before { position: absolute; left: 0; top: -.05em; font-weight: 800; font-size: 1.05rem; }
+.bm-pros li::before { content: "+"; color: #2c7a5b; }
+.bm-cons li::before { content: "–"; color: #b23b2b; }
+@media (max-width: 900px) { .bm-body { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 480px) { .bm-vol { grid-template-columns: 62px minmax(0, 1fr); } .bm-spine b { font-size: 1rem; } .bm-body { padding: 1.1rem; } }
+
+/* digital observation: fumetti */
+.do-rows { display: grid; gap: 1.8rem; margin-top: 1.5rem; }
+.do-row { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 2.5rem; align-items: center; }
+.do-row.flip .do-theme { order: 2; }
+.do-theme .tag { display: inline-block; margin-bottom: .6rem; padding: .15rem .8rem; font-size: .78rem; font-weight: 700; background: var(--hy-soft); border: 1px solid var(--ink); border-radius: 999px; }
+.do-theme h4 { margin: 0 0 .4rem; font-family: var(--pd-head); font-size: 1.35rem; }
+.do-theme p { margin: 0; line-height: 1.6; }
+.bubble { position: relative; margin: 0; padding: 1.5rem 1.9rem; font-family: var(--pd-head); font-size: 1.05rem; font-weight: 600; line-height: 1.5; background: #fff; border: 2px solid var(--ink); border-radius: 46px; }
+.bubble::before, .bubble::after { content: ""; position: absolute; top: 50%; width: 0; height: 0; border-style: solid; }
+.bubble::before { left: -22px; margin-top: -12px; border-width: 12px 22px 12px 0; border-color: transparent var(--ink) transparent transparent; }
+.bubble::after { left: -17px; margin-top: -9px; border-width: 9px 18px 9px 0; border-color: transparent #fff transparent transparent; }
+.do-row.flip .bubble::before { left: auto; right: -22px; border-width: 12px 0 12px 22px; border-color: transparent transparent transparent var(--ink); }
+.do-row.flip .bubble::after { left: auto; right: -17px; border-width: 9px 0 9px 18px; border-color: transparent transparent transparent #fff; }
+@media (max-width: 800px) {
+  .do-row { grid-template-columns: minmax(0, 1fr); gap: 1.4rem; }
+  .do-row.flip .do-theme { order: 0; }
+  .bubble::before, .do-row.flip .bubble::before { top: -20px; left: 40px; right: auto; margin: 0; border-width: 0 12px 20px 12px; border-color: transparent transparent var(--ink) transparent; }
+  .bubble::after, .do-row.flip .bubble::after { top: -15px; left: 43px; right: auto; margin: 0; border-width: 0 9px 16px 9px; border-color: transparent transparent #fff transparent; }
+}
+
+/* insight: processo */
+.in-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 2rem 0 2.5rem; padding: 0; list-style: none; counter-reset: st; }
+.in-steps li { counter-increment: st; position: relative; padding: 1.2rem 1.4rem 1.2rem 0; border-top: 3px solid var(--dk); }
+.in-steps li::before { content: counter(st, decimal-leading-zero); display: block; margin-bottom: .5rem; font-family: var(--pd-head); font-size: .8rem; font-weight: 800; color: var(--dk); }
+.in-steps li::after { content: ""; position: absolute; top: -8px; right: 1rem; width: 12px; height: 12px; border-top: 3px solid var(--dk); border-right: 3px solid var(--dk); transform: rotate(45deg); }
+.in-steps li:last-child::after { display: none; }
+.in-steps b { display: block; font-family: var(--pd-head); font-size: 1.15rem; }
+.in-steps span { font-size: .9rem; line-height: 1.45; color: var(--muted); }
+@media (max-width: 800px) { .in-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 1rem; } .in-steps li::after { display: none; } }
+.in-map { margin-bottom: 2.5rem; }
+.in-chips { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .7rem; margin: 0; padding: 0; list-style: none; }
+.in-chips li { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .6rem; padding: .85rem 1rem; font-weight: 600; line-height: 1.3; color: #fff; background: var(--dk); border: 1px solid var(--dk); border-radius: 12px; }
+.in-chips li b { font-family: var(--pd-head); color: #9DF4FF; }
+.in-chips li.merged { color: var(--ink); background: transparent; border: 1.5px dashed var(--dk); }
+.in-chips li.merged b { color: var(--dk); }
+.in-chips em { flex-basis: 100%; font-size: .78rem; font-style: normal; font-weight: 500; color: var(--muted); }
+.in-note { margin: .9rem 0 0; font-size: .9rem; color: var(--muted); }
+@media (max-width: 900px) { .in-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.in-prio { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1.2rem; }
+.in-prio article { grid-column: span 2; display: flex; flex-direction: column; padding: 1.5rem; background: #fff; border: 1px solid var(--ink); border-radius: var(--radius); }
+.in-prio article:nth-child(4) { grid-column: 2 / span 2; }
+.in-prio .n { font-family: var(--pd-head); font-size: 2.4rem; font-weight: 800; line-height: 1; color: var(--dk); }
+.in-prio h3 { margin: .7rem 0 .4rem; font-family: var(--pd-head); font-size: 1.2rem; }
+.in-prio p { margin: 0 0 1.2rem; font-size: .92rem; line-height: 1.55; }
+.in-prio blockquote { margin: auto 0 0; padding: .9rem 1rem; font-size: .86rem; font-style: italic; line-height: 1.5; background: var(--hy-soft); border-radius: 12px; }
+@media (max-width: 1000px) { .in-prio { grid-template-columns: repeat(2, minmax(0, 1fr)); } .in-prio article, .in-prio article:nth-child(4) { grid-column: auto; } }
+@media (max-width: 600px) { .in-prio { grid-template-columns: minmax(0, 1fr); } }
+
+/* user flow in HTML */
+.fl-legend { display: flex; flex-wrap: wrap; gap: 1.2rem; margin: 0 0 1rem; font-size: .82rem; color: var(--muted); }
+.fl-legend span::before { content: ""; display: inline-block; width: 18px; height: 12px; margin-right: .45rem; vertical-align: -1px; }
+.k-step::before { background: #fff; border: 1px solid var(--ink); border-radius: 3px; }
+.k-dec::before { background: var(--dk); clip-path: polygon(20% 0, 80% 0, 100% 50%, 80% 100%, 20% 100%, 0 50%); }
+.k-note::before { background: #9DF4FF; border-radius: 3px; }
+.fl { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+.fl-lane { min-width: 0; }
+.fl-lane { padding: 1.2rem 0 1.2rem 1.2rem; background: #fff; border: 1px solid var(--ink); border-radius: var(--radius); }
+.fl-lane h4 { display: flex; gap: .7rem; align-items: baseline; margin: 0 0 1rem; font-family: var(--pd-head); font-size: 1.15rem; }
+.fl-lane h4 b { color: var(--dk); font-size: .85rem; }
+.fl-track { overflow-x: auto; padding: .4rem 1.2rem .6rem 0; }
+.fl-row { display: flex; align-items: center; width: max-content; min-height: 64px; }
+.fl-row + .fl-row { margin-top: .7rem; }
+.fl-row .n, .fl-row .d { display: flex; flex-direction: column; justify-content: center; flex: none; width: 132px; min-height: 58px; padding: .5rem .7rem; font-size: .8rem; font-weight: 600; line-height: 1.3; text-align: center; }
+.fl-row .n { background: #fff; border: 1px solid var(--ink); border-radius: 10px; }
+.fl-row .n.end { color: #fff; background: var(--dk); border-color: var(--dk); }
+.fl-row .n small { display: block; margin-top: .2rem; font-size: .7rem; font-weight: 500; color: var(--muted); }
+.fl-row .d { width: 150px; padding: .5rem 1.4rem; color: #fff; background: var(--dk); clip-path: polygon(14% 0, 86% 0, 100% 50%, 86% 100%, 14% 100%, 0 50%); }
+.fl-row i { position: relative; flex: none; width: 34px; height: 2px; background: var(--ink); }
+.fl-row i::after { content: ""; position: absolute; right: -1px; top: -4px; border: 5px solid transparent; border-left: 7px solid var(--ink); border-right: 0; }
+.fl-row i[data-l] { width: 50px; }
+.fl-row i[data-l]::before { content: attr(data-l); position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); font-size: .68rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--dk); }
+.fl-row .note { flex: none; max-width: 190px; margin-left: .5rem; padding: .45rem .7rem; font-size: .72rem; line-height: 1.35; background: #9DF4FF; border-radius: 8px; }
+.fl-br { padding-left: 2.2rem; }
+.fl-br em { flex: none; margin-right: .6rem; padding: .2rem .7rem; font-size: .72rem; font-style: normal; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--dk); border: 1.5px dashed var(--dk); border-radius: 999px; }
+.fl-br em::after { content: " →"; }
+.fl-hint { margin: .8rem 0 0; font-size: .82rem; color: var(--muted); }
+
+/* typography & UI components in HTML */
+.ds-type2 { display: grid; grid-template-columns: minmax(220px, 300px) minmax(0, 1fr); gap: 1.2rem; }
+.ds-specimen { display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; padding: 1.6rem; color: #fff; background: var(--dk); border-radius: var(--radius); }
+.ds-aa { font-family: "Inter", sans-serif; font-size: 6rem; font-weight: 700; line-height: .9; letter-spacing: -.03em; }
+.ds-specimen b { font-family: "Inter", sans-serif; font-size: 1.6rem; }
+.ds-specimen p { margin: .2rem 0 0; font-size: .85rem; color: rgba(255,255,255,.7); }
+.ds-scale { margin: 0; padding: .6rem 1.8rem; list-style: none; background: #fff; border: 1px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
+.ds-scale li { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 1rem; align-items: baseline; padding: .75rem 0; border-bottom: 1px solid rgba(17,17,17,.12); }
+.ds-scale li:last-child { border-bottom: 0; }
+.ds-scale span { font-size: .72rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--dk); }
+.ds-scale p { margin: 0; font-family: "Inter", sans-serif; font-size: var(--s); font-weight: 700; line-height: 1.1; letter-spacing: -.01em; color: #1E1E1E; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+.ds-scale small { font-size: .8rem; color: var(--muted); white-space: nowrap; }
+@media (max-width: 800px) { .ds-type2 { grid-template-columns: minmax(0, 1fr); } .ds-scale { padding: .4rem 1.1rem; } .ds-scale li { grid-template-columns: 44px minmax(0, 1fr); } .ds-scale small { grid-column: 2; } .ds-scale li[style*="50px"] p { font-size: 38px; } }
+.ds-colors + .pd-sub { margin-top: 2.5rem; }
+
+.ui-board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; padding: 1.2rem; font-family: "Inter", sans-serif; color: #fff; background: #141414; border-radius: var(--radius); }
+.ui-group { display: flex; flex-direction: column; gap: .8rem; padding: 1.2rem; background: #1E1E1E; border: 1px solid #2d2d2d; border-radius: 16px; }
+.ui-wide { grid-column: 1 / -1; align-items: center; }
+.ui-cap { margin: 0; font-family: "DM Sans", sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #8a8f8f; align-self: stretch; }
+.ui-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.ui-row { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; }
+.ui-board svg { width: 16px; height: 16px; flex: none; }
+.mk-btn { padding: .65rem .8rem; font: 600 .8rem/1.2 "Inter", sans-serif; color: #fff; background: #111; border: 0; border-radius: 10px; cursor: default; }
+.mk-btn.teal { background: #24393E; }
+.mk-btn.cyan { color: #111; background: #9DF4FF; }
+.mk-chap { display: inline-flex; align-items: center; gap: .5rem; padding: .5rem .8rem; font-size: .85rem; font-weight: 600; background: #505050; border-radius: 10px; }
+.mk-chap.dark { background: #373737; }
+.mk-chap i { width: 1px; height: 14px; background: rgba(255,255,255,.45); }
+.mk-toggle { position: relative; display: inline-block; width: 64px; height: 34px; background: #24393E; border: 2px solid #9DF4FF; border-radius: 10px; }
+.mk-toggle i { position: absolute; left: 4px; top: 4px; width: 22px; height: 22px; background: #9DF4FF; border-radius: 7px; }
+.mk-toggle.on { background: #9DF4FF; }
+.mk-toggle.on i { left: auto; right: 4px; background: #24393E; }
+.mk-tabs { display: grid; grid-template-columns: 1fr 1fr; font-size: .85rem; font-weight: 600; text-align: center; }
+.mk-tabs span { padding: .5rem 0; color: #cfd3d3; border-bottom: 1px solid #3a3a3a; }
+.mk-tabs .on { color: #fff; border-bottom: 2px solid #9DF4FF; }
+.mk-search { display: inline-flex; flex: 1; justify-content: space-between; align-items: center; min-width: 130px; padding: .55rem .8rem; font-size: .78rem; color: #9a9a9a; background: #373737; border-radius: 10px; }
+.mk-filter { display: inline-flex; align-items: center; gap: .4rem; font-size: .8rem; font-weight: 600; }
+.mk-chip { display: inline-flex; align-items: center; gap: .35rem; padding: .35rem .7rem; font-size: .75rem; font-weight: 600; background: #3a2e2a; border-radius: 9px; }
+.mk-chip svg { width: 13px; height: 13px; }
+.mk-chip.on { background: transparent; border: 1.5px solid #9DF4FF; }
+.mk-chip.red { background: #4a2626; }
+.mk-badge { padding: .2rem .7rem; font-size: .72rem; font-weight: 600; color: #111; background: #9DF4FF; border-radius: 8px; }
+.mk-badge.sm { font-size: .68rem; }
+.mk-fab { display: inline-flex; align-items: center; gap: .45rem; padding: .55rem .9rem; font-size: .8rem; font-weight: 600; color: #111; background: #9DF4FF; border-radius: 10px; }
+.mk-icon { display: inline-grid; place-items: center; width: 34px; height: 34px; background: #373737; border-radius: 10px; }
+.mk-genres { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+.mk-genres span { display: flex; align-items: flex-end; height: 58px; padding: .4rem .5rem; font-size: .68rem; font-weight: 700; background: linear-gradient(160deg, var(--g1), var(--g2)); border: 1px solid #3a3a3a; border-radius: 8px; }
+.mk-review { padding: .8rem; background: #1a1a1a; border: 1.5px solid #9DF4FF; border-radius: 12px; }
+.mk-review header { display: flex; justify-content: space-between; align-items: center; padding-bottom: .5rem; font-size: .85rem; border-bottom: 1px solid #3a3a3a; }
+.mk-user { display: flex; align-items: center; gap: .6rem; margin: .6rem 0; font-size: .75rem; }
+.mk-user > i { width: 30px; height: 30px; background: #505050; border-radius: 6px; }
+.mk-user div { flex: 1; }
+.mk-user small { display: block; font-size: .62rem; color: #8a8f8f; }
+.mk-review p { margin: 0 0 .7rem; font-size: .72rem; line-height: 1.5; color: #cfd3d3; }
+.mk-review footer { text-transform: none; letter-spacing: 0; border: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+.mk-review footer span { padding: .4rem; font-size: .72rem; font-weight: 600; text-align: center; background: #24393E; border-radius: 8px; }
+.mk-nav { display: inline-flex; align-items: center; gap: 1.1rem; padding: .45rem .6rem; background: #373737; border-radius: 16px; }
+.mk-nav span { display: inline-flex; align-items: center; gap: .4rem; padding: .45rem; font-size: .85rem; font-weight: 600; border-radius: 12px; }
+.mk-nav span.on { padding: .45rem .8rem; background: #24393E; }
+.mk-nav svg { width: 22px; height: 22px; }
+@media (max-width: 1000px) { .ui-board { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .ui-board { grid-template-columns: minmax(0, 1fr); padding: .8rem; } .mk-nav { gap: .5rem; } }
+
+.mk-review footer span:last-child { display: block !important; }
+@media (max-width: 600px) { .nx-head { grid-template-columns: minmax(0, 1fr); } .nx-jp { grid-row: auto; margin-bottom: .4rem; } }
+
+.bm-vol.short .bm-body { grid-template-columns: minmax(0, 1fr); }
+.bm-vol.short .bm-body { padding-top: 1.1rem; padding-bottom: 1.1rem; }
+.bm-vol.short .bm-spine b { font-size: 1.05rem; }
+
+/* usability note */
+.ut-note { max-width: 760px; margin: 1.2rem 0 0; font-size: .92rem; line-height: 1.6; color: var(--muted); }
+.ut-note b { color: var(--ink); }
+
+/* next chapter: tavola manga */
+.nx { margin-top: 3.5rem; }
+.nx-head { display: grid; grid-template-columns: auto 1fr; gap: 0 1.2rem; align-items: end; margin-bottom: 1.2rem; }
+.nx-jp { grid-row: span 2; margin: 0; font-family: "Noto Serif JP", serif; font-size: clamp(2.4rem, 6vw, 4.2rem); font-weight: 700; line-height: 1; color: var(--dk); }
+.nx-head h3 { margin: 0; font-family: var(--pd-head); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; line-height: 1; }
+.nx-head p:last-child { margin: .3rem 0 0; color: var(--muted); }
+.nx-page { display: grid; grid-template-columns: 1.25fr 1fr 1fr; grid-template-areas: "a b b" "a c d"; gap: 10px; padding: 10px; background: #111; border-radius: 6px; }
+.nx-panel { position: relative; display: flex; flex-direction: column; padding: 1.6rem 1.6rem 1.4rem; background-color: #fff; background-image: radial-gradient(rgba(17,17,17,.14) 1.2px, transparent 1.5px); background-size: 9px 9px; background-position: right bottom; overflow: hidden; }
+.nx-panel::before { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, #fff 55%, rgba(255,255,255,0) 100%); }
+.nx-panel > * { position: relative; }
+.nx-panel.p1 { grid-area: a; justify-content: flex-end; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 96%); }
+.nx-panel.p2 { grid-area: b; clip-path: polygon(0 0, 100% 0, 100% 100%, 2% 100%); }
+.nx-panel.p3 { grid-area: c; }
+.nx-panel.p4 { grid-area: d; color: #fff; background-color: var(--dk); background-image: radial-gradient(rgba(255,255,255,.14) 1.2px, transparent 1.5px); }
+.nx-panel.p4::before { background: linear-gradient(115deg, var(--dk) 55%, rgba(36,57,62,0) 100%); }
+.nx-ep { align-self: flex-start; margin-bottom: auto; padding: .15rem .6rem; font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: #111; }
+.nx-panel.p4 .nx-ep { color: #111; background: #9DF4FF; }
+.nx-ic { width: 46px; height: 46px; margin: 1.4rem 0 .9rem; color: var(--dk); }
+.nx-panel.p1 .nx-ic { width: 72px; height: 72px; }
+.nx-panel.p4 .nx-ic { color: #9DF4FF; }
+.nx-panel h4 { margin: 0 0 .4rem; font-family: var(--pd-head); font-size: 1.25rem; font-weight: 800; line-height: 1.15; }
+.nx-panel.p1 h4 { font-size: 1.7rem; }
+.nx-panel p { margin: 0; font-size: .9rem; line-height: 1.55; }
+.nx-end { margin: .9rem 0 0; font-family: var(--pd-head); font-size: 1.1rem; font-style: italic; font-weight: 800; text-align: right; color: var(--dk); }
+.nx-end::after { content: " ▶"; font-style: normal; }
+@media (max-width: 800px) {
+  .nx-page { grid-template-columns: 1fr 1fr; grid-template-areas: "a a" "b b" "c d"; }
+  .nx-panel.p1, .nx-panel.p2 { clip-path: none; }
+}
+@media (max-width: 520px) { .nx-page { grid-template-columns: minmax(0, 1fr); grid-template-areas: "a" "b" "c" "d"; } }
+
+/* ==========================================================
+   MOKU v5
+   ========================================================== */
+:root { --hy-soft: #D9F1F4; }
+
+/* tag tutti azzurro pastello */
+.bm-criteria li, .do-theme .tag, .bm-list2 em { background: var(--hy-soft); border-color: var(--hy-soft); }
+
+/* brand: vetrina logo */
+.br-show { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 1.2rem; margin-bottom: 2.5rem; }
+.br-hero { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.6rem; min-height: 380px; padding: 2.5rem; background-color: var(--dk); background-image: radial-gradient(rgba(157,244,255,.1) 1.2px, transparent 1.4px); background-size: 12px 12px; border-radius: var(--radius); }
+.br-hero img { width: min(200px, 45%); height: auto; filter: drop-shadow(0 18px 30px rgba(0,0,0,.35)); }
+.br-word { display: flex; align-items: center; gap: .5rem; margin: 0; font-family: "Inter", sans-serif; font-size: 2.6rem; font-weight: 700; letter-spacing: -.02em; color: #fff; }
+.br-mark { font-size: .8em; font-weight: 700; color: #9DF4FF; }
+.br-side { display: grid; grid-template-rows: 1fr auto; gap: 1.2rem; }
+.br-tile { padding: 1.5rem; background: #fff; border: 1px solid var(--ink); border-radius: var(--radius); }
+.br-tile p { margin: .7rem 0 0; font-size: .92rem; line-height: 1.55; }
+.br-light { display: flex; align-items: center; gap: 1.3rem; }
+.br-light img { width: 92px; height: auto; flex: none; }
+.br-light p { margin: 0; }
+.br-light b { display: block; font-family: var(--pd-head); }
+@media (max-width: 800px) { .br-show { grid-template-columns: minmax(0, 1fr); } .br-hero { min-height: 300px; } }
+
+/* research: profilo in riga */
+.rs-profile2 { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; margin: 2.2rem 0 1.4rem; padding: 1.1rem 1.5rem; background: var(--hy-soft); border-radius: 16px; }
+.rs-profile2 .rs-tag { margin: 0; color: #fff; background: var(--dk); }
+.rs-profile2 dl { display: flex; flex-wrap: wrap; gap: .8rem 2.2rem; margin: 0; }
+.rs-profile2 dt { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.rs-profile2 dd { margin: .1rem 0 0; font-weight: 700; }
+.sv { margin: 0 0 1.5rem; padding: 1.6rem 1.8rem; background: #fff; border: 1px solid var(--ink); border-radius: var(--radius); }
+.sv-bars li { grid-template-columns: minmax(150px, 280px) minmax(0, 1fr) 56px; }
+
+/* benchmark compatto */
+.bm-list2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2.5rem; margin: 0; padding: 0; list-style: none; }
+.bm-list2 li { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: .8rem; padding: .9rem 0; border-top: 1px solid rgba(17,17,17,.2); }
+.bm-list2 li:last-child { grid-column: 1 / -1; }
+.bm-list2 .n { font-family: var(--pd-head); font-size: 1.7rem; font-weight: 800; line-height: 1; color: var(--dk); }
+.bm-list2 b { font-family: var(--pd-head); font-size: 1.05rem; }
+.bm-list2 em { margin-left: .5rem; padding: .05rem .6rem; font-size: .72rem; font-style: normal; font-weight: 600; border: 1px solid var(--hy-soft); border-radius: 999px; }
+.bm-list2 p { margin: .25rem 0 0; font-size: .9rem; line-height: 1.5; color: #333; }
+@media (max-width: 800px) { .bm-list2 { grid-template-columns: minmax(0, 1fr); } }
+
+/* fumetti: punta pulita, senza ombra */
+.bubble::before { display: none !important; }
+.bubble::after, .do-row.flip .bubble::after { top: 50%; left: -10px; right: auto; width: 18px; height: 18px; margin-top: -9px; border: 0; border-left: 2px solid var(--ink); border-bottom: 2px solid var(--ink); background: #fff; transform: rotate(45deg); }
+.do-row.flip .bubble::after { left: auto; right: -10px; border-left: 0; border-bottom: 0; border-right: 2px solid var(--ink); border-top: 2px solid var(--ink); }
+@media (max-width: 800px) {
+  .bubble::after, .do-row.flip .bubble::after { top: -10px; left: 40px; right: auto; margin: 0; border: 0; border-left: 2px solid var(--ink); border-top: 2px solid var(--ink); }
+}
+
+/* insight */
+.in-map { margin-bottom: 2.5rem; }
+.in-map .pd-sub, .in-map + .pd-sub { margin-top: 0; }
+.in-chips li, .in-chips li.merged { display: flex; flex-direction: column; justify-content: flex-start; gap: .25rem; min-height: 92px; padding: .9rem 1rem; color: var(--ink); background: #fff; border: 1px solid rgba(17,17,17,.25); border-radius: 12px; }
+.in-chips li b, .in-chips li.merged b { font-size: .8rem; color: var(--muted); }
+.in-chips li span { font-weight: 600; line-height: 1.3; }
+.in-chips li em { flex-basis: auto; margin-top: auto; font-size: .78rem; color: var(--dk); }
+.in-chips li:nth-child(n+6) { color: var(--muted); background: transparent; border-style: dashed; }
+.in-prio { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; }
+.in-prio article, .in-prio article:nth-child(4) { grid-column: auto; padding: 1.3rem; color: #fff; background: var(--dk); border-color: var(--dk); }
+.in-prio .n { color: #9DF4FF; font-size: 2rem; }
+.in-prio h3 { font-size: 1.05rem; line-height: 1.2; }
+.in-prio p { font-size: .85rem; color: rgba(255,255,255,.85); }
+.in-prio blockquote { font-size: .8rem; color: var(--ink); background: #fff; }
+@media (max-width: 1100px) {
+  .in-prio { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: .6rem; }
+  .in-prio article, .in-prio article:nth-child(4) { flex: 0 0 min(260px, 78%); scroll-snap-align: start; }
+}
+
+/* app structure */
+.am { display: grid; justify-items: center; gap: 0; margin-bottom: 1rem; padding: 2rem 1.5rem 1.5rem; background: #fff; border: 1px solid var(--ink); border-radius: var(--radius); }
+.am-node { display: inline-flex; flex-direction: column; align-items: center; padding: .7rem 1.2rem; font-family: var(--pd-head); font-weight: 700; text-align: center; background: #fff; border: 1.5px solid var(--ink); border-radius: 12px; }
+.am-node small { font-family: "DM Sans", sans-serif; font-weight: 500; font-size: .75rem; color: var(--muted); }
+.am-node.hub { color: #fff; background: var(--dk); border-color: var(--dk); }
+.am-start, .am-hub { position: relative; padding-bottom: 28px; }
+.am-start::after, .am-hub::after { content: ""; position: absolute; left: 50%; bottom: 0; width: 2px; height: 28px; background: var(--ink); }
+.am-tabs { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .8rem; width: 100%; max-width: 880px; margin: 0; padding: 26px 0 0; list-style: none; }
+.am-tabs::before { content: ""; position: absolute; top: 0; left: 10%; right: 10%; height: 2px; background: var(--ink); }
+.am-tabs li { position: relative; display: flex; justify-content: center; }
+.am-tabs li::before { content: ""; position: absolute; top: -26px; left: 50%; width: 2px; height: 26px; background: var(--ink); }
+.am-tabs .am-node { width: 100%; background: var(--hy-soft); border-color: var(--hy-soft); }
+.am-deep { display: flex; align-items: center; margin-top: 1.4rem; padding-top: 1.4rem; border-top: 1px dashed rgba(17,17,17,.3); width: 100%; max-width: 880px; justify-content: center; }
+.am-deep i { width: 40px; height: 2px; background: var(--ink); position: relative; }
+.am-deep i::after { content: ""; position: absolute; right: -1px; top: -4px; border: 5px solid transparent; border-left: 7px solid var(--ink); border-right: 0; }
+.am-note { margin: .8rem 0 0; font-size: .82rem; color: var(--muted); }
+@media (max-width: 700px) {
+  .am-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-top: 18px; }
+  .am-tabs::before, .am-tabs li::before { display: none; }
+  .am-tabs li:last-child { grid-column: 1 / -1; }
+}
+
+/* tipografia: un unico blocco */
+.ty { padding: 2rem 2.2rem; background: #1E1E1E; color: #fff; border-radius: var(--radius); }
+.ty-head { display: flex; align-items: center; gap: 1.4rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,.15); }
+.ty-aa { font-family: "Inter", sans-serif; font-size: 4.5rem; font-weight: 700; line-height: .9; letter-spacing: -.03em; color: #9DF4FF; }
+.ty-head b { font-family: "Inter", sans-serif; font-size: 1.6rem; }
+.ty-head p { margin: .2rem 0 0; font-size: .9rem; color: rgba(255,255,255,.7); }
+.ty-scale { margin: 0; padding: 0; list-style: none; }
+.ty-scale li { display: grid; grid-template-columns: 110px minmax(0, 1fr) 150px; gap: 1rem; align-items: baseline; padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+.ty-scale li:last-child { border-bottom: 0; padding-bottom: 0; }
+.ty-scale small { font-size: .78rem; color: #9DF4FF; }
+.ty-scale p { margin: 0; font-family: "Inter", sans-serif; font-weight: 700; line-height: 1.1; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ty-scale span { font-size: .8rem; color: rgba(255,255,255,.6); text-align: right; }
+@media (max-width: 700px) {
+  .ty { padding: 1.4rem; }
+  .ty-scale li { grid-template-columns: minmax(0, 1fr); gap: .2rem; }
+  .ty-scale span { text-align: left; }
+  .ty-scale li:first-child p { font-size: 40px !important; }
+}
+
+/* UI components: immagine semplice */
+.ds-ui-wrap { padding: 1.4rem; background: #fff; border: 1px solid var(--ink); border-radius: var(--radius); }
+.ds-ui-wrap .ds-ui { display: block; width: 100%; max-width: 720px; height: auto; margin: 0 auto; padding: 0; border: 0; }
+
+/* next chapters */
+.nx2 { margin-top: 3rem; }
+.nx2 .pd-sub { margin: 0; }
+.nx2-sub { margin: .3rem 0 1.4rem; color: var(--muted); }
+.nx2-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; margin: 0; padding: 0; list-style: none; }
+.nx2-list li { padding-top: 1.1rem; border-top: 2px solid var(--dk); }
+.nx2-list .n { display: block; margin-bottom: .6rem; font-family: var(--pd-head); font-size: 2.6rem; font-weight: 800; line-height: 1; color: var(--dk); }
+.nx2-list h4 { margin: 0 0 .4rem; font-family: var(--pd-head); font-size: 1.1rem; }
+.nx2-list p { margin: 0; font-size: .92rem; line-height: 1.55; }
+@media (max-width: 900px) { .nx2-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .nx2-list { grid-template-columns: minmax(0, 1fr); gap: 1.4rem; } }
+
+/* blocco finale: ombra azzurra */
+.pd-final { box-shadow: 10px 10px 0 #9DF4FF; }
+
+/* ===== MOKU v6 ===== */
+.br-hero { background-image: none; }
+.br-side { grid-template-rows: auto; align-content: stretch; }
+.br-side .br-tile { display: flex; flex-direction: column; gap: 1rem; }
+.br-side .br-swatches { flex: 1; margin-top: 0; }
+.br-side .br-swatches i { height: auto; min-height: 110px; }
+.br-side .br-tile p { margin: 0; }
+.rs-profile2 { gap: 1rem 2.5rem; }
+.rs-lab { margin: 0; padding-right: 2.5rem; font-family: var(--pd-head); font-size: 1.15rem; font-weight: 800; line-height: 1.1; color: var(--dk); border-right: 1px solid rgba(36,57,62,.3); }
+.rs-lab small { display: block; margin-top: .25rem; font-family: "DM Sans", sans-serif; font-size: .75rem; font-weight: 500; color: var(--muted); }
+@media (max-width: 700px) { .rs-lab { padding: 0 0 .8rem; border-right: 0; border-bottom: 1px solid rgba(36,57,62,.3); width: 100%; } }
+.bm-matrix-wrap { margin-top: 1.5rem; overflow-x: auto; background: #fff; border: 1px solid var(--ink); border-radius: var(--radius); }
+.bm-matrix { width: 100%; min-width: 820px; border-collapse: collapse; font-size: .9rem; }
+.bm-matrix th, .bm-matrix td { padding: .85rem .6rem; text-align: center; border-bottom: 1px solid rgba(17,17,17,.1); }
+.bm-matrix tbody tr:last-child th, .bm-matrix tbody tr:last-child td { border-bottom: 0; }
+.bm-matrix thead th { font-size: .75rem; font-weight: 700; line-height: 1.25; color: var(--muted); vertical-align: bottom; }
+.bm-matrix thead th:first-child, .bm-matrix tbody th { text-align: left; padding-left: 1.4rem; }
+.bm-matrix th:last-child, .bm-matrix td:last-child { padding-right: 1.2rem; }
+.bm-matrix tbody th { font-family: var(--pd-head); font-weight: 700; white-space: nowrap; }
+.bm-matrix tbody tr:nth-child(even) { background: #fafbf9; }
+.bm-n { display: inline-block; width: 1.4rem; color: var(--dk); font-weight: 800; }
+.bm-matrix em { margin-left: .5rem; padding: .05rem .55rem; font-family: "DM Sans", sans-serif; font-size: .7rem; font-style: normal; font-weight: 500; background: var(--hy-soft); border-radius: 999px; }
+.bm-dot { display: inline-block; width: 16px; height: 16px; vertical-align: middle; background: var(--dk); border: 3px solid #9DF4FF; border-radius: 50%; box-shadow: 0 0 0 1px var(--dk); }
+.bm-matrix small { display: block; margin-top: .25rem; font-size: .7rem; color: var(--muted); }
+.bm-legend { display: flex; gap: .6rem; align-items: flex-start; margin: .9rem 0 0; font-size: .85rem; line-height: 1.5; color: var(--muted); }
+.bm-legend .bm-dot { flex: none; margin-top: .1rem; }
+.do-theme .tag { padding: .25rem .9rem; font-size: .85rem; font-weight: 500; line-height: 1.5; border: 1px solid var(--hy-soft); border-radius: 999px; }
+.bubble::after { width: 15px !important; height: 15px !important; margin-top: -7.5px !important; left: -13px !important; transform: scaleX(1.55) rotate(45deg) !important; }
+.do-row.flip .bubble::after { left: auto !important; right: -13px !important; }
+@media (max-width: 800px) {
+  .bubble::after, .do-row.flip .bubble::after { top: -13px !important; left: 40px !important; right: auto !important; margin-top: 0 !important; transform: scaleY(1.55) rotate(45deg) !important; }
+}
+
+/* ===== MOKU v7 ===== */
+/* brand schema */
+.bs { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 300px) minmax(0, 1fr); grid-template-areas: "tl c tr" "bl c br"; gap: 2rem 3.5rem; align-items: center; margin: 2.5rem 0; padding: clamp(2rem, 4vw, 3.5rem); color: #fff; background: var(--dk); border-radius: var(--radius); }
+.bs-tl { grid-area: tl; } .bs-bl { grid-area: bl; } .bs-tr { grid-area: tr; } .bs-br { grid-area: br; }
+.bs-center { grid-area: c; display: flex; flex-direction: column; align-items: center; gap: 1.2rem; }
+.bs-center img { width: min(190px, 70%); height: auto; filter: drop-shadow(0 16px 26px rgba(0,0,0,.35)); }
+.bs-word { display: flex; align-items: center; gap: .45rem; margin: 0; font-family: "Inter", sans-serif; font-size: 2.2rem; font-weight: 700; letter-spacing: -.02em; }
+.bs-word span { font-size: .8em; color: #9DF4FF; }
+.bs-note { position: relative; }
+.bs-note p { margin: 0 0 .6rem; font-size: .92rem; line-height: 1.55; color: rgba(255,255,255,.82); }
+.bs-note b { color: #fff; }
+.bs-note::after { content: ""; position: absolute; top: 1.1rem; width: 2.2rem; border-top: 1px dashed rgba(157,244,255,.6); }
+.bs-tl::after, .bs-bl::after { right: -2.9rem; }
+.bs-tr::after, .bs-br::after { left: -2.9rem; }
+.bs-tl, .bs-bl { text-align: right; }
+.bs-kanji { margin: 0 0 .4rem !important; font-family: "Noto Serif JP", serif; font-size: clamp(2.2rem, 4vw, 3.4rem) !important; font-weight: 700; line-height: 1 !important; color: #9DF4FF !important; }
+.bs-tl::after { top: 1.7rem; }
+.bs-cap { margin-bottom: .5rem !important; font-size: .72rem !important; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #9DF4FF !important; }
+.bs-parts { display: flex; justify-content: flex-end; gap: .6rem; margin: 0; padding: 0; list-style: none; }
+.bs-parts li { display: flex; flex-direction: column; padding: .5rem .9rem; text-align: left; border: 1px solid rgba(255,255,255,.3); border-radius: 12px; }
+.bs-parts span { font-size: .78rem; color: rgba(255,255,255,.65); }
+.bs-sw { display: flex; height: 44px; margin-bottom: .7rem; border-radius: 10px; overflow: hidden; }
+.bs-sw i { flex: 1; }
+@media (max-width: 900px) {
+  .bs { grid-template-columns: minmax(0, 1fr); grid-template-areas: "c" "tl" "bl" "tr" "br"; gap: 1.6rem; }
+  .bs-tl, .bs-bl { text-align: left; }
+  .bs-parts { justify-content: flex-start; }
+  .bs-note::after { display: none; }
+  .bs-note { padding-top: 1.2rem; border-top: 1px dashed rgba(157,244,255,.4); }
+}
+
+/* citazione: ombra azzurra */
+.pd-quote { box-shadow: 10px 10px 0 #9DF4FF; }
+
+/* stat in verde con numeri azzurri */
+.pd-card.pd-stat { color: #fff; background: var(--dk); border-color: var(--dk); }
+.pd-stat strong { color: #9DF4FF; }
+.pd-stat p { color: rgba(255,255,255,.85); }
+
+/* grafico: barre arrotondate su traccia */
+.sv-bars i { position: relative; height: 14px; width: 100%; background: var(--hy-soft); border-radius: 999px; overflow: hidden; }
+.sv-bars i::before { content: ""; position: absolute; inset: 0 auto 0 0; width: calc(var(--p) * 1%); background: var(--dk); border-radius: 999px; }
+
+/* benchmark stile Homizy */
+.bm-tw { margin-top: 1.5rem; }
+.bm-t thead th { font-size: .76rem; vertical-align: bottom; }
+.bm-t tbody th { font-family: var(--pd-head); font-size: .98rem; white-space: nowrap; }
+.bm-t tbody th small { display: block; font-family: "DM Sans", sans-serif; font-size: .74rem; font-weight: 500; color: var(--muted); }
+.bk-cell { display: inline-flex; flex-direction: column; align-items: center; gap: .2rem; }
+.bk { width: 24px; height: 20px; fill: #9DF4FF; stroke: var(--dk); stroke-width: 1.3; }
+.bk-cell small { font-size: .7rem; color: var(--muted); }
+.bk-none { display: inline-block; width: 6px; height: 6px; background: rgba(17,17,17,.15); border-radius: 50%; }
+.bm-note { margin: .2rem 0 0; font-size: .85rem; color: var(--muted); }
+
+/* nuvolette: punta attaccata */
+.bubble::after { left: -9px !important; }
+.do-row.flip .bubble::after { left: auto !important; right: -9px !important; }
+@media (max-width: 800px) { .bubble::after, .do-row.flip .bubble::after { top: -9px !important; } }
+
+/* insight: priorità */
+.in-map + .pd-intro { margin-top: 0; }
+.in-prio article, .in-prio article:nth-child(4) { padding: 1.4rem 1.3rem; color: var(--ink); background: var(--hy-soft); border: 0; border-top: 4px solid var(--dk); border-radius: 0 0 16px 16px; }
+.in-prio .n { color: var(--dk); font-size: 2.2rem; }
+.in-prio p { color: #2b3a3d; }
+.in-prio blockquote { margin: auto 0 0; padding: .2rem 0 .2rem .8rem; font-size: .82rem; color: var(--dk); background: none; border-left: 2px solid var(--dk); border-radius: 0; }
+
+/* concept strip */
+.cx { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; margin: 2rem 0 0; padding: 0; list-style: none; }
+.cx li { display: flex; flex-direction: column; gap: .25rem; padding: 1.3rem 1.2rem; color: #fff; background: var(--dk); border-radius: 16px; }
+.cx svg { width: 30px; height: 30px; margin-bottom: .6rem; fill: none; stroke: #9DF4FF; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.cx b { font-family: var(--pd-head); font-size: 1.02rem; }
+.cx span { font-size: .84rem; line-height: 1.4; color: rgba(255,255,255,.75); }
+@media (max-width: 1000px) { .cx { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .cx { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* palette senza bordo */
+.ds-colors li { border: 0; }
+.ds-colors li[style*="#FFFFFF"], .ds-colors li[style*="#E6FCFF"] { box-shadow: inset 0 0 0 1px rgba(17,17,17,.08); }
+
+/* componenti UI sullo sfondo */
+.uic { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3rem 2.5rem; margin-top: 1.5rem; }
+.uic-g { min-width: 0; }
+.uic-cap { margin: 0 0 1rem; padding-bottom: .5rem; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid rgba(17,17,17,.12); }
+.uic-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 1.4rem; }
+.uic-row.top { align-items: flex-start; }
+.uic img { display: block; height: auto; max-width: 100%; }
+.g-btn { grid-column: span 7; } .g-btn img { width: 172px; }
+.g-rep { grid-column: span 5; } .g-rep img { width: 150px; } .g-rep .w-utile { width: 160px; }
+.g-sel { grid-column: span 6; } .w-chip { width: 92px; } .w-lang { width: 82px; } .w-cap { width: 56px; } .w-tog { width: 84px; }
+.g-gen { grid-column: span 6; } .w-gen { width: 96px; }
+.g-drop { grid-column: span 7; } .w-drop { width: 190px; } .w-vol { width: 170px; }
+.g-nav { grid-column: span 5; } .w-nav { width: 230px; } .w-navl { width: 110px; }
+.g-stat { grid-column: span 5; } .w-stat { width: 100%; max-width: 380px; }
+.g-rev { grid-column: span 7; } .w-rev { width: 100%; }
+@media (max-width: 900px) {
+  .uic { grid-template-columns: minmax(0, 1fr); gap: 2.2rem; }
+  .uic-g { grid-column: auto !important; }
+}
+@media (max-width: 480px) {
+  .g-btn img, .g-rep img { width: calc(50% - .7rem); }
+  .w-drop, .w-vol { width: calc(50% - .7rem); }
+}
+
+/* v7b: componenti più grandi, swatch leggibile */
+.bs-sw { box-shadow: 0 0 0 1px rgba(157,244,255,.45); }
+.g-btn { grid-column: span 8; } .g-btn img { width: 200px; }
+.g-rep { grid-column: span 4; } .g-rep img { width: 180px; } .g-rep .w-utile { width: 210px; }
+.w-chip { width: 120px; } .w-lang { width: 100px; } .w-cap { width: 63px; } .w-tog { width: 110px; }
+.w-drop { width: 240px; } .w-vol { width: 230px; } .w-gen { width: 125px; }
+.w-nav { width: 300px; } .w-navl { width: 150px; }
+.g-drop { grid-column: span 7; } .g-nav { grid-column: span 5; }
+@media (max-width: 480px) { .g-btn img, .g-rep img, .w-drop, .w-vol { width: calc(50% - .7rem); } .w-gen { width: calc(50% - .7rem); } }
+
+.w-chip { width: 104px; } .w-lang { width: 88px; } .w-tog { width: 90px; } .w-cap { width: 60px; }
+.w-drop { width: 188px; } .w-vol { width: 188px; } .w-gen { width: 104px; }
+.w-nav { width: 255px; } .w-navl { width: 128px; }
+.g-sel .uic-row, .g-gen .uic-row, .g-nav .uic-row, .g-drop .uic-row { flex-wrap: nowrap; }
+@media (max-width: 900px) { .g-sel .uic-row, .g-gen .uic-row, .g-nav .uic-row, .g-drop .uic-row { flex-wrap: wrap; } }
+
+/* ===== MOKU v8 ===== */
+/* brand: schema con frecce a mano */
+.bs2 { display: grid; grid-template-columns: minmax(0, 1fr) 220px minmax(0, 1fr); grid-template-areas: "l c r" "n n n"; column-gap: 90px; row-gap: 2.8rem; align-items: center; margin: 2.5rem 0; padding: clamp(2rem, 4vw, 3.5rem); color: #fff; background: var(--dk); border-radius: var(--radius); }
+.bs2-l { grid-area: l; text-align: right; align-self: end; padding-bottom: 1rem; }
+.bs2-r { grid-area: r; align-self: start; padding-top: .4rem; }
+.bs2-logo { grid-area: c; position: relative; }
+.bs2-logo img { display: block; width: 220px; height: auto; filter: drop-shadow(0 16px 26px rgba(0,0,0,.35)); }
+.bs2-arrow { position: absolute; fill: none; stroke: #9DF4FF; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
+.a-l { left: -86px; top: 118px; width: 80px; height: 60px; }
+.a-r { right: -80px; top: -4px; width: 150px; height: 80px; }
+.bs2-r { padding-top: 3rem !important; }
+.bs2-note p { margin: 0; font-size: .95rem; line-height: 1.55; color: rgba(255,255,255,.82); }
+.bs2-note b { color: #fff; }
+.bs2-cap { margin: 0 0 .7rem !important; font-size: .72rem !important; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #9DF4FF !important; }
+.bs2-sw { display: flex; height: 40px; margin: 0 0 .8rem auto; max-width: 260px; border-radius: 8px; overflow: hidden; box-shadow: 0 0 0 1px rgba(157,244,255,.45); }
+.bs2-sw i { flex: 1; }
+.bs2-name { grid-area: n; display: flex; flex-direction: column; align-items: center; padding-top: 2.2rem; text-align: center; border-top: 1px solid rgba(255,255,255,.12); }
+.bs2-split { display: flex; gap: 1.6rem; }
+.seg { display: flex; flex-direction: column; align-items: center; min-width: 96px; }
+.seg span { font-family: "Noto Serif JP", serif; font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 700; line-height: 1.1; color: #fff; }
+.seg b { margin-top: .5rem; padding-top: .55rem; width: 100%; font-family: var(--pd-head); font-size: 1.05rem; border-top: 2px solid rgba(255,255,255,.35); }
+.seg i { font-size: .82rem; font-style: normal; color: rgba(255,255,255,.65); }
+.seg.hl span, .seg.hl b { color: #9DF4FF; }
+.seg.hl b { border-top-color: #9DF4FF; }
+.bs2-def { max-width: 560px; margin: 1.4rem 0 0; font-size: .95rem; line-height: 1.55; color: rgba(255,255,255,.82); }
+.bs2-def b { color: #fff; }
+@media (max-width: 900px) {
+  .bs2 { grid-template-columns: minmax(0, 1fr); grid-template-areas: "c" "r" "l" "n"; row-gap: 1.8rem; justify-items: center; text-align: center; }
+  .bs2-l, .bs2-r { text-align: center; padding: 0; align-self: auto; }
+  .bs2-sw { margin: 0 auto .8rem; }
+  .bs2-arrow { display: none; }
+  .bs2-logo img { width: 170px; }
+  .bs2-split { gap: 1rem; } .seg { min-width: 72px; }
+}
+
+/* benchmark: piattaforma -> cosa è stato studiato */
+.bm3 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 3rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+.bm3 li { display: grid; grid-template-columns: 130px 34px minmax(0, 1fr); align-items: center; gap: .6rem; padding: .85rem 0; border-top: 1px solid rgba(17,17,17,.15); }
+.bm3 li:last-child { grid-column: 1 / -1; }
+.bm3 b { font-family: var(--pd-head); font-size: 1.02rem; }
+.bm3 .ar { position: relative; height: 2px; background: var(--dk); }
+.bm3 .ar::after { content: ""; position: absolute; right: -1px; top: -4px; border: 5px solid transparent; border-left: 7px solid var(--dk); border-right: 0; }
+.bm3 div { display: flex; flex-wrap: wrap; gap: .4rem; }
+.bm3 em { padding: .3rem .7rem; font-size: .82rem; font-style: normal; font-weight: 600; color: #fff; background: var(--dk); border-radius: 6px; }
+@media (max-width: 800px) { .bm3 { grid-template-columns: minmax(0, 1fr); } .bm3 li { grid-template-columns: 112px 26px minmax(0, 1fr); } }
+
+/* tag squadrati */
+.do-theme .tag { border-radius: 6px; }
+
+/* how might we: petrolio, citazioni senza riquadro bianco */
+.in-prio article, .in-prio article:nth-child(4) { color: #fff; background: var(--dk); border: 0; border-radius: 16px; }
+.in-prio .n { color: #9DF4FF; }
+.in-prio p { color: rgba(255,255,255,.82); }
+.in-prio blockquote { color: #fff; border-left-color: #9DF4FF; opacity: .9; }
+
+/* concept: tessere solo titolo */
+.cx li { flex-direction: row; align-items: center; gap: .8rem; padding: 1.1rem 1.2rem; }
+.cx svg { margin: 0; flex: none; }
+
+/* solution: numeri allineati ai titoletti */
+.pd-steps li { align-items: baseline; }
+.pd-steps .pd-badge { font-size: 1.1rem; line-height: 1.3; }
+.pd-steps b { line-height: 1.3; }
+
+/* componenti UI ordinati */
+.uic2 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3.2rem 3rem; margin-top: 1.5rem; align-items: start; }
+.ug { min-width: 0; }
+.ug img { display: block; max-width: 100%; height: auto; }
+.ug-grid { display: grid; gap: 1.2rem 1.4rem; align-items: center; }
+.ug-grid.top { align-items: start; }
+.ug-grid.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ug-grid.c4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.ug-grid img { width: 100%; }
+.u-btn { grid-column: span 7; }
+.u-rep { grid-column: span 5; }
+.u-utile { width: 62% !important; margin-top: 1.2rem; }
+.u-sel { grid-column: span 7; }
+.ug-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.ug-row img { height: 78px; width: auto; }
+.u-gen { grid-column: span 5; }
+.u-drop { grid-column: span 7; }
+.u-nav { grid-column: span 5; }
+.ug-nav { display: grid; grid-template-columns: 2fr 1fr; gap: 1.4rem; align-items: start; }
+.ug-nav img { width: 100%; }
+.u-rev { grid-column: span 7; }
+.u-rev img, .u-stat img { width: 100%; }
+.u-stat { grid-column: span 5; }
+@media (max-width: 1000px) {
+  .uic2 { grid-template-columns: minmax(0, 1fr); gap: 2.4rem; }
+  .ug { grid-column: auto !important; }
+}
+@media (max-width: 560px) {
+  .ug-grid.c3, .ug-grid.c4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ug-row { flex-wrap: wrap; justify-content: flex-start; }
+  .ug-row img { height: 64px; }
+}
+.ug-rep { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; align-items: start; }
+.ug-rep img { width: 100%; }
+.ug-stack { display: grid; gap: .9rem; }
+@media (max-width: 900px) { .bs2-r { padding-top: 0 !important; } }
+
+/* ===== MOKU v9 ===== */
+.bm3-head { display: grid; grid-template-columns: 130px 34px minmax(0,1fr) 130px 34px minmax(0,1fr); column-gap: .6rem; margin-top: 1.5rem; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.bm3-head span:nth-child(2) { grid-column: 3; } .bm3-head span:nth-child(3) { grid-column: 4; padding-left: 3rem; } .bm3-head span:nth-child(4) { grid-column: 6; }
+.bm3-head { grid-template-columns: 130px 34px minmax(0,1fr) calc(130px + 3rem) 34px minmax(0,1fr); }
+.bm3-head span:nth-child(3) { padding-left: 3rem; }
+.bm3 { margin-top: .6rem; }
+@media (max-width: 800px) { .bm3-head { grid-template-columns: 112px 26px minmax(0,1fr); } .bm3-head span:nth-child(n+3) { display: none; } }
+.nx2-list li { padding-top: 0; border-top: 0; }
+.ty-scale p { line-height: 1.3; overflow: visible; padding-bottom: .05em; }
+#solution .pd-sub mark { padding: 0 .2em; color: #fff; background: var(--dk); font-style: normal; }
+.uic3 { display: flex; flex-wrap: wrap; align-items: center; gap: 2rem 2.2rem; margin-top: 1.5rem; }
+.uic3 img { display: block; height: auto; max-width: 100%; }
+@media (max-width: 600px) { .uic3 { gap: 1.4rem; } .uic3 img[style*="200px"], .uic3 img[style*="260px"] { width: calc(50% - .7rem) !important; } }
+
+.uic4 { column-count: 4; column-gap: 2.4rem; margin-top: 1.5rem; }
+.uc { break-inside: avoid; margin: 0 0 2rem; }
+.uc img { display: block; width: 100%; height: auto; }
+.uc.multi { display: flex; align-items: center; gap: 1rem; }
+.uc.multi img { flex: 1 1 0; min-width: 0; }
+.uc.sm img { width: 55%; }
+.uic4-rev { display: block; width: 100%; max-width: 900px; height: auto; margin: .5rem 0 0; }
+@media (max-width: 1000px) { .uic4 { column-count: 3; } }
+@media (max-width: 700px) { .uic4 { column-count: 2; column-gap: 1.2rem; } .uc { margin-bottom: 1.2rem; } }
+
+/* ===== MOKU v10 ===== */
+.pd-insights.c3 { width: 100%; margin-left: 0; }
+.bm4-legend { display: flex; align-items: center; gap: .7rem; margin: 1.5rem 0 .9rem; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.bm4-legend .ar { position: relative; width: 34px; height: 2px; background: var(--muted); transform: scaleX(-1); }
+.bm4-legend .ar::after { content: ""; position: absolute; right: -1px; top: -4px; border: 5px solid transparent; border-left: 7px solid var(--muted); border-right: 0; }
+.bm4 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2rem; }
+.bm4 article { overflow: hidden; background: #fff; border: 1px solid rgba(17,17,17,.15); border-radius: 16px; }
+.bm4 header { display: flex; align-items: center; gap: .7rem; padding: .9rem 1.2rem; color: #fff; background: var(--dk); }
+.bm4 header svg, .nx-ic2 svg { width: 24px; height: 24px; flex: none; fill: none; stroke: #9DF4FF; stroke-width: 1.7; stroke-linejoin: round; stroke-linecap: round; }
+.bm4 h4 { margin: 0; font-family: var(--pd-head); font-size: 1.05rem; }
+.bm4 ul { margin: 0; padding: .4rem 1.2rem .6rem; list-style: none; }
+.bm4 li { padding: .65rem 0; border-bottom: 1px solid rgba(17,17,17,.1); }
+.bm4 li:last-child { border-bottom: 0; }
+.bm4 li b { display: block; font-family: var(--pd-head); font-size: 1rem; }
+.bm4 li span { font-size: .88rem; line-height: 1.45; color: #444; }
+@media (max-width: 900px) { .bm4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .bm4 { grid-template-columns: minmax(0, 1fr); } }
+
+.ds-colors + .pd-sub { margin-top: 2.5rem; }
+.ty + .pd-sub { margin-top: 2.5rem; }
+.uic5-hint { margin: 0 0 1rem; font-size: .85rem; color: var(--muted); }
+.uic5 { display: flex; align-items: flex-start; gap: 3.5rem; overflow-x: auto; padding: .3rem 0 1.4rem; scroll-snap-type: x proximity; scrollbar-color: var(--dk) rgba(17,17,17,.08); }
+.uic5::-webkit-scrollbar { height: 8px; }
+.uic5::-webkit-scrollbar-track { background: rgba(17,17,17,.08); border-radius: 99px; }
+.uic5::-webkit-scrollbar-thumb { background: var(--dk); border-radius: 99px; }
+.ug5g { flex: none; scroll-snap-align: start; }
+.ug5g img { display: block; height: auto; max-width: 100%; }
+.ug5 { display: grid; gap: 1.1rem 1.3rem; align-items: center; }
+.ug5.top { align-items: start; }
+.ug5.c3 { grid-template-columns: repeat(3, 1fr); } .ug5.c4 { grid-template-columns: repeat(4, 1fr); } .ug5.c2 { grid-template-columns: 1fr 1fr; align-items: start; }
+.ug5 img { width: 100%; }
+.stk { display: grid; gap: .9rem; }
+.g-b { width: 600px; } .g-g { width: 440px; } .g-r { width: 420px; } .g-d { width: 600px; }
+.g-s { width: 560px; } .g-n { width: 420px; } .g-st { width: 380px; } .g-rv { width: 680px; }
+.ug5.row { display: flex; align-items: center; gap: 1.2rem; }
+.ug5.row img { width: auto; height: 78px; }
+.ug5.nav { grid-template-columns: 2fr 1fr; align-items: start; }
+.g-st img, .g-rv img { width: 100%; }
+@media (max-width: 600px) { .uic5 { gap: 2.2rem; } .g-b, .g-d, .g-rv { width: 480px; } .g-s { width: 460px; } .ug5.row img { height: 64px; } }
+
+.nx2-list .nx-ic2 { display: inline-grid; place-items: center; width: 52px; height: 52px; margin-bottom: .9rem; background: var(--dk); border-radius: 14px; }
+.nx2-list .nx-ic2 svg { width: 26px; height: 26px; }
+
+/* ===== MOKU v11 ===== */
+.pd-intro b, .do-theme p b, .pd-feature .txt > p b { font-weight: 700; color: var(--ink); }
+/* benchmark: come le card dell'app (bordo azzurro, header con freccia) */
+.bm5 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2rem; margin-top: 1.6rem; }
+.bm5 article { overflow: hidden; color: #fff; background: #1E1E1E; border: 1.5px solid #9DF4FF; border-radius: 14px; }
+.bm5 header { display: flex; align-items: center; gap: .7rem; padding: .95rem 1.2rem; border-bottom: 1px solid #3a3a3a; }
+.bm5 header svg { width: 22px; height: 22px; flex: none; fill: none; stroke: #9DF4FF; stroke-width: 1.7; stroke-linejoin: round; stroke-linecap: round; }
+.bm5 header .chev { margin-left: auto; width: 18px; height: 18px; stroke: #fff; transform: rotate(180deg); }
+.bm5 h4 { margin: 0; font-family: "Inter", var(--pd-head); font-size: 1rem; font-weight: 700; }
+.bm5 ul { display: grid; gap: .55rem; margin: 0; padding: .9rem 1rem 1.1rem; list-style: none; }
+.bm5 li { padding: .65rem .8rem; background: #2b2b2b; border-radius: 9px; }
+.bm5 li b { display: inline-block; margin-bottom: .3rem; padding: .1rem .6rem; font-size: .78rem; color: #111; background: #9DF4FF; border-radius: 6px; }
+.bm5 li span { display: block; font-size: .86rem; line-height: 1.45; color: #cfd3d3; }
+@media (max-width: 900px) { .bm5 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .bm5 { grid-template-columns: minmax(0, 1fr); } }
+/* tag verdi */
+.do-theme .tag { color: #fff; background: var(--dk); border-color: var(--dk); }
+/* componenti: colonne di pari altezza, contenuto centrato, divisori */
+.uic5 { align-items: stretch; gap: 0; padding-bottom: 1.4rem; }
+.ug5g { display: flex; flex-direction: column; padding: 0 2.6rem; border-left: 1px solid rgba(17,17,17,.12); }
+.ug5g:first-child { padding-left: 0; border-left: 0; }
+.ug5g .uic-cap { border-bottom: 0; margin-bottom: 1.4rem; }
+.ug5g > :last-child { margin: auto 0; }
+.uic5 { min-height: 0; }
+.ug5g { height: 430px; }
+.ug5g.g-d .ug5 img:last-child { width: 100%; }
+.g-b { width: 640px; } .g-g { width: 500px; } .g-r { width: 480px; } .g-d { width: 660px; }
+.g-s { width: 620px; } .g-n { width: 480px; } .g-st { width: 440px; } .g-rv { width: 720px; }
+@media (max-width: 600px) { .ug5g { height: 400px; padding: 0 1.6rem; } }
+
+/* v12 */
+.pd-stat strong { color: #fff; }
+.bm5 { align-items: start; }
+.bm5i { overflow: hidden; color: #fff; background: #1E1E1E; border: 0; border-radius: 14px; }
+.bm5i summary { display: flex; align-items: center; gap: .7rem; padding: .95rem 1.2rem; cursor: pointer; list-style: none; }
+.bm5i summary::-webkit-details-marker { display: none; }
+.bm5i[open] summary { border-bottom: 1px solid #3a3a3a; }
+.bm5i summary svg { width: 22px; height: 22px; flex: none; fill: none; stroke: #9DF4FF; stroke-width: 1.7; stroke-linejoin: round; stroke-linecap: round; }
+.bm5i summary .chev { margin-left: auto; width: 18px; height: 18px; stroke: #fff; transform: rotate(0deg); transition: transform .2s; }
+.bm5i[open] summary .chev { transform: rotate(180deg); }
+.bm5i summary:focus-visible { outline: 2px solid #9DF4FF; outline-offset: -2px; }
+.nx2-list .nx-mk { display: block; width: 28px; height: 4px; margin-bottom: 1rem; background: #9DF4FF; border-radius: 2px; box-shadow: 0 0 0 1px var(--dk); }
+.nx2-list .nx-mk { width: 30px; height: 6px; background: var(--dk); box-shadow: none; }
+
+/* v13 */
+.bm5 { align-items: stretch; }
+.bm5i:not([open]) { align-self: start; }
+/* v14 */
+.pd-quote { background: #373737; border-color: #373737; color: #fff; box-shadow: 10px 10px 0 #9DF4FF; }
+.pd-final .pd-cta:not(.pd-cta-alt) { background: #9DF4FF; border-color: #9DF4FF; color: var(--dk); }
+.pd-final .pd-cta:not(.pd-cta-alt):hover { box-shadow: 4px 4px 0 #fff; }
+.pd-final .pd-cta.pd-cta-alt:hover { box-shadow: 4px 4px 0 #fff; }
+
+/* metodologia a scalini */
+.mth { display: grid; align-items: start; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.4rem; margin: 1rem 0 0; padding: 0; list-style: none; counter-reset: none; }
+.mth li { position: relative; padding: 1.5rem 1.4rem 1.4rem; background: #fff; border: 1px solid var(--ink); border-radius: var(--radius); }
+.mth li:nth-child(1) { margin-top: 3.5rem; } .mth li:nth-child(2) { margin-top: 8rem; } .mth li:nth-child(3) { margin-top: 1rem; } .mth li:nth-child(4) { margin-top: 6.5rem; }
+.mth { margin-top: 2rem; }
+.mth .n { position: absolute; top: -.75em; right: 1rem; padding: 0 .3rem; font-family: var(--pd-head); font-size: 2.2rem; font-weight: 800; line-height: 1; color: var(--dk); background: var(--paper); }
+.mth h4 { margin: 0 0 .6rem; font-family: var(--pd-head); font-size: 1.12rem; }
+.mth p { margin: 0; font-size: .9rem; line-height: 1.55; color: #333; }
+.mth li:not(:last-child)::after { content: ""; position: absolute; top: 50%; right: -1.4rem; width: 1.4rem; border-top: 1.5px dashed var(--dk); }
+@media (max-width: 1000px) {
+  .mth { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.2rem 1.4rem; }
+  .mth li:nth-child(n) { margin-top: 0; }
+  .mth li:nth-child(2)::after { display: none; }
+}
+@media (max-width: 600px) {
+  .mth { grid-template-columns: minmax(0, 1fr); }
+  .mth li::after { display: none; }
+}
+
+/* metodologia: stepper orizzontale */
+.mth2 { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; margin: 2rem 0 0; padding: 0; list-style: none; }
+.mth2::before { content: ""; position: absolute; top: 21px; left: 22px; right: 22px; height: 2px; background: var(--dk); }
+.mth2 li { position: relative; }
+.mth2 .n { position: relative; z-index: 1; display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 1.2rem; font-family: var(--pd-head); font-size: .95rem; font-weight: 800; color: #fff; background: var(--dk); border: 4px solid var(--paper); border-radius: 50%; box-sizing: content-box; margin-left: -4px; margin-top: -4px; }
+.mth2 li:last-child .n { color: var(--dk); background: #9DF4FF; }
+.mth2 h4 { margin: 0 0 .5rem; font-family: var(--pd-head); font-size: 1.12rem; }
+.mth2 p { margin: 0; font-size: .92rem; line-height: 1.55; color: #333; }
+@media (max-width: 800px) {
+  .mth2 { grid-template-columns: minmax(0, 1fr); gap: 1.6rem; }
+  .mth2::before { top: 22px; bottom: 22px; left: 21px; right: auto; width: 2px; height: auto; }
+  .mth2 li { display: grid; grid-template-columns: 52px minmax(0, 1fr); column-gap: 1rem; }
+  .mth2 .n { grid-row: span 2; margin-bottom: 0; }
+}
+
+.mth2::before { display: none; }
+.mth2 li:not(:last-child)::after { content: ""; position: absolute; top: 21px; left: 52px; right: calc(-2rem + 8px); height: 2px; background: var(--dk); }
+@media (max-width: 800px) {
+  .mth2 li:not(:last-child)::after { top: 52px; bottom: calc(-1.6rem + 8px); left: 21px; right: auto; width: 2px; height: auto; }
+}
+.mth2 .n { border-radius: 12px; }
+/* osservazione digitale: tutti i thread */
+.bubbles { display: grid; gap: 1rem; }
+.bubble.sm { padding: 1.1rem 1.6rem; font-size: .95rem; font-weight: 500; border-radius: 36px; }
+.do-row { align-items: start; }
+.do-theme { padding-top: 1.2rem; }
+/* ===== user personas ===== */
+.mp-wrap { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin-top: 1.5rem; align-items: stretch; }
+.mp { display: flex; flex-direction: column; overflow: hidden; background: #fff; border: 1px solid rgba(17,17,17,.14); border-radius: var(--radius); }
+.mp-top { padding: 1.6rem 1.6rem 1.4rem; color: #fff; background: var(--dk); }
+.mp-id { display: flex; align-items: center; gap: 1.3rem; margin-bottom: 1.2rem; }
+.mp-av { flex: none; display: grid; place-items: center; width: 108px; height: 108px; background: #1E1E1E; border: 2px solid #9DF4FF; border-radius: 22px; font-family: var(--pd-head); font-size: 3.2rem; font-weight: 800; color: #9DF4FF; }
+.mp h3 { margin: 0; font-family: var(--pd-head); font-size: 2rem; font-weight: 800; line-height: 1.05; color: #fff; }
+.mp-age { margin: .1rem 0 .5rem; color: rgba(255,255,255,.7); }
+.mp-age b { font-family: var(--pd-head); font-size: 2.3rem; font-weight: 800; line-height: 1; color: #9DF4FF; }
+.mp dl { display: grid; grid-template-columns: auto 1fr; gap: .15rem .7rem; margin: 0; font-size: .82rem; line-height: 1.4; }
+.mp dt { color: rgba(255,255,255,.55); font-weight: 600; }
+.mp dd { margin: 0; color: #fff; }
+.mp-tag { display: inline-block; margin: 0; padding: .35rem .8rem; background: #9DF4FF; color: #1E1E1E; font-family: var(--pd-head); font-size: 1.15rem; font-weight: 800; border-radius: 6px; }
+.mp-body { flex: 1; display: flex; flex-direction: column; padding: 1.3rem 1.6rem 1.6rem; }
+.mp h4 { margin: 1rem 0 .45rem; font-size: .75rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.mp-body > h4:first-child { margin-top: 0; }
+.mp-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+.mp-chips li { padding: .2rem .8rem; font-size: .85rem; border: 1px solid var(--dk); border-radius: 999px; }
+.mp-chips.alt li { background: #D9F1F4; border-color: #D9F1F4; }
+.mp-c2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1.2rem; }
+.mp-body ul:not(.mp-chips) { margin: 0; padding: 0; list-style: none; font-size: .9rem; line-height: 1.45; }
+.mp-body ul:not(.mp-chips) li + li { margin-top: .35rem; }
+.mp-q { margin: 1.3rem 0 0; margin-top: auto; padding: 1rem 1.2rem; background: #373737; color: #fff; border-radius: 14px; box-shadow: 5px 5px 0 #9DF4FF; font-family: var(--pd-head); font-size: 1rem; font-weight: 600; line-height: 1.45; }
+.mp-c2 + h4 { margin-top: 1rem; }
+.mp-body > ul:last-of-type { margin-bottom: 1.4rem; }
+.mp-note { margin: .9rem 0 0; font-size: .8rem; color: var(--muted, #6b6b6b); }
+@media (max-width: 900px) { .mp-wrap { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 480px) { .mp-c2 { grid-template-columns: minmax(0, 1fr); } .mp-av { width: 84px; height: 84px; font-size: 2.4rem; } .mp-id { gap: 1rem; } }
+/* personas: card più compatte + ritratti */
+.mp-wrap { max-width: 900px; gap: 1.2rem; }
+.mp-top { padding: 1.2rem 1.3rem 1.1rem; }
+.mp-id { gap: 1rem; margin-bottom: .9rem; }
+.mp-av { flex: none; display: block; width: 92px; height: 92px; padding: 0; background: none; border: 2px solid #9DF4FF; border-radius: 18px; overflow: hidden; }
+.mp h3 { font-size: 1.6rem; }
+.mp-age { margin-bottom: .35rem; font-size: .9rem; }
+.mp-age b { font-size: 1.8rem; }
+.mp dl { font-size: .76rem; }
+.mp-tag { padding: .28rem .7rem; font-size: .98rem; }
+.mp-body { padding: 1rem 1.3rem 1.3rem; }
+.mp h4 { margin: .8rem 0 .35rem; font-size: .68rem; }
+.mp-chips li { padding: .15rem .65rem; font-size: .78rem; }
+.mp-body ul:not(.mp-chips) { font-size: .82rem; line-height: 1.4; }
+.mp-body ul:not(.mp-chips) li + li { margin-top: .25rem; }
+.mp-body > ul:last-of-type { margin-bottom: 1.1rem; }
+.mp-q { padding: .8rem 1rem; font-size: .88rem; border-radius: 12px; box-shadow: 4px 4px 0 #9DF4FF; }
+@media (max-width: 480px) { .mp-av { width: 76px; height: 76px; } }
+/* personas: centrate e allineate (subgrid) */
+.mp-wrap { max-width: 900px; margin-left: auto; margin-right: auto; grid-template-rows: repeat(6, auto); column-gap: 1.2rem; row-gap: 0; }
+.mp { display: grid; grid-row: span 6; grid-template-rows: subgrid; row-gap: 0; }
+.mp-top { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; }
+.mp-top .mp-tag { margin-top: .2rem; }
+.mp-s, .mp-c2 { padding: 0 1.3rem; }
+.mp-s:nth-child(2) { padding-top: 1rem; }
+.mp-s h4, .mp-c2 h4 { margin: .8rem 0 .35rem; }
+.mp-s:nth-child(2) h4 { margin-top: 0; }
+.mp-s ul:not(.mp-chips), .mp-c2 ul { margin: 0; padding: 0; list-style: none; font-size: .82rem; line-height: 1.4; }
+.mp-s ul:not(.mp-chips) li + li, .mp-c2 li + li { margin-top: .25rem; }
+.mp-q { align-self: end; margin: 1.1rem 1.3rem 1.3rem; }
+@media (max-width: 900px) { .mp-wrap { grid-template-rows: none; row-gap: 1.2rem; } .mp { grid-row: auto; grid-template-rows: none; } }
+.mp-av { width: 104px; height: 104px; object-fit: cover; border-radius: 20px; }
+@media (max-width: 480px) { .mp-av { width: 84px; height: 84px; } }
+.mk-tl { margin-top: 1.2rem; max-width: 100%; min-width: 0; overflow: hidden; }
+.mk-tl .tl-scroll { overflow-x: auto; max-width: 100%; }
+</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;700&family=Noto+Serif+JP:wght@700&display=swap"
+    rel="stylesheet">
+  <style>
+
+/* =========================================================
+   SELETTORE LINGUA IT / EN (navbar, tutte le pagine)
+   ========================================================= */
+.lang-toggle {
+  grid-column: 1;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: .15rem;
+  font-size: .9rem;
+}
+.lang-toggle span { color: var(--muted); }
+.lang-toggle button {
+  padding: .3rem .75rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: .04em;
+  line-height: 1.6;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, transform .2s ease;
+}
+.lang-toggle button:hover { color: var(--ink); transform: translateY(-2px); }
+.lang-toggle button.is-active { background: var(--green); color: var(--ink); }
+.lang-toggle button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+@media (max-width: 900px) {
+  .site-header > .button { grid-column: 2; }
+}
+</style>
+  <script src="lang.js"></script>
+</head>
+
+<body id="top">
+  <a class="skip-link" href="#main" data-it="Vai al contenuto">Skip to content</a>
+
+  <header class="site-header">
+    <nav aria-label="Main navigation" data-it-aria-label="Navigazione principale">
+      <a href="index.html#top">Home</a>
+      <a href="index.html#work" data-it="Progetti">Projects</a>
+      <a href="index.html#process" data-it="Processo">Process</a>
+      <a href="index.html#about" data-it="Chi sono">About me</a>
+    </nav>
+    <a href="contact.html" class="button button-small" data-it="Contattami">Contact me</a>
+  </header>
+
+  <main id="main">
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20h-5.5v-5.5h-5V20H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M3 5.5c3-1 6-1 9 1 3-2 6-2 9-1V19c-3-1-6-1-9 1-3-2-6-2-9-1z M12 6.5V20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m15 15 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 19c.6-3.4 3-5.2 6-5.2s5.4 1.8 6 5.2M15.5 5.6a3 3 0 0 1 0 5.8M17.5 14c2 .6 3.2 2.3 3.5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-pen" viewBox="0 0 24 24"><path d="M5 19l1-4L16 5l3 3L9 18zM14 7l3 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+      <symbol id="i-stop" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m6.8 6.8 10.4 10.4" stroke="currentColor" stroke-width="1.8"/></symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5.5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="18.5" r="1.6" fill="currentColor"/></symbol>
+      <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 1.5h-15zM10 20.5h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    </svg>
+
+    <section class="pd-hero">
+      <div class="hero-grid">
+        <img class="hp hp-l" src="assets/moku-home.webp" alt="Moku home screen with featured news, new releases and the bottom navigation bar" data-it-alt="Home di Moku con notizie in evidenza, nuove uscite e la barra di navigazione in basso">
+        <div class="hero-center">
+          <h1 class="section-title pd-title"><span>moku</span><mark class="highlight">case study</mark></h1>
+          <p class="pd-lead" data-it="Per chi ama i manga (e la propria sanità mentale). Moku è un&#x27;app mobile che riunisce &lt;b&gt;lettura, catalogazione e community&lt;/b&gt; in un unico posto.">For those who love manga (and their own sanity). Moku is a mobile app that brings <b>reading, cataloguing and community together</b> in one place.</p>
+          <dl class="pd-meta">
+        <div><dt data-it="Ruolo">Role</dt><dd>UX/UI Designer</dd></div>
+        <div><dt data-it="Progetto">Project</dt><dd data-it="Progetto personale">Personal project</dd></div>
+        <div><dt>Target</dt><dd data-it="Lettori di manga e webtoon">Manga &amp; webtoon readers</dd></div>
+        <div><dt data-it="Consegne">Deliverables</dt><dd data-it="Ricerca, branding, flussi, UI dell&#x27;app e test">Research, branding, flows, app UI &amp; test</dd></div>
+      </dl>
+        </div>
+        <img class="hp hp-r" src="assets/moku-reading.webp" alt="Moku reading mode showing a manga chapter with the reading toolbar" data-it-alt="Modalità di lettura di Moku con un capitolo di manga e la barra degli strumenti">
+      </div>
+    </section>
+
+    <div class="pd">
+
+      <!-- 01 PROBLEM -->
+      <section class="pd-section" id="problem">
+        <p class="pd-kicker" data-it="01 — Il problema">01 — The problem</p>
+        <h2 data-it="Leggere manga nel 2026 è &lt;mark&gt;ancora complicato&lt;/mark&gt;">Reading manga in 2026 is <mark>still complicated</mark></h2>
+        <p class="pd-intro" data-it="Oggi funziona più o meno così: apri un sito e vieni travolto da &lt;b&gt;pop-up infiniti, pubblicità aggressive&lt;/b&gt;, pagine che non si caricano, &lt;b&gt;immagini di scarsa qualità&lt;/b&gt; e interfacce ferme agli anni &#x27;90. Per leggere due capitoli devi diventare un hacker, peggio di Mr. Robot. E tu volevi solo &lt;b&gt;leggere un manga&lt;/b&gt;.">Today it works more or less like this: you open a website and you’re hit by <b>endless pop-ups, aggressive ads</b>, pages that won’t load, <b>poor image quality</b> and interfaces stuck in the ’90s. To read two chapters you have to become a hacker, worse than Mr. Robot. And all you wanted was <b>to read a manga</b>.</p>
+        <div class="pd-insights c3"><article class="pd-insight"><h3 data-it="Piattaforme frammentate">Fragmented platforms</h3><p data-it="I lettori saltano tra app e siti, con cataloghi limitati a un solo editore e contenuti non sempre ufficiali, con una qualità scarsa come conseguenza.">Readers jump between apps and websites, with catalogues limited to a single publisher and content that isn’t always official, with poor quality as a result.</p></article><article class="pd-insight"><h3 data-it="Esperienza invasiva e datata">Invasive, outdated experience</h3><p data-it="Pubblicità aggressive, interfacce datate, prezzi poco chiari e “monete virtuali”, e spesso traduzioni automatiche di bassa qualità.">Aggressive ads, dated interfaces, unclear prices and “virtual coins”, and often machine translations of low quality.</p></article><article class="pd-insight"><h3 data-it="Strumenti mancanti">Missing tools</h3><p data-it="Pochi strumenti per gestire una libreria personale o ricordare dove ci si è fermati, un supporto offline debole e nessuno spazio vero per condividere opinioni.">Few tools to manage a personal library or keep track of where you stopped, weak offline support and no real space to share opinions.</p></article></div>
+        <h3 class="pd-sub" data-it="Metodologia">Methodology</h3>
+        <div class="pd-timeline mk-tl">
+          <div class="tl-scroll"><div class="tl">
+            <div class="tl-weeks" data-it="&lt;span&gt;Settimana 1&lt;/span&gt;&lt;span&gt;Settimana 2&lt;/span&gt;&lt;span&gt;Settimana 3&lt;/span&gt;&lt;span&gt;Settimana 4&lt;/span&gt;"><span>Week 1</span><span>Week 2</span><span>Week 3</span><span>Week 4</span></div>
+            <div class="tl-body"><div class="tl-row" data-it="&lt;span class=&quot;tl-bar&quot; style=&quot;left:0%;width:20%&quot;&gt;Questionario&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:30%;width:18%&quot;&gt;Insight&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:51%;width:19%&quot;&gt;Brand identity&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:73%;width:17%&quot;&gt;Test di usabilità&lt;/span&gt;"><span class="tl-bar" style="left:0%;width:20%">Survey</span><span class="tl-bar" style="left:30%;width:18%">Insights</span><span class="tl-bar" style="left:51%;width:19%">Brand identity</span><span class="tl-bar" style="left:73%;width:17%">Usability testing</span></div><div class="tl-row" data-it="&lt;span class=&quot;tl-bar&quot; style=&quot;left:4%;width:23%&quot;&gt;Interviste&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:40%;width:18%&quot;&gt;How might we&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:90.5%;width:9.5%&quot;&gt;Pitch finale&lt;/span&gt;"><span class="tl-bar" style="left:4%;width:23%">Interviews</span><span class="tl-bar" style="left:40%;width:18%">How might we</span><span class="tl-bar" style="left:90.5%;width:9.5%">Final pitch</span></div><div class="tl-row" data-it="&lt;span class=&quot;tl-bar&quot; style=&quot;left:1.5%;width:19.5%&quot;&gt;Benchmark&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:60%;width:23%&quot;&gt;UI design e design system&lt;/span&gt;"><span class="tl-bar" style="left:1.5%;width:19.5%">Benchmark</span><span class="tl-bar" style="left:60%;width:23%">UI design &amp; design system</span></div><div class="tl-row" data-it="&lt;span class=&quot;tl-bar&quot; style=&quot;left:10%;width:25%&quot;&gt;Osservazione digitale&lt;/span&gt;&lt;span class=&quot;tl-bar&quot; style=&quot;left:55%;width:16%&quot;&gt;User flow&lt;/span&gt;"><span class="tl-bar" style="left:10%;width:25%">Digital observation</span><span class="tl-bar" style="left:55%;width:16%">User flow</span></div></div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- 02 BRAND -->
+      <section class="pd-section" id="brand">
+        <p class="pd-kicker" data-it="02 — L&#x27;idea e la brand identity">02 — The idea &amp; brand identity</p>
+        <h2 data-it="Leggere &lt;mark&gt;in silenzio&lt;/mark&gt;">Reading <mark>in silence</mark></h2>
+        <p class="pd-intro" data-it="Da questa frustrazione collettiva è nato Moku. &lt;b&gt;Apri l&#x27;app, scegli un manga, leggi.&lt;/b&gt; Tutta l&#x27;idea si basa su questa semplicità, e così anche il nome.">From this collective frustration, Moku was born. <b>Open the app, choose a manga, read.</b> The whole idea is built on that simplicity, and so is the name.</p>
+
+        <div class="bs2">
+          <div class="bs2-note bs2-l">
+            <p class="bs2-cap" data-it="Mood dei colori">Colour mood</p>
+            <div class="bs2-sw"><i style="background:#1E1E1E"></i><i style="background:#24393E"></i><i style="background:#373737"></i><i style="background:#505050"></i><i style="background:#9DF4FF"></i></div>
+            <p data-it="I toni scuri lasciano le pagine dei manga sotto i riflettori; il ciano chiaro è l&#x27;unico accento.">Dark tones keep the manga pages in the spotlight; light cyan is the only accent.</p>
+          </div>
+          <div class="bs2-logo">
+            <img src="assets/moku-logo.png" alt="Moku app icon: the kanji 木 in light cyan on a dark rounded square" loading="lazy" data-it-alt="Icona dell&#x27;app Moku: il kanji 木 in ciano chiaro su un quadrato scuro arrotondato">
+            <svg class="bs2-arrow a-l" viewBox="0 0 80 60" aria-hidden="true"><path d="M3 46c10 3 22 2 34-5 13-8 25-18 37-27"/><path d="M61 13c4 0 9 0 14 1-1 4-3 9-5 13"/></svg>
+            <svg class="bs2-arrow a-r" viewBox="0 0 150 80" aria-hidden="true"><path d="M147 9c-20-5-44-1-63 12-18 12-30 28-43 46"/><path d="M41 54c0 5 0 10 0 14 5-1 10-2 14-4"/></svg>
+          </div>
+          <div class="bs2-note bs2-r">
+            <p class="bs2-cap" data-it="Il simbolo">The symbol</p>
+            <p data-it="Il kanji &lt;b lang=&quot;ja&quot;&gt;木&lt;/b&gt; si legge anche &lt;i&gt;moku&lt;/i&gt; e significa “albero”: un segno calmo e semplice che diventa l&#x27;icona dell&#x27;app.">The kanji <b lang="ja">木</b> is also read <i>moku</i> and means “tree”: a calm, simple sign that becomes the app icon.</p>
+          </div>
+          <div class="bs2-name">
+            <p class="bs2-cap" data-it="Da dove viene il nome">Where the name comes from</p>
+            <div class="bs2-split" lang="ja">
+              <div class="seg hl" data-it="&lt;span&gt;黙&lt;/span&gt;&lt;b&gt;moku&lt;/b&gt;&lt;i&gt;silenzio&lt;/i&gt;"><span>黙</span><b>moku</b><i>silence</i></div>
+              <div class="seg" data-it="&lt;span&gt;読&lt;/span&gt;&lt;b&gt;doku&lt;/b&gt;&lt;i&gt;leggere&lt;/i&gt;"><span>読</span><b>doku</b><i>to read</i></div>
+              <div class="seg" data-it="&lt;span&gt;する&lt;/span&gt;&lt;b&gt;suru&lt;/b&gt;&lt;i&gt;fare&lt;/i&gt;"><span>する</span><b>suru</b><i>to do</i></div>
+            </div>
+            <p class="bs2-def" data-it="&lt;b&gt;mokudoku suru&lt;/b&gt;, l&#x27;espressione giapponese per “leggere in silenzio”: leggere tra sé, senza pronunciare le parole ad alta voce."><b>mokudoku suru</b>, the Japanese expression for “reading in silence”: reading to yourself, without saying the words out loud.</p>
+          </div>
+        </div>
+
+        <div class="pd-quote" data-it="Un posto dove leggere è un piacere, non una complicazione.">A place where reading is a pleasure, not a complication.</div>
+      </section>
+
+      <!-- 03 RESEARCH -->
+      <section class="pd-section" id="research">
+        <p class="pd-kicker" data-it="03 — Ricerca">03 — Research</p>
+        <h2 data-it="Ascoltare &lt;mark&gt;i lettori&lt;/mark&gt;">Listening to <mark>the readers</mark></h2>
+        <div class="pd-grid c4">
+          <div class="pd-card pd-stat"><strong>38</strong><p data-it="risposte al questionario">survey responses</p></div>
+          <div class="pd-card pd-stat"><strong>5</strong><p data-it="interviste">interviews</p></div>
+          <div class="pd-card pd-stat"><strong>7</strong><p data-it="piattaforme analizzate">platforms benchmarked</p></div>
+          <div class="pd-card pd-stat"><strong>9</strong><p data-it="thread di Reddit osservati">Reddit threads observed</p></div>
+        </div>
+
+        <div class="rs-profile2">
+          <p class="rs-lab" data-it="Chi ha risposto&lt;small&gt;risposte più frequenti&lt;/small&gt;">Who answered<small>most common answers</small></p>
+          <dl>
+            <div><dt data-it="Età">Age</dt><dd>25–30</dd></div>
+            <div><dt data-it="Legge manga da">Reading manga for</dt><dd data-it="7+ anni">7+ years</dd></div>
+            <div><dt data-it="Legge su">Reads on</dt><dd data-it="Piattaforme ufficiali e non ufficiali">Official &amp; unofficial platforms</dd></div>
+            <div><dt data-it="Tiene traccia della libreria">Tracks the library</dt><dd data-it="A memoria">By memory</dd></div>
+          </dl>
+        </div>
+        <figure class="pd-chart sv">
+          <figcaption data-it="Quali funzioni contano di più in un&#x27;app per leggere manga?">Which features matter most in a manga reading app?</figcaption>
+          <ul class="sv-bars">
+            <li data-it="&lt;span&gt;Traduzioni complete e di qualità&lt;/span&gt;&lt;i style=&quot;--p:81.6&quot;&gt;&lt;/i&gt;&lt;b&gt;81,6%&lt;/b&gt;"><span>Complete, high-quality translations</span><i style="--p:81.6"></i><b>81.6%</b></li>
+            <li data-it="&lt;span&gt;Immagini di alta qualità&lt;/span&gt;&lt;i style=&quot;--p:65.8&quot;&gt;&lt;/i&gt;&lt;b&gt;65,8%&lt;/b&gt;"><span>High image quality</span><i style="--p:65.8"></i><b>65.8%</b></li>
+            <li data-it="&lt;span&gt;Gestione della libreria&lt;/span&gt;&lt;i style=&quot;--p:50&quot;&gt;&lt;/i&gt;&lt;b&gt;50%&lt;/b&gt;"><span>Library management</span><i style="--p:50"></i><b>50%</b></li>
+            <li data-it="&lt;span&gt;Lettura offline&lt;/span&gt;&lt;i style=&quot;--p:42.1&quot;&gt;&lt;/i&gt;&lt;b&gt;42,1%&lt;/b&gt;"><span>Offline reading</span><i style="--p:42.1"></i><b>42.1%</b></li>
+            <li data-it="&lt;span&gt;Interfaccia moderna e intuitiva&lt;/span&gt;&lt;i style=&quot;--p:28.9&quot;&gt;&lt;/i&gt;&lt;b&gt;28,9%&lt;/b&gt;"><span>Modern, intuitive interface</span><i style="--p:28.9"></i><b>28.9%</b></li>
+            <li data-it="&lt;span&gt;Modalità di lettura personalizzabili&lt;/span&gt;&lt;i style=&quot;--p:21.1&quot;&gt;&lt;/i&gt;&lt;b&gt;21,1%&lt;/b&gt;"><span>Customisable reading modes</span><i style="--p:21.1"></i><b>21.1%</b></li>
+          </ul>
+        </figure>
+        <p class="pd-intro" data-it="Oltre alle funzioni, i lettori chiedevano &lt;b&gt;suggerimenti personalizzati&lt;/b&gt; e avvisi sulle uscite, &lt;b&gt;un posto dove parlare con altri lettori&lt;/b&gt;, &lt;b&gt;traduzioni nella propria lingua&lt;/b&gt; e pubblicità solo quando è il prezzo dei contenuti gratuiti. La lettura pagina per pagina e lo scorrimento continuo piacevano quasi allo stesso modo, quindi &lt;b&gt;bisognava supportarli entrambi&lt;/b&gt;.">Beyond features, readers asked for <b>personalised suggestions</b> and release alerts, <b>a place to talk with other readers</b>, <b>translations in their own language</b>, and ads only when they’re the price of free content. Page-by-page and continuous scrolling were loved almost equally, so <b>both had to be supported</b>.</p>
+
+        <h3 class="pd-sub">Benchmark</h3>
+        <p class="pd-intro" data-it="Ho mappato &lt;b&gt;16 piattaforme&lt;/b&gt;, legali e non ufficiali. Molte sono state scartate perché erano solo siti, non disponibili come app, o semplici lettori basati su plugin. &lt;b&gt;Ne ho tenute sette&lt;/b&gt; e le ho analizzate su 11 criteri (&lt;b&gt;gestione della libreria, qualità visiva, modalità di lettura, anteprima, segnalibri, community, suggerimenti, pubblicità, lingua, abbonamento e lettura offline&lt;/b&gt;), ognuna per la parte che fa meglio. Qui sotto, &lt;b&gt;ogni area di Moku&lt;/b&gt; con le piattaforme che l&#x27;hanno ispirata."><b>16 platforms</b> were mapped, both legal and unofficial. Many were discarded because they were websites only, not available as apps, or simple plugin-based readers. <b>Seven were kept</b> and analysed on 11 criteria (<b>library management, visual quality, reading modes, reading preview, bookmarks, community, suggestions, ads, language, subscription and offline reading</b>), each one for the part it does best. Below, <b>each area of Moku</b> with the platforms that inspired it.</p>
+        <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="bk" viewBox="0 0 20 16"><path d="M10 3.2C7.6 1.6 4.6 1.3 1.5 2v11.6c3.1-.7 6.1-.4 8.5 1.2 2.4-1.6 5.4-1.9 8.5-1.2V2C15.4 1.3 12.4 1.6 10 3.2zM10 3.2v11.6" stroke-linejoin="round"/></symbol></svg>
+        <div class="bm5">
+          <details class="bm5i" open><summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.7 1-5.9-4.3-4.1 5.9-.8z"/></svg><h4 data-it="L&#x27;esperienza completa">The whole experience</h4><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><ul><li data-it="&lt;b&gt;Manga Plus&lt;/b&gt;&lt;span&gt;la più vicina all&#x27;obiettivo di Moku, analizzata in modo selettivo&lt;/span&gt;"><b>Manga Plus</b><span>closest to Moku’s goal, analysed selectively</span></li></ul></details>
+          <details class="bm5i" open><summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></svg><h4 data-it="Home e struttura">Home &amp; structure</h4><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><ul><li data-it="&lt;b&gt;Webtoon&lt;/b&gt;&lt;span&gt;layout della home, categorie con icone, piccoli dettagli&lt;/span&gt;"><b>Webtoon</b><span>home layout, categories with icons, small details</span></li><li data-it="&lt;b&gt;Crunchyroll&lt;/b&gt;&lt;span&gt;struttura generale dell&#x27;app&lt;/span&gt;"><b>Crunchyroll</b><span>overall app structure</span></li></ul></details>
+          <details class="bm5i" open><summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6c-2.5-2-6-2-9-1v14c3-1 6.5-1 9 1 2.5-2 6-2 9-1V5c-3-1-6.5-1-9 1zM12 6v14"/></svg><h4 data-it="Modalità di lettura">Reading mode</h4><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><ul><li data-it="&lt;b&gt;Wattpad&lt;/b&gt;&lt;span&gt;modalità di lettura&lt;/span&gt;"><b>Wattpad</b><span>reading mode</span></li></ul></details>
+          <details class="bm5i" open><summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4v16H5zM10 4h4v16h-4zM15.5 5l3.5-1 3 15-3.5 1z"/></svg><h4 data-it="Libreria">Library</h4><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><ul><li data-it="&lt;b&gt;MyAnimeList&lt;/b&gt;&lt;span&gt;organizzazione della libreria e segnalibri&lt;/span&gt;"><b>MyAnimeList</b><span>library organisation and bookmarks</span></li></ul></details>
+          <details class="bm5i" open><summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z"/></svg><h4 data-it="Commenti">Comments</h4><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><ul><li data-it="&lt;b&gt;Zipaki&lt;/b&gt;&lt;span&gt;commenti sull&#x27;intero capitolo&lt;/span&gt;"><b>Zipaki</b><span>comments on the whole chapter</span></li><li data-it="&lt;b&gt;Wattpad&lt;/b&gt;&lt;span&gt;commenti su ogni singola pagina&lt;/span&gt;"><b>Wattpad</b><span>comments on every single page</span></li></ul></details>
+          <details class="bm5i" open><summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h11v18H6zM6 3c-1 0-2 1-2 2v14c0 1 1 2 2 2M9 7h5"/></svg><h4 data-it="Copertine">Covers</h4><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><ul><li data-it="&lt;b&gt;CoffeeManga&lt;/b&gt;&lt;span&gt;come vengono presentate le copertine&lt;/span&gt;"><b>CoffeeManga</b><span>how covers are presented</span></li></ul></details>
+        </div>
+
+        <h3 class="pd-sub" data-it="Osservazione digitale">Digital observation</h3>
+        <p class="pd-intro" data-it="&lt;b&gt;Nove thread di Reddit, quattro bisogni ricorrenti.&lt;/b&gt; Tutti con le parole dei lettori."><b>Nine Reddit threads, four recurring needs.</b> All of them, in the readers’ own words.</p>
+        <div class="do-rows">
+          <div class="do-row">
+            <div class="do-theme"><span class="tag" data-it="Scoperta">Discovery</span><h4 data-it="Consigli">Recommendations</h4><p data-it="I lettori passano molto tempo a cercare la prossima lettura, e un posto che ce l&#x27;abbia davvero. Vogliono &lt;b&gt;suggerimenti basati su affinità reali&lt;/b&gt;.">Readers spend a lot of time looking for their next read, and for a place that actually has it. They want <b>suggestions based on real affinities</b>.</p></div>
+            <div class="bubbles"><blockquote class="bubble" data-it="“C&#x27;è un buon sito che carica quasi tutti i manga e manhwa? Qualsiasi consiglio è ben accetto.”">“Is there a good site that loads almost all manga and manhwa? Any recommendation would be appreciated.”</blockquote><blockquote class="bubble sm" data-it="“Qualcuno conosce siti di manga sicuri? Cerco in particolare “Punks Triangle” e “How to Deal When Your Intimidating Neighbor Is Actually an Omega”, ma non trovo niente.”">“Does anyone know safe manga websites? I’m looking specifically for “Punks Triangle” and “How to Deal When Your Intimidating Neighbor Is Actually an Omega”, but I can’t find anything.”</blockquote><blockquote class="bubble sm" data-it="“Dove trovo il manga di Yu-Gi-Oh! a colori? Non c&#x27;è una traduzione inglese ufficiale oltre il capitolo 40, e i siti con le raw o non ce l&#x27;hanno o solo in bianco e nero.”">“Where can I find Yu-Gi-Oh! manga in colour? There’s no official English translation past chapter 40, and the raw sites either don’t have it or only in black and white.”</blockquote><blockquote class="bubble sm" data-it="“Leggete tutti i manga online o li scaricate? E se li scaricate, qual è un sito decente?”">“Does everyone read manga online or download them? And if you download them, what’s a decent site?”</blockquote></div>
+          </div>
+          <div class="do-row flip">
+            <div class="do-theme"><span class="tag" data-it="Problemi di UI / UX">UI / UX pain</span><h4 data-it="Interfacce caotiche">Chaotic interfaces</h4><p data-it="Layout disordinati, pubblicità invasive e &lt;b&gt;nessuna modalità di lettura davvero pulita e immersiva&lt;/b&gt;.">Messy layouts, invasive ads and <b>no truly clean, immersive reading mode</b>.</p></div>
+            <div class="bubbles"><blockquote class="bubble" data-it="“Qual è la migliore app per leggere manga? Ne ho provate un paio ma non funzionavano davvero: pubblicità, o premium non sbloccato.”">“What’s the best app to read manga? I tried a couple but they didn’t really work: ads, or premium not unlocked.”</blockquote><blockquote class="bubble sm" data-it="“Ho provato una decina di fonti diverse e fanno tutte così con le doppie pagine. Voglio solo una fonte in cui ogni pagina sia singola, tranne le vere doppie pagine.”">“I tried about ten different sources and they all do this with double pages. I just want one source where every page is single, except the real double spreads.”</blockquote><blockquote class="bubble sm" data-it="“Un sito o un programma per scaricare manga che funzioni davvero? Ci sto provando da più di 3 ore e non funziona niente: dice “download in corso” e poi si blocca.”">“Any website or program to download manga that actually works? I’ve been at it for over 3 hours and nothing works: it says “downloading” and then just stops.”</blockquote></div>
+          </div>
+          <div class="do-row">
+            <div class="do-theme"><span class="tag" data-it="Utilità">Utility</span><h4>Tracking</h4><p data-it="&lt;b&gt;Ricordare a che volume o capitolo ci si è fermati&lt;/b&gt;, tra tante fonti diverse."><b>Remembering which volume or chapter they stopped at</b>, across many different sources.</p></div>
+            <div class="bubbles"><blockquote class="bubble" data-it="“C&#x27;è un modo per tenere traccia dei manga che stai leggendo senza creare un account su ogni singolo sito?”">“Is there a way to keep track of the manga you’re reading without creating an account on every single site?”</blockquote></div>
+          </div>
+          <div class="do-row flip">
+            <div class="do-theme"><span class="tag">Social</span><h4 data-it="Discussioni">Discussions</h4><p data-it="Condividere teorie e opinioni sui nuovi capitoli, &lt;b&gt;senza spoiler&lt;/b&gt; e con uno scambio costruttivo.">Sharing theories and opinions on new chapters, <b>without spoilers</b> and with constructive exchange.</p></div>
+            <div class="bubbles"><blockquote class="bubble" data-it="“Una delle mie parti preferite era la sezione commenti che sparava assurdità sul capitolo appena letto. Dove trovo un sito con una community attiva?”">“One of my favourite parts was the comment section talking nonsense about the chapter I’d just read. Where can I find a site with an active community?”</blockquote></div>
+          </div>
+        </div>
+
+        <h3 class="pd-sub" data-it="User personas">User personas</h3>
+        <p class="pd-intro" data-it="&lt;b&gt;Due lettori, un&#x27;app.&lt;/b&gt; Interviste e risposte al questionario si sono ridotte a due profili ricorrenti: chi legge ogni giorno e chi legge ogni tanto. Ogni scelta di design doveva funzionare per entrambi."><b>Two readers, one app.</b> Interviews and survey answers came down to two recurring profiles: the one who reads every day and the one who reads now and then. Every design choice had to work for both.</p>
+        <div class="mp-wrap">
+          <article class="mp">
+            <div class="mp-top">
+              <div class="mp-id">
+                <img class="mp-av" src="assets/moku-persona-giulia.webp" alt="Portrait of Giulia" width="400" height="400" loading="lazy" data-it-alt="Ritratto di Giulia">
+                <div>
+                  <h3>Giulia</h3>
+                  <p class="mp-age" data-it="&lt;b&gt;25&lt;/b&gt; anni"><b>25</b> years old</p>
+                  <dl><dt data-it="Legge">Reads</dt><dd data-it="Ogni giorno, dal 2012">Every day, since 2012</dd><dt data-it="Legge su">Reads on</dt><dd data-it="MangaPlus e siti non ufficiali">MangaPlus and unofficial sites</dd><dt data-it="Lavoro">Job</dt><dd data-it="Neolaureata">Recent graduate</dd></dl>
+                </div>
+              </div>
+              <p class="mp-tag" data-it="“La lettrice quotidiana”">“The daily reader”</p>
+            </div>
+              <div class="mp-s"><h4 data-it="Personalità">Personality</h4><ul class="mp-chips"><li data-it="Costante">Constant</li><li data-it="Organizzata">Organised</li><li data-it="Esigente">Demanding</li></ul></div>
+              <div class="mp-s"><h4 data-it="Interessi">Interests</h4><ul class="mp-chips alt"><li data-it="Manga e manhwa">Manga &amp; manhwa</li><li data-it="Scan in inglese">English scans</li><li data-it="Classifiche top 50">Top 50 charts</li></ul></div>
+              <div class="mp-c2">
+                <div><h4 data-it="Obiettivi">Goals</h4><ul><li data-it="Non perdere mai il segno">Never lose her place</li><li data-it="Sapere subito quando esce un nuovo capitolo">Know right away when a new chapter is out</li><li data-it="Riprendere da qualsiasi dispositivo">Pick up from any device</li></ul></div>
+                <div><h4 data-it="Abitudini di lettura">Reading habits</h4><ul><li data-it="Legge in inglese quando l&#x27;italiano non è ancora uscito">Reads in English when Italian isn’t out yet</li><li data-it="Tiene la sua libreria nelle note del telefono e su MyAnimeList">Keeps her library in phone notes and MyAnimeList</li></ul></div>
+              </div>
+              <div class="mp-s"><h4 data-it="Frustrazioni">Frustrations</h4><ul><li data-it="Server che crollano e notifiche che non arrivano mai">Servers that crash and notifications that never arrive</li><li data-it="Pop-up e pubblicità che non c&#x27;entrano niente con i manga">Pop-ups and ads that have nothing to do with manga</li><li data-it="Poche lingue, niente italiano">Few languages, no Italian</li></ul></div>
+              <blockquote class="mp-q" data-it="“Sui siti non ufficiali non c&#x27;è un segnalibro: devo ricordarmi dove mi sono fermata, o scriverlo.”">“On unofficial sites there’s no bookmark: I have to remember where I stopped, or write it down.”</blockquote>
+          </article>
+          <article class="mp">
+            <div class="mp-top">
+              <div class="mp-id">
+                <img class="mp-av" src="assets/moku-persona-luca.webp" alt="Portrait of Luca" width="400" height="400" loading="lazy" data-it-alt="Ritratto di Luca">
+                <div>
+                  <h3>Luca</h3>
+                  <p class="mp-age" data-it="&lt;b&gt;29&lt;/b&gt; anni"><b>29</b> years old</p>
+                  <dl><dt data-it="Legge">Reads</dt><dd data-it="Ogni tanto, dopo un anime">Now and then, after an anime</dd><dt data-it="Legge su">Reads on</dt><dd data-it="Siti web, nessuna app; preferisce la carta">Websites, no app; prefers paper</dd><dt data-it="Lavoro">Job</dt><dd data-it="Ricercatore">Researcher</dd></dl>
+                </div>
+              </div>
+              <p class="mp-tag" data-it="“L&#x27;esploratore occasionale”">“The occasional explorer”</p>
+            </div>
+              <div class="mp-s"><h4 data-it="Personalità">Personality</h4><ul class="mp-chips"><li data-it="Curioso">Curious</li><li data-it="Socievole">Social</li><li data-it="Selettivo">Selective</li></ul></div>
+              <div class="mp-s"><h4 data-it="Interessi">Interests</h4><ul class="mp-chips alt"><li>Anime</li><li data-it="Teorie e spoiler">Theories &amp; spoilers</li><li data-it="Dietro le quinte">Behind the scenes</li></ul></div>
+              <div class="mp-c2">
+                <div><h4 data-it="Obiettivi">Goals</h4><ul><li data-it="Provare un manga prima di comprarlo">Try a manga before buying it</li><li data-it="Trovare qualcosa di simile a ciò che ha amato">Find something similar to what he loved</li><li data-it="Leggere commenti e previsioni degli altri lettori">Read other readers’ comments and predictions</li></ul></div>
+                <div><h4 data-it="Abitudini di lettura">Reading habits</h4><ul><li data-it="Compra singoli volumi piuttosto che un abbonamento">Buys single volumes rather than a subscription</li><li data-it="Riprende una serie anche dopo anni">Picks a series up again after years</li></ul></div>
+              </div>
+              <div class="mp-s"><h4 data-it="Frustrazioni">Frustrations</h4><ul><li data-it="Scan di bassa qualità e pagine lente">Low-quality scans and slow pages</li><li data-it="Traduzioni che si fermano a metà">Translations that stop halfway</li><li data-it="Sfogliare le pagine per trovare dove si era fermato">Flipping through pages to find where he stopped</li></ul></div>
+              <blockquote class="mp-q" data-it="“Mentre leggo adoro i commenti: le previsioni di tutti sui prossimi capitoli.”">“While I read, I love the comments: everyone’s predictions for the next chapters.”</blockquote>
+          </article>
+        </div>
+      </section>
+
+      <!-- 04 INSIGHTS -->
+      <section class="pd-section" id="insights">
+        <p class="pd-kicker" data-it="04 — Insight">04 — Insights</p>
+        <h2 data-it="Da otto insight &lt;mark&gt;a cinque priorità&lt;/mark&gt;">From eight insights <mark>to five priorities</mark></h2>
+        <p class="pd-intro" data-it="Le risposte al questionario e gli appunti delle interviste sono stati scritti su post-it e raggruppati per tema in &lt;b&gt;otto insight&lt;/b&gt;.">Survey answers and interview notes were written on post-its and grouped by theme into <b>eight insights</b>.</p>
+        <div class="in-map">
+          <ul class="in-chips">
+            <li data-it="&lt;b&gt;01&lt;/b&gt;&lt;span&gt;Gestione della libreria&lt;/span&gt;"><b>01</b><span>Library management</span></li>
+            <li data-it="&lt;b&gt;02&lt;/b&gt;&lt;span&gt;Qualità visiva e modalità di lettura&lt;/span&gt;"><b>02</b><span>Visual quality &amp; reading modes</span></li>
+            <li data-it="&lt;b&gt;03&lt;/b&gt;&lt;span&gt;Anteprima e segnalibri&lt;/span&gt;"><b>03</b><span>Reading preview &amp; bookmarks</span></li>
+            <li data-it="&lt;b&gt;04&lt;/b&gt;&lt;span&gt;Community e suggerimenti&lt;/span&gt;"><b>04</b><span>Community &amp; suggestions</span></li>
+            <li data-it="&lt;b&gt;05&lt;/b&gt;&lt;span&gt;Pubblicità&lt;/span&gt;"><b>05</b><span>Ads</span></li>
+            <li data-it="&lt;b&gt;06&lt;/b&gt;&lt;span&gt;Abbonamento&lt;/span&gt;&lt;em&gt;→ unito a Pubblicità&lt;/em&gt;"><b>06</b><span>Subscription</span><em>→ merged into Ads</em></li>
+            <li data-it="&lt;b&gt;07&lt;/b&gt;&lt;span&gt;Lingua&lt;/span&gt;&lt;em&gt;→ unito a Modalità di lettura&lt;/em&gt;"><b>07</b><span>Language</span><em>→ merged into Reading modes</em></li>
+            <li data-it="&lt;b&gt;08&lt;/b&gt;&lt;span&gt;Offline&lt;/span&gt;&lt;em&gt;→ unito a Libreria&lt;/em&gt;"><b>08</b><span>Offline</span><em>→ merged into Library</em></li>
+          </ul>
+        </div>
+        <p class="pd-intro" data-it="Ognuno è stato poi riformulato come domanda &lt;b&gt;“How might we”&lt;/b&gt; e quelli che si sovrapponevano sono stati uniti: il risultato sono &lt;b&gt;cinque priorità&lt;/b&gt; che hanno dato forma all&#x27;intero prodotto.">Each one was then reframed as a <b>“How might we”</b> question, and the overlapping ones were merged: the result is <b>five priorities</b> that shaped the whole product.</p>
+        <h3 class="pd-sub" data-it="How might we…?">How might we…?</h3>
+        <div class="in-prio">
+          <article><span class="n">01</span><h3 data-it="Gestione della libreria">Library management</h3><p data-it="Un sistema integrato per catalogare tutto nel dettaglio e tenere traccia di uscite e contenuti, senza fatica.">An integrated system to catalogue everything in detail and keep track of releases and content, effortlessly.</p><blockquote data-it="“Se avessi uno strumento che organizza davvero quello che leggo e suggerisce manga in modo intelligente, lo userei sempre.”">“If I had a tool that really organises what I read and suggests manga in a smart way, I’d use it all the time.”</blockquote></article>
+          <article><span class="n">02</span><h3 data-it="Qualità visiva e modalità di lettura">Visual quality &amp; reading modes</h3><p data-it="Formati ideali, pagina per pagina o a scorrimento, per una lettura comoda senza zoom eccessivi.">Ideal formats, page by page or scrolling, for comfortable reading without excessive zoom.</p><blockquote data-it="“Leggere manga online è spesso più stancante che piacevole. Se l&#x27;interfaccia fosse progettata meglio, probabilmente leggerei molto di più.”">“Reading manga online is often more tiring than enjoyable. If the interface were better designed, I’d probably read much more.”</blockquote></article>
+          <article><span class="n">03</span><h3 data-it="Anteprima e segnalibri">Preview &amp; bookmarks</h3><p data-it="Anteprime, brevi trame e un salvataggio preciso del punto di lettura riducono frustrazione e carico di memoria.">Previews, short plots and precise saving of the reading point reduce frustration and memory load.</p><blockquote data-it="“Leggo ogni giorno, e se un&#x27;app mi fa perdere il segno la abbandono subito.”">“I read every day, and if an app makes me lose my place, I drop it straight away.”</blockquote></article>
+          <article><span class="n">04</span><h3 data-it="Community e suggerimenti">Community &amp; suggestions</h3><p data-it="Legami tra lettori, gruppi tematici e suggerimenti personalizzati inviati come notifiche.">Bonds between readers, thematic groups, and personalised suggestions delivered as notifications.</p><blockquote data-it="“Una community sarebbe davvero utile, tipo gruppi, per parlare con persone che hanno i miei stessi gusti.”">“A community would be really useful, like groups, to talk with people who have the same tastes.”</blockquote></article>
+          <article><span class="n">05</span><h3 data-it="Pubblicità">Ads</h3><p data-it="Pubblicità minima, assente con l&#x27;abbonamento, per un&#x27;esperienza fluida e senza distrazioni.">Minimal advertising, absent with a subscription, for a fluid experience with no distractions.</p><blockquote data-it="“Se l&#x27;app è fatta bene e non interrompe la lettura, diventa subito la mia preferita.”">“If the app is well made and doesn’t interrupt the reading, it immediately becomes my go-to.”</blockquote></article>
+        </div>
+      </section>
+
+      <!-- 05 FLOW -->
+      <section class="pd-section" id="flow">
+        <p class="pd-kicker" data-it="05 — Concept e user flow">05 — Concept &amp; user flow</p>
+        <h2 data-it="Costruita attorno a &lt;mark&gt;lettori veri&lt;/mark&gt;">Built around <mark>real readers</mark></h2>
+        <p class="pd-intro" data-it="Moku è nata &lt;b&gt;ascoltando chi legge manga&lt;/b&gt;, con funzioni progettate attorno alla &lt;b&gt;loro esperienza reale&lt;/b&gt;.">Moku was born by <b>listening to people who read manga</b>, with features designed around <b>their real experience</b>.</p>
+        <ul class="cx">
+          <li data-it="&lt;svg viewBox=&quot;0 0 24 24&quot;&gt;&lt;path d=&quot;M4 10.5 12 4l8 6.5V20h-5.5v-5.5h-5V20H4z&quot;/&gt;&lt;/svg&gt;&lt;b&gt;Home semplice&lt;/b&gt;"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></svg><b>Simple home</b></li>
+          <li data-it="&lt;svg viewBox=&quot;0 0 24 24&quot;&gt;&lt;path d=&quot;M12 6c-2.5-2-6-2-9-1v14c3-1 6.5-1 9 1 2.5-2 6-2 9-1V5c-3-1-6.5-1-9 1zM12 6v14&quot;/&gt;&lt;/svg&gt;&lt;b&gt;Modalità di lettura&lt;/b&gt;"><svg viewBox="0 0 24 24"><path d="M12 6c-2.5-2-6-2-9-1v14c3-1 6.5-1 9 1 2.5-2 6-2 9-1V5c-3-1-6.5-1-9 1zM12 6v14"/></svg><b>Reading modes</b></li>
+          <li data-it="&lt;svg viewBox=&quot;0 0 24 24&quot;&gt;&lt;path d=&quot;M5 4h4v16H5zM10 4h4v16h-4zM15.5 5l3.5-1 3 15-3.5 1z&quot;/&gt;&lt;/svg&gt;&lt;b&gt;Libreria personale&lt;/b&gt;"><svg viewBox="0 0 24 24"><path d="M5 4h4v16H5zM10 4h4v16h-4zM15.5 5l3.5-1 3 15-3.5 1z"/></svg><b>Personal library</b></li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 5h16v10H9l-5 4z"/></svg><b>Community</b></li>
+          <li data-it="&lt;svg viewBox=&quot;0 0 24 24&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;8.5&quot; r=&quot;3.8&quot;/&gt;&lt;path d=&quot;M4.5 20c1-4 4-6 7.5-6s6.5 2 7.5 6&quot;/&gt;&lt;/svg&gt;&lt;b&gt;Profilo personale&lt;/b&gt;"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg><b>Personal profile</b></li>
+        </ul>
+        <h3 class="pd-sub">User flow</h3>
+        <p class="pd-intro" data-it="&lt;b&gt;Dalla prima apertura alla lettura&lt;/b&gt;, passando per login, questionario sugli interessi, abbonamento facoltativo, esplorazione, pagina del manga, libreria e community. Scorri dentro il riquadro per seguirlo."><b>From the first opening to reading</b>, through login, interests questionnaire, optional subscription, exploration, manga page, library and community. Scroll inside the frame to follow it.</p>
+        <div class="pd-flow open-flow"><div class="pd-scroll"><img style="width:4800px" src="assets/moku-userflow.webp" alt="Moku user flow: login and onboarding, home page, explore, manga page, reading mode, library management, personal profile and community" loading="lazy" data-it-alt="User flow di Moku: login e onboarding, home, esplora, pagina del manga, modalità di lettura, gestione della libreria, profilo personale e community"></div></div>
+      </section>
+
+      <!-- 06 SOLUTION -->
+      <section class="pd-section" id="solution">
+        <p class="pd-kicker" data-it="06 — La soluzione">06 — The solution</p>
+        <h2 data-it="Un&#x27;app per leggere, tenere traccia e condividere">One app for reading, tracking and sharing</h2>
+
+        <div class="pd-feature">
+          <div class="txt">
+            <h3 class="pd-sub" data-it="&lt;mark&gt;Onboarding e piani&lt;/mark&gt;"><mark>Onboarding &amp; plans</mark></h3>
+            <p data-it="I nuovi utenti creano un account e scelgono i loro &lt;b&gt;generi e autori preferiti&lt;/b&gt;, così i suggerimenti sono &lt;b&gt;pertinenti dal primo giorno&lt;/b&gt;. Poi scelgono: attivare un abbonamento o esplorare i titoli con la prova gratuita.">New users create an account and pick their <b>favourite genres and authors</b>, so suggestions are <b>relevant from day one</b>. Then they choose: activate a subscription, or explore the titles with the free trial.</p>
+            <ol class="pd-steps">
+              <li><span class="pd-badge">01</span><div><b data-it="Questionario sugli interessi">Interests questionnaire</b><p data-it="Generi, autori e come verrà usata l&#x27;app.">Genres, authors and how the app will be used.</p></div></li>
+              <li><span class="pd-badge">02</span><div><b data-it="Piani trasparenti">Transparent plans</b><p data-it="Due piani mensili, niente monete virtuali e niente pubblicità per gli abbonati.">Two monthly plans, no virtual coins and no ads for subscribers.</p></div></li>
+            </ol>
+          </div>
+          <div class="vis phone"><img src="assets/moku-sub.webp" alt="Moku plan screen: Ready for the next chapter? Choose your plan" loading="lazy" data-it-alt="Schermata dei piani di Moku: pronto per il prossimo capitolo? Scegli il tuo piano"></div>
+        </div>
+
+        <div class="pd-feature flip">
+          <div class="txt">
+            <h3 class="pd-sub" data-it="&lt;mark&gt;Home - navigazione intelligente&lt;/mark&gt;"><mark>Home - smart navigation</mark></h3>
+            <p data-it="Pensata per rendere &lt;b&gt;facile scoprire i contenuti&lt;/b&gt; e guidare i lettori verso la prossima lettura.">Designed to make <b>discovering content easy</b> and to guide readers towards their next read.</p>
+            <ol class="pd-steps">
+              <li><span class="pd-badge">01</span><div><b data-it="Nuove uscite">New releases</b><p data-it="Gli ultimi volumi, con la data di uscita.">The latest volumes, with their release date.</p></div></li>
+              <li><span class="pd-badge">02</span><div><b data-it="I più letti">Most read</b><p data-it="Una classifica di ciò che tutti stanno leggendo in questo momento.">A ranking of what everyone is reading right now.</p></div></li>
+              <li><span class="pd-badge">03</span><div><b data-it="Anteprima">Preview</b><p data-it="Prova un titolo prima di aggiungerlo alla tua libreria.">Try a title before adding it to your library.</p></div></li>
+            </ol>
+          </div>
+          <div class="vis phone"><img src="assets/moku-home.webp" alt="Moku home screen with featured news, new releases and most read titles" loading="lazy" data-it-alt="Home di Moku con notizie in evidenza, nuove uscite e titoli più letti"></div>
+        </div>
+
+        <div class="pd-feature">
+          <div class="txt">
+            <h3 class="pd-sub" data-it="&lt;mark&gt;Pagina del manga&lt;/mark&gt;"><mark>Manga page</mark></h3>
+            <p data-it="&lt;b&gt;Tutto ciò che serve per decidere a colpo d&#x27;occhio&lt;/b&gt;: genere, stato, autore, editore, trama e il voto della community."><b>Everything you need to decide in a glance</b>: genre, status, author, publisher, plot and the community rating.</p>
+            <ol class="pd-steps">
+              <li><span class="pd-badge">01</span><div><b data-it="Segui">Follow</b><p data-it="Ricevi una notifica quando esce un nuovo volume.">Get notified when a new volume is out.</p></div></li>
+              <li><span class="pd-badge">02</span><div><b data-it="Leggi o salva">Read or save</b><p data-it="Inizia subito a leggere o aggiungilo alla tua libreria.">Start reading straight away or add it to your library.</p></div></li>
+              <li><span class="pd-badge">03</span><div><b data-it="Vota e recensisci">Rate &amp; review</b><p data-it="Lascia un voto e una recensione per gli altri lettori.">Leave a score and a review for other readers.</p></div></li>
+            </ol>
+          </div>
+          <div class="vis phone"><img src="assets/moku-manga.webp" alt="Moku manga page for Dandadan with follow, rating, read and add to library buttons" loading="lazy" data-it-alt="Pagina del manga Dandadan su Moku con i pulsanti segui, vota, leggi e aggiungi alla libreria"></div>
+        </div>
+
+        <div class="pd-feature flip">
+          <div class="txt">
+            <h3 class="pd-sub" data-it="&lt;mark&gt;Libreria - collezione personale&lt;/mark&gt;"><mark>Library - personal collection</mark></h3>
+            <p data-it="Semplice e intuitiva: i manga sono organizzati per &lt;b&gt;stato di lettura e formato, digitale o cartaceo&lt;/b&gt;, così è facile tenere sotto controllo le proprie letture.">Simple and intuitive: manga are organised by <b>reading status and format, digital or physical</b>, making it easy to keep your reading under control.</p>
+            <ol class="pd-steps">
+              <li><span class="pd-badge">01</span><div><b data-it="Filtri per stato">Status filters</b><p data-it="In lettura, in pausa, abbandonati, completati.">Reading, on hold, dropped, completed.</p></div></li>
+              <li><span class="pd-badge">02</span><div><b data-it="Segnalibro automatico">Automatic bookmark</b><p data-it="Ogni volume mostra esattamente dove ti sei fermato.">Each volume shows exactly where you stopped.</p></div></li>
+              <li><span class="pd-badge">03</span><div><b data-it="Digitale e cartaceo">Digital &amp; physical</b><p data-it="La tua collezione di carta vive accanto a quella digitale.">Your paper collection lives next to the digital one.</p></div></li>
+            </ol>
+          </div>
+          <div class="vis phone"><img src="assets/moku-library.webp" alt="Moku library with digital and physical tabs, search, status filters and a volume with its bookmark" loading="lazy" data-it-alt="Libreria di Moku con le schede digitale e cartaceo, ricerca, filtri per stato e un volume con il suo segnalibro"></div>
+        </div>
+
+        <div class="pd-feature">
+          <div class="txt">
+            <h3 class="pd-sub" data-it="&lt;mark&gt;Modalità di lettura - immersione&lt;/mark&gt;"><mark>Reading mode - immersion</mark></h3>
+            <p data-it="Personalizzabile e immersiva: &lt;b&gt;lettura verticale o orizzontale, cambio di lingua e commenti su ogni pagina&lt;/b&gt;, per un&#x27;esperienza digitale flessibile.">Customisable and immersive: <b>vertical or horizontal reading, language switch and comments on each page</b>, for a flexible digital experience.</p>
+            <ol class="pd-steps">
+              <li><span class="pd-badge">01</span><div><b data-it="Doppio orientamento">Dual orientation</b><p data-it="Pagina per pagina o scorrimento continuo.">Page by page or continuous scrolling.</p></div></li>
+              <li><span class="pd-badge">02</span><div><b data-it="Cambio di lingua">Language switch</b><p data-it="Cambia traduzione senza uscire dal capitolo.">Change translation without leaving the chapter.</p></div></li>
+              <li><span class="pd-badge">03</span><div><b data-it="Commenti alla pagina">Page comments</b><p data-it="Reagisci a una singola pagina, non solo all&#x27;intero capitolo.">React to a single page, not just the whole chapter.</p></div></li>
+            </ol>
+          </div>
+          <div class="vis phone"><img src="assets/moku-reading.webp" alt="Moku reading mode with chapter selector and reading toolbar" loading="lazy" data-it-alt="Modalità di lettura di Moku con selettore del capitolo e barra degli strumenti"></div>
+        </div>
+
+        <div class="pd-feature flip">
+          <div class="txt">
+            <h3 class="pd-sub" data-it="&lt;mark&gt;Community - condivisione&lt;/mark&gt;"><mark>Community - sharing</mark></h3>
+            <p data-it="Organizzata per post e risposte, con filtri e sezioni tematiche. Pensata per &lt;b&gt;discutere, condividere opinioni e scoprire nuovi titoli&lt;/b&gt; in modo strutturato e partecipativo.">Organised by posts and replies, with filters and thematic sections. Designed to <b>discuss, share opinions and discover new titles</b> in a structured, participatory way.</p>
+            <ol class="pd-steps">
+              <li><span class="pd-badge">01</span><div><b data-it="Bacheca e discussioni">Board &amp; discussions</b><p data-it="Recensioni da una parte, conversazioni aperte dall&#x27;altra.">Reviews on one side, open conversations on the other.</p></div></li>
+              <li><span class="pd-badge">02</span><div><b data-it="Utile o no">Useful or not</b><p data-it="I lettori valutano le recensioni, così le migliori salgono in cima.">Readers rate reviews, so the best ones rise to the top.</p></div></li>
+            </ol>
+          </div>
+          <div class="vis phone"><img src="assets/moku-community.webp" alt="Moku community board with reviews marked useful or not useful and a new post button" loading="lazy" data-it-alt="Bacheca della community di Moku con recensioni segnate come utili o non utili e un pulsante per un nuovo post"></div>
+        </div>
+
+        <div class="pd-feature">
+          <div class="txt">
+            <h3 class="pd-sub" data-it="&lt;mark&gt;Profilo personale&lt;/mark&gt;"><mark>Personal profile</mark></h3>
+            <p data-it="Un profilo che non mostra solo chi sei, ma &lt;b&gt;come partecipi e cosa ami&lt;/b&gt; sulla piattaforma.">A profile that doesn’t just show who you are, but <b>how you take part and what you love</b> on the platform.</p>
+            <ol class="pd-steps">
+              <li><span class="pd-badge">01</span><div><b data-it="Serie seguite">Followed series</b><p data-it="Tutte le serie che segui, in un unico posto.">All the series you follow, in one place.</p></div></li>
+              <li><span class="pd-badge">02</span><div><b data-it="Modalità Moku e lingua">Moku mode &amp; language</b><p data-it="Preferenze di lettura personali.">Personal reading preferences.</p></div></li>
+              <li><span class="pd-badge">03</span><div><b data-it="Abbonamento">Subscription</b><p data-it="Il tuo piano, sempre visibile e facile da gestire.">Your plan, always visible and easy to manage.</p></div></li>
+            </ol>
+          </div>
+          <div class="vis phone"><img src="assets/moku-profile.webp" alt="Moku menu with profile card, subscription, followed series, Moku mode and language settings" loading="lazy" data-it-alt="Menu di Moku con la card del profilo, abbonamento, serie seguite, modalità Moku e impostazioni della lingua"></div>
+        </div>
+      </section>
+
+      <!-- 07 DESIGN SYSTEM -->
+      <section class="pd-section" id="design-system">
+        <p class="pd-kicker" data-it="07 — Design system">07 — Design system</p>
+        <h2 data-it="Un sistema costruito &lt;mark&gt;per crescere&lt;/mark&gt;">A system built <mark>to scale</mark></h2>
+        <p class="pd-intro" data-it="Un design system scalabile con linee guida di stile e componenti atomici, pensato per un&#x27;&lt;b&gt;interfaccia scura&lt;/b&gt; che lascia &lt;b&gt;le pagine dei manga sotto i riflettori&lt;/b&gt;.">A scalable design system with style guidelines and atomic components, designed for a <b>dark interface</b> that keeps <b>the manga pages in the spotlight</b>.</p>
+
+        <h3 class="pd-sub" data-it="Palette colori">Colour palette</h3>
+        <ul class="ds-colors">
+          <li style="--c:#24393E;--t:#fff" data-it="&lt;b&gt;Verde petrolio scuro&lt;/b&gt;&lt;span&gt;#24393E&lt;/span&gt;"><b>Dark Teal</b><span>#24393E</span></li>
+          <li style="--c:#373737;--t:#fff" data-it="&lt;b&gt;Antracite&lt;/b&gt;&lt;span&gt;#373737&lt;/span&gt;"><b>Charcoal</b><span>#373737</span></li>
+          <li style="--c:#1E1E1E;--t:#fff" data-it="&lt;b&gt;Nero&lt;/b&gt;&lt;span&gt;#1E1E1E&lt;/span&gt;"><b>Black</b><span>#1E1E1E</span></li>
+          <li style="--c:#505050;--t:#fff" data-it="&lt;b&gt;Grigio medio&lt;/b&gt;&lt;span&gt;#505050&lt;/span&gt;"><b>Medium Gray</b><span>#505050</span></li>
+          <li style="--c:#9DF4FF;--t:#111" data-it="&lt;b&gt;Ciano chiaro&lt;/b&gt;&lt;span&gt;#9DF4FF&lt;/span&gt;"><b>Light Cyan</b><span>#9DF4FF</span></li>
+          <li style="--c:#E6FCFF;--t:#111" data-it="&lt;b&gt;Ciano tenue&lt;/b&gt;&lt;span&gt;#E6FCFF&lt;/span&gt;"><b>Soft Cyan</b><span>#E6FCFF</span></li>
+          <li style="--c:#FFFFFF;--t:#111" data-it="&lt;b&gt;Bianco&lt;/b&gt;&lt;span&gt;#FFFFFF&lt;/span&gt;"><b>White</b><span>#FFFFFF</span></li>
+        </ul>
+
+        <h3 class="pd-sub" data-it="Tipografia">Typography</h3>
+        <div class="ty">
+          <div class="ty-head"><span class="ty-aa">Aa</span><div><b>Inter</b><p data-it="Un solo carattere per tutta l&#x27;app: Bold per la gerarchia, Regular per la lettura.">One typeface for the whole app: Bold for hierarchy, Regular for reading.</p></div></div>
+          <ul class="ty-scale">
+            <li><small>50px · Bold</small><p style="font-size:50px" data-it="Tipografia">Typography</p><span data-it="Titolo 1">Heading 1</span></li>
+            <li><small>40px · Bold</small><p style="font-size:40px" data-it="Tipografia">Typography</p><span data-it="Titolo 2">Heading 2</span></li>
+            <li><small>30px · Bold</small><p style="font-size:30px" data-it="Tipografia">Typography</p><span data-it="Titolo 3">Heading 3</span></li>
+            <li><small>20px · Bold</small><p style="font-size:20px" data-it="Tipografia">Typography</p><span data-it="Titolo 4">Heading 4</span></li>
+            <li><small>16px · Bold</small><p style="font-size:16px" data-it="Tipografia">Typography</p><span data-it="Testo">Body</span></li>
+          </ul>
+        </div>
+
+        <h3 class="pd-sub" data-it="Componenti UI">UI components</h3>
+        <div class="uic5">
+          <div class="ug5g g-b"><p class="uic-cap" data-it="Pulsanti">Buttons</p><div class="ug5 c3"><img src="assets/moku-ui-crea.png" alt="Create an account button" loading="lazy" data-it-alt="Pulsante Crea un account"><img src="assets/moku-ui-accedi.png" alt="Log in button" loading="lazy" data-it-alt="Pulsante Accedi"><img src="assets/moku-ui-continua.png" alt="Continue button" loading="lazy" data-it-alt="Pulsante Continua"><img src="assets/moku-ui-abbonati.png" alt="Subscribe to the plan button" loading="lazy" data-it-alt="Pulsante Abbonati al piano"><img src="assets/moku-ui-vantaggi.png" alt="Discover the benefits button" loading="lazy" data-it-alt="Pulsante Scopri i vantaggi"><img src="assets/moku-ui-altro.png" alt="Other button" loading="lazy" data-it-alt="Pulsante Altro"></div></div>
+          <div class="ug5g g-g"><p class="uic-cap" data-it="Card dei generi">Genre cards</p><div class="ug5 c4"><img src="assets/moku-ui-genere-azione.png" alt="Action genre card" loading="lazy" data-it-alt="Card del genere Azione"><img src="assets/moku-ui-genere-drammatico.png" alt="Drama genre card" loading="lazy" data-it-alt="Card del genere Drammatico"><img src="assets/moku-ui-genere-fantasy.png" alt="Fantasy genre card" loading="lazy" data-it-alt="Card del genere Fantasy"><img src="assets/moku-ui-genere-fantascienza.png" alt="Science fiction genre card" loading="lazy" data-it-alt="Card del genere Fantascienza"></div></div>
+          <div class="ug5g g-r"><p class="uic-cap" data-it="Segnalazioni e feedback">Report &amp; feedback</p><div class="ug5 c2"><div class="stk"><img src="assets/moku-ui-spam.png" alt="Spam report button" loading="lazy" data-it-alt="Pulsante segnala spam"><img src="assets/moku-ui-spoiler.png" alt="Spoiler report button" loading="lazy" data-it-alt="Pulsante segnala spoiler"><img src="assets/moku-ui-offensivo.png" alt="Offensive report button" loading="lazy" data-it-alt="Pulsante segnala contenuto offensivo"></div><img src="assets/moku-ui-utile.png" alt="Useful and not useful buttons" loading="lazy" data-it-alt="Pulsanti utile e non utile"></div></div>
+          <div class="ug5g g-d"><p class="uic-cap" data-it="Menu a tendina e fisarmoniche">Dropdowns &amp; accordions</p><div class="ug5 c3 top"><img src="assets/moku-ui-anno.png" alt="Release year dropdown, closed and open" loading="lazy" data-it-alt="Menu a tendina dell&#x27;anno di uscita, chiuso e aperto"><img src="assets/moku-ui-autori.png" alt="Author search dropdown, closed and open" loading="lazy" data-it-alt="Menu a tendina di ricerca autore, chiuso e aperto"><img src="assets/moku-ui-volume.png" alt="Volume accordion with chapter list" loading="lazy" data-it-alt="Fisarmonica del volume con l&#x27;elenco dei capitoli"></div></div>
+          <div class="ug5g g-s"><p class="uic-cap" data-it="Chip, interruttori e selettori">Chips, toggles &amp; selectors</p><div class="ug5 row"><img src="assets/moku-ui-chip-storico.png" alt="Genre chip Historical" loading="lazy" data-it-alt="Chip del genere Storico"><img src="assets/moku-ui-chip-girllove.png" alt="Genre chip Girl Love" loading="lazy" data-it-alt="Chip del genere Girl Love"><img src="assets/moku-ui-lingua.png" alt="Language selector" loading="lazy" data-it-alt="Selettore della lingua"><img src="assets/moku-ui-toggle.png" alt="Toggle off and on" loading="lazy" data-it-alt="Interruttore spento e acceso"><img src="assets/moku-ui-capitolo.png" alt="Volume and chapter selector" loading="lazy" data-it-alt="Selettore di volume e capitolo"></div></div>
+          <div class="ug5g g-n"><p class="uic-cap" data-it="Navigazione">Navigation</p><div class="ug5 nav"><img src="assets/moku-ui-navbar.png" alt="Bottom navigation bar with each section selected" loading="lazy" data-it-alt="Barra di navigazione in basso con ogni sezione selezionata"><img src="assets/moku-ui-navbar-lettura.png" alt="Reading mode toolbar in its states" loading="lazy" data-it-alt="Barra degli strumenti di lettura nei suoi stati"></div></div>
+          <div class="ug5g g-st"><p class="uic-cap" data-it="Stato della libreria">Library status</p><img src="assets/moku-ui-stati.png" alt="Library status chips" loading="lazy" data-it-alt="Chip dello stato della libreria"></div>
+          <div class="ug5g g-rv"><p class="uic-cap" data-it="Card delle recensioni">Review cards</p><img src="assets/moku-ui-recensioni.png" alt="Community review cards" loading="lazy" data-it-alt="Card delle recensioni della community"></div>
+        </div>
+      </section>
+
+      <!-- 08 TEST -->
+      <section class="pd-section" id="test">
+        <p class="pd-kicker" data-it="08 — Test di usabilità">08 — Usability test</p>
+        <h2 data-it="Messa alla prova con &lt;mark&gt;lettori veri&lt;/mark&gt;">Testing it with <mark>real readers</mark></h2>
+        <div class="pd-grid c3">
+          <div class="pd-card pd-stat"><strong>3</strong><p data-it="utenti">users</p></div>
+          <div class="pd-card pd-stat"><strong>9</strong><p data-it="task">tasks</p></div>
+          <div class="pd-card pd-stat"><strong>85%</strong><p data-it="tasso di successo">success rate</p></div>
+        </div>
+        <p class="ut-note" data-it="&lt;b&gt;Cosa è emerso:&lt;/b&gt; la home sembrava piena di informazioni, senza nulla che risaltasse più del resto, e gli utenti facevano fatica a capire dove si svolgono le discussioni più attive nella community."><b>What emerged:</b> the home page felt full of information, with nothing standing out more than the rest, and users found it hard to understand where the most active discussions happen in the community.</p>
+
+        <div class="nx2">
+          <h3 class="pd-sub" data-it="Prossimi capitoli">Next chapters</h3>
+          <p class="nx2-sub" data-it="Cosa verrà dopo per Moku.">What comes next for Moku.</p>
+          <ol class="nx2-list">
+            <li><span class="nx-mk" aria-hidden="true"></span><h4 data-it="Connessioni locali">Local connections</h4><p data-it="Collegare l&#x27;app a fumetterie e fiere del fumetto, unendo l&#x27;esperienza online con eventi e negozi fisici.">Link the app with comic shops and comic fairs, bringing the online experience together with events and physical stores.</p></li>
+            <li><span class="nx-mk" aria-hidden="true"></span><h4 data-it="Connettere gli utenti">Connecting users</h4><p data-it="Permettere agli utenti di collegarsi tramite un link o un QR code del proprio account, da condividere su WhatsApp o altre app di messaggistica.">Let users connect through a link or QR code of their account, to share on WhatsApp or other messaging apps.</p></li>
+            <li><span class="nx-mk" aria-hidden="true"></span><h4 data-it="Una libreria riorganizzata">A reorganised library</h4><p data-it="Raggruppare i manga per serie invece di elencare ogni volume separatamente. Dentro ogni serie: tutte le varianti, i volumi e le edizioni.">Group manga by series instead of listing every volume separately. Inside each series: all variants, volumes and editions.</p></li>
+            <li><span class="nx-mk" aria-hidden="true"></span><h4 data-it="Una lettura ancora più immersiva">Even more immersive reading</h4><p data-it="Un effetto “carta” e ombre realistiche nella vista a doppia pagina.">A “paper” effect and realistic shading in the double-page view.</p></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="pd-section" id="outcome">
+        <div class="pd-final">
+          <h2 data-it="Vuoi vedere come funziona?">Want to see how it works?</h2>
+          <p data-it="Esplora il prototipo interattivo, oppure apri il file di design per vedere componenti, stili e flussi.">Explore the interactive prototype, or dive into the design file to see components, styles and flows.</p>
+          <div class="pd-final-actions" data-it="&lt;a class=&quot;pd-cta&quot; href=&quot;https://www.figma.com/proto/OAF5bvjRos7pbcGArTWlgp/personal-project-ui?node-id=1463-11012&amp;amp;viewport=395%2C382%2C0.02&amp;amp;t=Y6ovEOKKnf9bNpF0-0&amp;amp;scaling=scale-down&amp;amp;content-scaling=fixed&amp;amp;starting-point-node-id=1463%3A11012&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Prototipo completo qui&lt;/a&gt; &lt;a class=&quot;pd-cta pd-cta-alt&quot; href=&quot;https://www.figma.com/design/OAF5bvjRos7pbcGArTWlgp/personal-project-ui?node-id=1039-4615&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Guarda su Figma&lt;/a&gt;">
+            <a class="pd-cta" href="https://www.figma.com/proto/OAF5bvjRos7pbcGArTWlgp/personal-project-ui?node-id=1463-11012&amp;viewport=395%2C382%2C0.02&amp;t=Y6ovEOKKnf9bNpF0-0&amp;scaling=scale-down&amp;content-scaling=fixed&amp;starting-point-node-id=1463%3A11012" target="_blank" rel="noopener">Full prototype here</a>
+            <a class="pd-cta pd-cta-alt" href="https://www.figma.com/design/OAF5bvjRos7pbcGArTWlgp/personal-project-ui?node-id=1039-4615" target="_blank" rel="noopener">View in Figma</a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <div class="contact-footer">
+    <footer>
+      <span>© 2026 Morena Nobile</span>
+    </footer>
+  </div>
+</body>
+
+</html>
