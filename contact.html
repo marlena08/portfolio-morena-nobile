@@ -139,10 +139,13 @@
   <script>
     /* =========================================================
        INVIO DEL FORM
-       I messaggi vengono inviati a richieste.php, che li salva
-       e li mostra nell'area riservata (richieste.php aperto nel browser).
+       Il sito è statico, quindi un file PHP non può funzionare:
+       il form usa Web3Forms (gratuito), che inoltra i messaggi alla tua email.
+       1. Vai su https://web3forms.com, inserisci la tua email e ricevi la "Access Key"
+       2. Incollala qui sotto al posto di INSERISCI-LA-TUA-ACCESS-KEY
        ========================================================= */
-    const ENDPOINT = "richieste.php";
+    const WEB3FORMS_KEY = "f0235815-65fe-4fe4-a5e2-7f3fdc478ae3";
+    const ENDPOINT = "https://api.web3forms.com/submit";
 
     const T = {
       en: {
@@ -153,7 +156,7 @@
         message: "Please write a short message.", messageShort: "Could you add a few more words?",
         error: "Something went wrong and your message wasn’t sent. Please try again in a moment.",
         offline: "You seem to be offline. Check your connection and try again.",
-        tooMany: "You’ve just sent a message. Please wait a few seconds before sending another one.",
+        notReady: "The form isn’t active yet. Please reach me on LinkedIn in the meantime.",
         subject: "New message from the portfolio"
       },
       it: {
@@ -164,7 +167,7 @@
         message: "Scrivi un breve messaggio.", messageShort: "Puoi aggiungere qualche parola in più?",
         error: "Qualcosa è andato storto e il messaggio non è stato inviato. Riprova tra un momento.",
         offline: "Sembra che tu sia offline. Controlla la connessione e riprova.",
-        tooMany: "Hai appena inviato un messaggio. Aspetta qualche secondo prima di inviarne un altro.",
+        notReady: "Il modulo non è ancora attivo. Nel frattempo puoi scrivermi su LinkedIn.",
         subject: "Nuovo messaggio dal portfolio"
       }
     };
@@ -233,18 +236,35 @@
       }
       if (form.botcheck.value) return; // bot: ignora in silenzio
 
+      if (!WEB3FORMS_KEY || WEB3FORMS_KEY.startsWith("INSERISCI")) {
+        console.warn("Contact form: add your Web3Forms access key in contact.html");
+        showError(t("notReady"));
+        return;
+      }
       if (!navigator.onLine) { showError(t("offline")); return; }
 
       setLoading(true);
-      const data = new FormData(form);
-      data.append("request_label", fields.type.options[fields.type.selectedIndex].text);
-      data.append("language", document.documentElement.lang);
+      const typeLabel = fields.type.options[fields.type.selectedIndex].text;
+      const payload = {
+        access_key: WEB3FORMS_KEY,
+        subject: t("subject") + " · " + typeLabel,
+        from_name: fields.name.value.trim(),
+        name: fields.name.value.trim(),
+        email: fields.email.value.trim(),
+        request_type: typeLabel,
+        message: fields.message.value.trim(),
+        language: document.documentElement.lang,
+        botcheck: ""
+      };
 
       try {
-        const response = await fetch(ENDPOINT, { method: "POST", body: data, headers: { "Accept": "application/json" } });
-        const res = await response.json().catch(() => ({}));
-        if (response.status === 429) { showError(t("tooMany")); return; }
-        if (!response.ok || res.success === false) throw new Error(res.message || "HTTP " + response.status);
+        const response = await fetch(ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || data.success === false) throw new Error(data.message || "HTTP " + response.status);
 
         formCard.hidden = true;
         contactHeader.hidden = true;
