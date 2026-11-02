@@ -244,12 +244,8 @@
       <h2 class="h-title h-reveal" id="about-title" data-it="chi &lt;span class=&quot;h-mark&quot;&gt;sono :)&lt;/span&gt;">about <span class="h-mark">me :)</span></h2>
 
       <div class="h-about-cols">
-        <!-- FOTO TEMPORANEA: quando hai la nuova foto, sostituisci tutto il blocco "h-photo-error" con:
-             <img src="assets/foto.png" alt="Morena Nobile">  e togli la classe "is-error" qui sotto -->
-        <div class="h-photo h-reveal is-error">
-          <div class="h-photo-error" role="img" aria-label="Photo coming soon" data-it-aria-label="Foto in arrivo">
-            <canvas class="h-glitch-canvas" aria-hidden="true"></canvas>
-          </div>
+        <div class="h-photo h-reveal">
+          <img src="assets/foto.webp" alt="Morena Nobile" data-it-alt="Morena Nobile" width="1400" height="1400" loading="lazy" style="display:block;width:100%;height:auto">
         </div>
 
         <div class="h-about-copy h-reveal">
@@ -416,82 +412,6 @@
           if (ready) moveTo(home);
         });
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (ready) moveTo(home); });
-      }
-
-      /* ---- Foto temporanea: schermo "corrotto" in stile glitch ---- */
-      const glitchBox = document.querySelector(".h-photo-error");
-      const glitchCv = glitchBox && glitchBox.querySelector("canvas");
-      if (glitchCv) {
-        const g = glitchCv.getContext("2d");
-        const CH = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#;:,./*=+-_&%$@!?<>";
-        const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        let W = 0, H = 0, dpr = 1, rows = [], bars = [], lastLayout = 0, visible = true;
-        const rnd = (a, b) => a + Math.random() * (b - a);
-        const pick = () => CH[Math.floor(Math.random() * CH.length)];
-        const line = n => Array.from({ length: n }, () => (Math.random() < .08 ? " " : pick())).join("");
-
-        function size() {
-          dpr = Math.min(window.devicePixelRatio || 1, 2);
-          W = glitchBox.clientWidth; H = glitchBox.clientHeight;
-          glitchCv.width = W * dpr; glitchCv.height = H * dpr;
-          glitchCv.style.width = W + "px"; glitchCv.style.height = H + "px";
-          g.setTransform(dpr, 0, 0, dpr, 0, 0);
-          layout();
-        }
-        function layout() {
-          const fs = Math.max(9, Math.round(W / 38));
-          const cols = Math.floor((W - 24) / (fs * .62));
-          rows = [];
-          const nRows = Math.floor(rnd(.28, .42) * H / (fs * 1.15));
-          for (let i = 0; i < nRows; i++) rows.push({ t: line(Math.floor(cols * rnd(.35, 1))), fs });
-          bars = [];
-          let y = 18 + nRows * fs * 1.15 + rnd(4, 18);
-          while (y < H - 30) {
-            const hgt = rnd(12, 36), w = rnd(.12, .96) * (W - 24);
-            bars.push({ y, h: hgt, w, step: Math.random() < .35 ? rnd(-.25, .25) * W : 0 });
-            y += hgt + (Math.random() < .55 ? 0 : rnd(3, 16));
-          }
-          lastLayout = performance.now();
-        }
-        function draw(now) {
-          g.fillStyle = "#0b0b0b"; g.fillRect(0, 0, W, H);
-          const flick = Math.random() < .06;
-          // righe di caratteri corrotti
-          rows.forEach((r, i) => {
-            if (Math.random() < .25) {
-              const a = r.t.split(""); for (let k = 0; k < 6; k++) a[Math.floor(Math.random() * a.length)] = pick(); r.t = a.join("");
-            }
-            g.font = "600 " + r.fs + "px ui-monospace, Menlo, Consolas, monospace";
-            g.fillStyle = flick ? "rgba(255,255,255,.95)" : "rgba(230,230,230," + rnd(.65, .9) + ")";
-            const off = Math.random() < .05 ? rnd(-30, 30) : 0;
-            g.fillText(r.t, 12 + off, 14 + (i + 1) * r.fs * 1.15);
-          });
-          // blocchi bianchi a gradini
-          bars.forEach(b => {
-            if (Math.random() < .12) b.w = Math.max(20, Math.min(W - 24, b.w + rnd(-60, 60)));
-            const off = Math.random() < .04 ? rnd(-40, 40) : 0;
-            g.fillStyle = "rgba(240,240,236," + (flick ? 1 : rnd(.85, 1)) + ")";
-            g.fillRect(12 + off, b.y, b.w, b.h);
-            if (b.step) g.fillRect(12 + off, b.y + b.h * .5, Math.max(10, b.w + b.step), b.h * .5);
-          });
-          // ogni tanto una fetta si sposta di lato
-          if (Math.random() < .12) {
-            const sy = rnd(0, H), sh = rnd(6, 40), dx = rnd(-50, 50);
-            g.drawImage(glitchCv, 0, sy * dpr, W * dpr, sh * dpr, dx, sy, W, sh);
-          }
-          if (now - lastLayout > rnd(1400, 2600)) layout();
-        }
-        let last = 0;
-        function loop(now) {
-          if (visible && now - last > 110) { draw(now); last = now; }
-          requestAnimationFrame(loop);
-        }
-        size();
-        window.addEventListener("resize", size);
-        if ("IntersectionObserver" in window) {
-          new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(glitchBox);
-        }
-        if (still) draw(0); else requestAnimationFrame(loop);
       }
 
       /* ---- Voce attiva nella navbar in base alla sezione ---- */
