@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="SAIS: a UX/UI redesign concept for the website of a Sicilian bus company, by Morena Nobile.">
-  <title>tudy — Case study · Morena Nobile</title>
+  <meta name="description" content="tudy: a fast to-do web app designed and built by Morena Nobile, from UX/UI to a live PWA." data-it-content="tudy: una web app di to-do veloce progettata e sviluppata da Morena Nobile, dalla UX/UI a una PWA online.">
+  <title data-it="tudy — Case study · Morena Nobile">tudy — Case study · Morena Nobile</title>
   <style>
 :root {
   --ink: #101010;
@@ -2593,7 +2593,7 @@ html {
 @media (max-width: 520px) { .tb-grid { grid-template-columns: minmax(0, 1fr); } }
 
 /* live screens */
-.td-shots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; margin: 1.8rem 0 1.6rem; }
+.td-shots { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1.2rem; margin: 1.8rem 0 1.6rem; }
 .td-shots figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: .7rem; }
 .td-shots img { display: block; width: 100%; max-width: 230px; height: auto; filter: drop-shadow(0 18px 30px rgba(12,20,36,.18)); }
 .td-shots figcaption { font-size: .85rem; font-weight: 700; color: var(--dk); text-align: center; }
@@ -2604,7 +2604,7 @@ html {
 .tb-seq li { display: flex; flex-direction: column; align-items: center; gap: .6rem; }
 .tb-seq img { display: block; width: 100%; max-width: 170px; height: auto; filter: drop-shadow(0 12px 20px rgba(12,20,36,.16)); }
 .tb-seq li span { font-size: .8rem; line-height: 1.35; color: var(--muted); text-align: center; } .tb-seq li span b { display: block; color: var(--dk); }
-@media (max-width: 860px) { .td-shots { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tb-seq ol { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 860px) { .td-shots { grid-template-columns: repeat(3, minmax(0, 1fr)); } } @media (max-width: 520px) { .td-shots { grid-template-columns: repeat(2, minmax(0, 1fr)); } } @media (max-width: 860px) { .tb-seq ol { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .tb-seq ol { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 </style>
@@ -2613,20 +2613,56 @@ html {
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;700&family=Noto+Serif+JP:wght@700&display=swap"
     rel="stylesheet">
+  <style>
+
+/* =========================================================
+   SELETTORE LINGUA IT / EN (navbar, tutte le pagine)
+   ========================================================= */
+.lang-toggle {
+  grid-column: 1;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: .15rem;
+  font-size: .9rem;
+}
+.lang-toggle span { color: var(--muted); }
+.lang-toggle button {
+  padding: .3rem .75rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: .04em;
+  line-height: 1.6;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, transform .2s ease;
+}
+.lang-toggle button:hover { color: var(--ink); transform: translateY(-2px); }
+.lang-toggle button.is-active { background: var(--green); color: var(--ink); }
+.lang-toggle button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+@media (max-width: 900px) {
+  .site-header > .button { grid-column: 2; }
+}
+</style>
+  <script src="lang.js"></script>
+
 </head>
 
 
 <body id="top">
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main" data-it="Vai al contenuto">Skip to content</a>
 
   <header class="site-header">
-    <nav aria-label="Main navigation">
+    <nav aria-label="Main navigation" data-it-aria-label="Navigazione principale">
       <a href="index.html#top">Home</a>
-      <a href="index.html#work">Projects</a>
-      <a href="index.html#process">Process</a>
-      <a href="index.html#about">About me</a>
+      <a href="index.html#work" data-it="Progetti">Projects</a>
+      <a href="index.html#process" data-it="Processo">Process</a>
+      <a href="index.html#about" data-it="Chi sono">About me</a>
     </nav>
-    <a href="contact.html" class="button button-small">Contact me</a>
+    <a href="contact.html" class="button button-small" data-it="Contattami">Contact me</a>
   </header>
 
   <main id="main">
@@ -2635,11 +2671,11 @@ html {
       <div class="sx-hero-grid">
         <div class="hero-center sx-hero-txt">
           <h1 class="section-title pd-title"><span>tudy</span><mark class="highlight">case study</mark></h1>
-          <p class="pd-lead">A <b>fast to-do web app</b> for the things to get done today and over the week: quick tasks, clear priorities and reminders at the right moment.</p>
+          <p class="pd-lead" data-it="Una &lt;b&gt;web app di to-do veloce&lt;/b&gt; per le cose da fare oggi e nella settimana: attività rapide, priorità chiare e promemoria al momento giusto.">A <b>fast to-do web app</b> for the things to get done today and over the week: quick tasks, clear priorities and reminders at the right moment.</p>
           <dl class="pd-meta">
-            <div><dt>Role</dt><dd>UX/UI design &amp; development</dd></div>
-            <div><dt>Project</dt><dd>Personal product, live</dd></div>
-            <div><dt>Platform</dt><dd>PWA, mobile &amp; desktop</dd></div>
+            <div><dt data-it="Ruolo">Role</dt><dd data-it="UX/UI design e sviluppo">UX/UI design &amp; development</dd></div>
+            <div><dt data-it="Progetto">Project</dt><dd data-it="Prodotto personale, online">Personal product, live</dd></div>
+            <div><dt data-it="Piattaforma">Platform</dt><dd data-it="PWA, mobile e desktop">PWA, mobile &amp; desktop</dd></div>
             <div><dt>Stack</dt><dd>HTML, Tailwind, JS, Supabase</dd></div>
           </dl>
         </div>
@@ -2654,111 +2690,112 @@ html {
 
       <!-- 01 -->
       <section class="pd-section" id="problem">
-        <p class="pd-kicker">01 — The problem</p>
-        <h2>Too much, or <mark>too little</mark></h2>
-        <p class="pd-intro">For quick, everyday tasks the usual tools miss the mark. Productivity workspaces are built to <b>plan everything, long term included</b>, and end up heavy for a simple to-do. Notes apps are the opposite: <b>quick, but too basic</b>, with no priorities, progress or reminders. tudy sits in between: <b>only what needs doing now</b>, fast to add and easy to tick off.</p>
+        <p class="pd-kicker" data-it="01 — Il problema">01 — The problem</p>
+        <h2 data-it="Troppo, o &lt;mark&gt;troppo poco&lt;/mark&gt;">Too much, or <mark>too little</mark></h2>
+        <p class="pd-intro" data-it="Per le piccole cose di tutti i giorni gli strumenti più diffusi non centrano il punto. Gli spazi di produttività sono pensati per &lt;b&gt;pianificare tutto, anche a lungo termine&lt;/b&gt;, e risultano pesanti per una semplice lista. Le app di note sono l’opposto: &lt;b&gt;veloci, ma troppo essenziali&lt;/b&gt;, senza priorità, avanzamento o promemoria. tudy sta nel mezzo: &lt;b&gt;solo quello che c’è da fare adesso&lt;/b&gt;, veloce da aggiungere e facile da spuntare.">For quick, everyday tasks the usual tools miss the mark. Productivity workspaces are built to <b>plan everything, long term included</b>, and end up heavy for a simple to-do. Notes apps are the opposite: <b>quick, but too basic</b>, with no priorities, progress or reminders. tudy sits in between: <b>only what needs doing now</b>, fast to add and easy to tick off.</p>
 
-        <h3 class="pd-sub">What’s already out there</h3>
+        <h3 class="pd-sub" data-it="Cosa esiste già">What’s already out there</h3>
         <div class="td-bench">
-          <article><span class="td-lvl hi">Too much</span><h4>Notion · TickTick · Todoist</h4><p>Powerful and flexible, but <b>feature-rich interfaces</b> and a learning curve that feel like overkill for a quick daily list.</p></article>
-          <article><span class="td-lvl mid">Close, but limited</span><h4>Microsoft To Do · Apple Reminders</h4><p>Simple and focused, with a view for the day, but <b>little room to organise</b> and, for Reminders, tied to Apple devices.</p></article>
-          <article><span class="td-lvl lo">Too little</span><h4>Apple Notes · Google Keep</h4><p>Fast to write in, but a list stays a list: <b>no priorities, no progress</b> and nothing that brings the right task back at the right time.</p></article>
+          <article><span class="td-lvl hi" data-it="Troppo">Too much</span><h4>Notion · TickTick · Todoist</h4><p data-it="Potenti e flessibili, ma con &lt;b&gt;interfacce piene di funzioni&lt;/b&gt; e una curva di apprendimento eccessive per una lista veloce di ogni giorno.">Powerful and flexible, but <b>feature-rich interfaces</b> and a learning curve that feel like overkill for a quick daily list.</p></article>
+          <article><span class="td-lvl mid" data-it="Vicine, ma limitate">Close, but limited</span><h4 data-it="Microsoft To Do · Promemoria di Apple">Microsoft To Do · Apple Reminders</h4><p data-it="Semplici e mirate, con una vista sulla giornata, ma &lt;b&gt;poco spazio per organizzarsi&lt;/b&gt; e, nel caso di Promemoria, legate ai dispositivi Apple.">Simple and focused, with a view for the day, but <b>little room to organise</b> and, for Reminders, tied to Apple devices.</p></article>
+          <article><span class="td-lvl lo" data-it="Troppo poco">Too little</span><h4>Apple Notes · Google Keep</h4><p data-it="Veloci da scrivere, ma una lista resta una lista: &lt;b&gt;niente priorità, niente avanzamento&lt;/b&gt; e nulla che riporti l’attività giusta al momento giusto.">Fast to write in, but a list stays a list: <b>no priorities, no progress</b> and nothing that brings the right task back at the right time.</p></article>
         </div>
 
       </section>
 
       <!-- 02 -->
       <section class="pd-section" id="screens">
-        <p class="pd-kicker">02 — The app</p>
-        <h2>Screen by <mark>screen</mark></h2>
-        <p class="pd-intro">Four tabs, <b>Today, Tasks, Notes and Profile</b>, plus the task detail and a short onboarding. Every screen answers one question: what do I have to do, and what’s next?</p>
+        <p class="pd-kicker" data-it="02 — L’app">02 — The app</p>
+        <h2 data-it="Schermata per &lt;mark&gt;schermata&lt;/mark&gt;">Screen by <mark>screen</mark></h2>
+        <p class="pd-intro" data-it="Quattro schede, &lt;b&gt;Oggi, Attività, Note e Profilo&lt;/b&gt;, più il dettaglio dell’attività e un breve onboarding. Ogni schermata risponde a una domanda: cosa devo fare, e cosa viene dopo?">Four tabs, <b>Today, Tasks, Notes and Profile</b>, plus the task detail and a short onboarding. Every screen answers one question: what do I have to do, and what’s next?</p>
         <div class="td-shots">
-          <figure><img src="assets/tudy-shot-home.webp" alt="tudy Today screen" loading="lazy"><figcaption>Today<span>The day at a glance</span></figcaption></figure>
-          <figure><img src="assets/tudy-shot-tasks.webp" alt="tudy Tasks and history screen" loading="lazy"><figcaption>Tasks &amp; history<span>Active and completed</span></figcaption></figure>
-          <figure><img src="assets/tudy-shot-notes.webp" alt="tudy Quick notes screen" loading="lazy"><figcaption>Quick notes<span>Ideas, drafts, work</span></figcaption></figure>
-          <figure><img src="assets/tudy-shot-detail.webp" alt="tudy task detail screen" loading="lazy"><figcaption>Task detail<span>Progress and subtasks</span></figcaption></figure>
+          <figure><img src="assets/tudy-shot-home.webp" alt="tudy Today screen" loading="lazy" data-it-alt="Schermata Oggi di tudy"><figcaption data-it="Oggi&lt;span&gt;La giornata a colpo d’occhio&lt;/span&gt;">Today<span>The day at a glance</span></figcaption></figure>
+          <figure><img src="assets/tudy-shot-tasks.webp" alt="tudy Tasks and history screen" loading="lazy" data-it-alt="Schermata Attività e storico di tudy"><figcaption data-it="Attività e storico&lt;span&gt;Attive e completate&lt;/span&gt;">Tasks &amp; history<span>Active and completed</span></figcaption></figure>
+          <figure><img src="assets/tudy-shot-notes.webp" alt="tudy Quick notes screen" loading="lazy" data-it-alt="Schermata Note rapide di tudy"><figcaption data-it="Note rapide&lt;span&gt;Idee, bozze, lavoro&lt;/span&gt;">Quick notes<span>Ideas, drafts, work</span></figcaption></figure>
+          <figure><img src="assets/tudy-shot-detail.webp" alt="tudy task detail screen" loading="lazy" data-it-alt="Schermata di dettaglio attività di tudy"><figcaption data-it="Dettaglio attività&lt;span&gt;Avanzamento e sottoattività&lt;/span&gt;">Task detail<span>Progress and subtasks</span></figcaption></figure>
+          <figure><img src="assets/tudy-shot-profile.webp" alt="tudy Profile screen with the English / Italiano language switch" loading="lazy" data-it-alt="Schermata Profilo di tudy con lo switch English / Italiano"><figcaption data-it="Profilo&lt;span&gt;Tema, lingua, avvisi&lt;/span&gt;">Profile<span>Theme, language, alerts</span></figcaption></figure>
         </div>
         <div class="td-screens">
-          <article class="td-scr"><h3><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg></span>Today</h3><p>The day at a glance: a <b>week or month calendar</b>, overdue tasks and <b>today’s focus</b>, sorted by priority and time, with a progress bar that fills as you go.</p></article>
-          <article class="td-scr"><h3><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg></span>Tasks &amp; history</h3><p>Every task in one place, <b>grouped by when it’s due</b>, and a history of what’s been done. A search helps find anything quickly.</p></article>
-          <article class="td-scr"><h3><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v11l-5 5H5z"/><path d="M14 20v-5h5M8 9h8M8 12.5h5"/></svg></span>Quick notes</h3><p>A space for ideas on the fly: notes can be <b>pinned</b>, edited or <b>turned into a task</b> with one tap.</p></article>
-          <article class="td-scr"><h3><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8 12.5l3 3 5-6"/></svg></span>Task detail</h3><p>Each task can be broken into <b>subtasks</b>, with a <b>progress</b> indicator and a quick way to mark it as done.</p></article>
-          <article class="td-scr"><h3><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg></span>Profile &amp; alerts</h3><p>Account, language and <b>light or dark theme</b>, plus the <b>reminders</b>: morning and evening recaps, alerts before a deadline and quiet hours.</p></article>
-          <article class="td-scr"><h3><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l2 2M14 9l2 2"/></svg></span>Access &amp; onboarding</h3><p>Sign-up, login and password recovery, with a <b>short guided tour</b> on first use.</p></article>
+          <article class="td-scr"><h3 data-it="&lt;span class=&quot;td-ic&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; viewbox=&quot;0 0 24 24&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;4&quot;&gt;&lt;/circle&gt;&lt;path d=&quot;M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;Oggi"><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg></span>Today</h3><p data-it="La giornata a colpo d’occhio: un &lt;b&gt;calendario settimanale o mensile&lt;/b&gt;, le attività in ritardo e il &lt;b&gt;focus di oggi&lt;/b&gt;, ordinati per priorità e orario, con una barra di avanzamento che si riempie man mano.">The day at a glance: a <b>week or month calendar</b>, overdue tasks and <b>today’s focus</b>, sorted by priority and time, with a progress bar that fills as you go.</p></article>
+          <article class="td-scr"><h3 data-it="&lt;span class=&quot;td-ic&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; viewbox=&quot;0 0 24 24&quot;&gt;&lt;path d=&quot;M9 6h11M9 12h11M9 18h11&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;Attività e storico"><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg></span>Tasks &amp; history</h3><p data-it="Tutte le attività in un unico posto, &lt;b&gt;raggruppate per scadenza&lt;/b&gt;, e uno storico di quello che è stato fatto. La ricerca aiuta a trovare tutto in fretta.">Every task in one place, <b>grouped by when it’s due</b>, and a history of what’s been done. A search helps find anything quickly.</p></article>
+          <article class="td-scr"><h3 data-it="&lt;span class=&quot;td-ic&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; viewbox=&quot;0 0 24 24&quot;&gt;&lt;path d=&quot;M5 4h14v11l-5 5H5z&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 20v-5h5M8 9h8M8 12.5h5&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;Note rapide"><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v11l-5 5H5z"/><path d="M14 20v-5h5M8 9h8M8 12.5h5"/></svg></span>Quick notes</h3><p data-it="Uno spazio per le idee al volo: le note si possono &lt;b&gt;fissare&lt;/b&gt;, modificare o &lt;b&gt;trasformare in attività&lt;/b&gt; con un tocco.">A space for ideas on the fly: notes can be <b>pinned</b>, edited or <b>turned into a task</b> with one tap.</p></article>
+          <article class="td-scr"><h3 data-it="&lt;span class=&quot;td-ic&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; viewbox=&quot;0 0 24 24&quot;&gt;&lt;rect height=&quot;16&quot; rx=&quot;4&quot; width=&quot;16&quot; x=&quot;4&quot; y=&quot;4&quot;&gt;&lt;/rect&gt;&lt;path d=&quot;M8 12.5l3 3 5-6&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;Dettaglio attività"><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8 12.5l3 3 5-6"/></svg></span>Task detail</h3><p data-it="Ogni attività si può dividere in &lt;b&gt;sottoattività&lt;/b&gt;, con un indicatore di &lt;b&gt;avanzamento&lt;/b&gt; e un modo rapido per segnarla come completata.">Each task can be broken into <b>subtasks</b>, with a <b>progress</b> indicator and a quick way to mark it as done.</p></article>
+          <article class="td-scr"><h3 data-it="&lt;span class=&quot;td-ic&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; viewbox=&quot;0 0 24 24&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;8.5&quot; r=&quot;3.8&quot;&gt;&lt;/circle&gt;&lt;path d=&quot;M4.5 20c1-4 4-6 7.5-6s6.5 2 7.5 6&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;Profilo e avvisi"><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg></span>Profile &amp; alerts</h3><p data-it="Account, &lt;b&gt;inglese o italiano&lt;/b&gt; con un solo switch, &lt;b&gt;tema chiaro o scuro&lt;/b&gt; e i &lt;b&gt;promemoria&lt;/b&gt;: riepilogo del mattino e della sera, avvisi prima di una scadenza e ore di silenzio.">Account, <b>English or Italian</b> with one switch, <b>light or dark theme</b>, plus the <b>reminders</b>: morning and evening recaps, alerts before a deadline and quiet hours.</p></article>
+          <article class="td-scr"><h3 data-it="&lt;span class=&quot;td-ic&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; viewbox=&quot;0 0 24 24&quot;&gt;&lt;circle cx=&quot;8&quot; cy=&quot;15&quot; r=&quot;4&quot;&gt;&lt;/circle&gt;&lt;path d=&quot;M11 12l8-8M16 7l2 2M14 9l2 2&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;Accesso e onboarding"><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l2 2M14 9l2 2"/></svg></span>Access &amp; onboarding</h3><p data-it="Registrazione, login e recupero password, con un &lt;b&gt;breve tour guidato&lt;/b&gt; al primo utilizzo.">Sign-up, login and password recovery, with a <b>short guided tour</b> on first use.</p></article>
         </div>
       </section>
 
       <!-- 03 -->
       <section class="pd-section" id="responsive">
-        <p class="pd-kicker">03 — Responsive</p>
-        <h2>One app, <mark>two postures</mark></h2>
-        <p class="pd-intro">On the phone tudy is quick and <b>thumb-friendly</b>, with a bottom bar and a floating “+” to add a task. On a larger screen it <b>spreads out</b>: a side menu and more room for the day, without changing how it works.</p>
+        <p class="pd-kicker" data-it="03 — Responsive">03 — Responsive</p>
+        <h2 data-it="Un’app, &lt;mark&gt;due posture&lt;/mark&gt;">One app, <mark>two postures</mark></h2>
+        <p class="pd-intro" data-it="Sul telefono tudy è rapida e &lt;b&gt;comoda da usare col pollice&lt;/b&gt;, con una barra in basso e un “+” fluttuante per aggiungere un’attività. Su uno schermo più grande &lt;b&gt;si allarga&lt;/b&gt;: un menu laterale e più spazio per la giornata, senza cambiare il modo in cui funziona.">On the phone tudy is quick and <b>thumb-friendly</b>, with a bottom bar and a floating “+” to add a task. On a larger screen it <b>spreads out</b>: a side menu and more room for the day, without changing how it works.</p>
         <div class="td-devices">
-          <figure class="td-phone"><img class="dev" src="assets/tudy-phone-dev.webp" alt="tudy on mobile" loading="lazy"><figcaption>Mobile</figcaption></figure>
-          <figure class="td-laptop"><img class="dev" src="assets/tudy-laptop-dev.webp" alt="tudy on desktop" loading="lazy"><figcaption>Desktop</figcaption></figure>
+          <figure class="td-phone"><img class="dev" src="assets/tudy-phone-dev.webp" alt="tudy on mobile" loading="lazy" data-it-alt="tudy su mobile"><figcaption>Mobile</figcaption></figure>
+          <figure class="td-laptop"><img class="dev" src="assets/tudy-laptop-dev.webp" alt="tudy on desktop" loading="lazy" data-it-alt="tudy su desktop"><figcaption>Desktop</figcaption></figure>
         </div>
-        <p class="td-aside"><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></span><span>tudy is live and runs from a simple link. <a href="#outcome">Try it at the end of the page ↓</a></span></p>
+        <p class="td-aside"><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></span><span data-it="tudy è online e funziona da un semplice link. &lt;a href=&quot;#outcome&quot;&gt;Provala in fondo alla pagina ↓&lt;/a&gt;">tudy is live and runs from a simple link. <a href="#outcome">Try it at the end of the page ↓</a></span></p>
       </section>
 
       <!-- 04 -->
       <section class="pd-section" id="brand">
-        <p class="pd-kicker">04 — Brand identity</p>
-        <h2>To-do and tidy: <mark>things to do, in order</mark></h2>
-        <p class="pd-intro">The name joins <b>to-do</b> and <b>tidy</b>: the things to get done, kept in order. The final <b>y</b> of tudy is a <b>check mark with a tail</b>, so you read the name and see “done”.</p>
+        <p class="pd-kicker" data-it="04 — Brand identity">04 — Brand identity</p>
+        <h2 data-it="To-do e tidy: &lt;mark&gt;le cose da fare, in ordine&lt;/mark&gt;">To-do and tidy: <mark>things to do, in order</mark></h2>
+        <p class="pd-intro" data-it="Il nome unisce &lt;b&gt;to-do&lt;/b&gt; e &lt;b&gt;tidy&lt;/b&gt;: le cose da fare, tenute in ordine. La &lt;b&gt;y&lt;/b&gt; finale di tudy è una &lt;b&gt;spunta con la coda&lt;/b&gt;, così leggi il nome e vedi “fatto”.">The name joins <b>to-do</b> and <b>tidy</b>: the things to get done, kept in order. The final <b>y</b> of tudy is a <b>check mark with a tail</b>, so you read the name and see “done”.</p>
         <div class="tb-grid">
-          <figure class="tb-card tb-logo"><div class="tb-vis"><img src="assets/tudy-logo.webp" alt="tudy logo: the final y is a check mark with a tail" loading="lazy" onerror="this.parentNode.classList.add('ph');this.remove()"></div><figcaption><b>Logo</b>The wordmark at the top of every screen: the y reads as a letter and as a tick.</figcaption></figure>
-          <figure class="tb-card"><div class="tb-vis tb-icon"><img src="assets/tudy-icon.webp" alt="tudy app icon with the y-check" loading="lazy" onerror="this.parentNode.classList.add('ph');this.remove()"></div><figcaption><b>App icon</b>The same y-check, alone, on the home screen.</figcaption></figure>
-          <figure class="tb-card"><div class="tb-vis tb-phone"><img src="assets/tudy-splash.webp" alt="tudy entry screen where the y-check draws itself" loading="lazy" onerror="this.parentNode.classList.add('ph');this.remove()"></div><figcaption><b>Entry screen</b>The y-check draws itself when the app opens.</figcaption></figure>
+          <figure class="tb-card tb-logo"><div class="tb-vis"><img src="assets/tudy-logo.webp" alt="tudy logo: the final y is a check mark with a tail" loading="lazy" onerror="this.parentNode.classList.add('ph');this.remove()" data-it-alt="Logo tudy: la y finale è una spunta con la coda"></div><figcaption data-it="&lt;b&gt;Logo&lt;/b&gt;Il wordmark in cima a ogni schermata: la y si legge come lettera e come spunta."><b>Logo</b>The wordmark at the top of every screen: the y reads as a letter and as a tick.</figcaption></figure>
+          <figure class="tb-card"><div class="tb-vis tb-icon"><img src="assets/tudy-icon.webp" alt="tudy app icon with the y-check" loading="lazy" onerror="this.parentNode.classList.add('ph');this.remove()" data-it-alt="Icona dell’app tudy con la y-spunta"></div><figcaption data-it="&lt;b&gt;Icona dell’app&lt;/b&gt;La stessa y-spunta, da sola, nella schermata home."><b>App icon</b>The same y-check, alone, on the home screen.</figcaption></figure>
+          <figure class="tb-card"><div class="tb-vis tb-phone"><img src="assets/tudy-splash.webp" alt="tudy entry screen where the y-check draws itself" loading="lazy" onerror="this.parentNode.classList.add('ph');this.remove()" data-it-alt="Schermata d’ingresso di tudy in cui la y-spunta si disegna"></div><figcaption data-it="&lt;b&gt;Schermata d’ingresso&lt;/b&gt;La y-spunta si disegna quando l’app si apre."><b>Entry screen</b>The y-check draws itself when the app opens.</figcaption></figure>
         </div>
         <div class="tb-seq">
-          <p><b>How the app opens.</b> On the brand blue, the check draws itself, then the tail drops and the check becomes the y of tudy. A short fade and the day is ready.</p>
+          <p data-it="&lt;b&gt;Come si apre l’app.&lt;/b&gt; Sul blu del brand la spunta si disegna, poi scende la coda e la spunta diventa la y di tudy. Una breve dissolvenza e la giornata è pronta."><b>How the app opens.</b> On the brand blue, the check draws itself, then the tail drops and the check becomes the y of tudy. A short fade and the day is ready.</p>
           <ol>
-            <li><img src="assets/tudy-splash-1.webp" alt="" loading="lazy"><span><b>1</b>The stroke starts</span></li>
-            <li><img src="assets/tudy-splash-2.webp" alt="" loading="lazy"><span><b>2</b>A check mark</span></li>
-            <li><img src="assets/tudy-splash-3.webp" alt="" loading="lazy"><span><b>3</b>The tail drops</span></li>
-            <li><img src="assets/tudy-splash-4.webp" alt="" loading="lazy"><span><b>4</b>The y of tudy</span></li>
-            <li><img src="assets/tudy-shot-home.webp" alt="" loading="lazy"><span><b>5</b>Fade into Today</span></li>
+            <li><img src="assets/tudy-splash-1.webp" alt="" loading="lazy"><span data-it="&lt;b&gt;1&lt;/b&gt;Parte il tratto"><b>1</b>The stroke starts</span></li>
+            <li><img src="assets/tudy-splash-2.webp" alt="" loading="lazy"><span data-it="&lt;b&gt;2&lt;/b&gt;Una spunta"><b>2</b>A check mark</span></li>
+            <li><img src="assets/tudy-splash-3.webp" alt="" loading="lazy"><span data-it="&lt;b&gt;3&lt;/b&gt;Scende la coda"><b>3</b>The tail drops</span></li>
+            <li><img src="assets/tudy-splash-4.webp" alt="" loading="lazy"><span data-it="&lt;b&gt;4&lt;/b&gt;La y di tudy"><b>4</b>The y of tudy</span></li>
+            <li><img src="assets/tudy-shot-home.webp" alt="" loading="lazy"><span data-it="&lt;b&gt;5&lt;/b&gt;Dissolvenza su Oggi"><b>5</b>Fade into Today</span></li>
           </ol>
         </div>
        </section>
 
       <!-- 05 -->
       <section class="pd-section" id="design-system">
-        <p class="pd-kicker">05 — Design system</p>
-        <h2>Calm blue, <mark>light and dark</mark></h2>
-        <p class="pd-intro">A calm, <b>desaturated blue</b> palette with a <b>light and a dark mode</b>, set from the device at first launch.</p>
+        <p class="pd-kicker" data-it="05 — Design system">05 — Design system</p>
+        <h2 data-it="Blu calmo, &lt;mark&gt;chiaro e scuro&lt;/mark&gt;">Calm blue, <mark>light and dark</mark></h2>
+        <p class="pd-intro" data-it="Una palette di &lt;b&gt;blu desaturati&lt;/b&gt; e calmi, con una &lt;b&gt;modalità chiara e una scura&lt;/b&gt;, impostata dal dispositivo al primo avvio.">A calm, <b>desaturated blue</b> palette with a <b>light and a dark mode</b>, set from the device at first launch.</p>
         <div class="td-ds">
           <div class="td-box">
             <h4>Palette</h4>
             <div class="td-pal">
-              <div><i style="background:#2c6aa0"></i><span><b>Accent · light</b>#2C6AA0</span></div>
-              <div><i style="background:#2f6fa3"></i><span><b>Accent · dark</b>#2F6FA3</span></div>
-              <div><i style="background:#f2f6fc"></i><span><b>Background · light</b>#F2F6FC</span></div>
-              <div><i style="background:#0c1424"></i><span><b>Background · dark</b>#0C1424</span></div>
+              <div><i style="background:#2c6aa0"></i><span data-it="&lt;b&gt;Accento · chiaro&lt;/b&gt;#2C6AA0"><b>Accent · light</b>#2C6AA0</span></div>
+              <div><i style="background:#2f6fa3"></i><span data-it="&lt;b&gt;Accento · scuro&lt;/b&gt;#2F6FA3"><b>Accent · dark</b>#2F6FA3</span></div>
+              <div><i style="background:#f2f6fc"></i><span data-it="&lt;b&gt;Sfondo · chiaro&lt;/b&gt;#F2F6FC"><b>Background · light</b>#F2F6FC</span></div>
+              <div><i style="background:#0c1424"></i><span data-it="&lt;b&gt;Sfondo · scuro&lt;/b&gt;#0C1424"><b>Background · dark</b>#0C1424</span></div>
             </div>
-            <h4 style="margin-top:1.4rem">Typography · Inter</h4>
+            <h4 style="margin-top:1.4rem" data-it="Tipografia · Inter">Typography · Inter</h4>
             <div class="td-type">
               <div class="td-aa"><span>Aa</span><p>ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789</p></div>
-              <p style="font-size:2rem;font-weight:700">Good morning<small>700</small></p>
-              <p style="font-size:1.25rem;font-weight:600">Today’s focus<small>600</small></p>
-              <p style="font-size:1rem;font-weight:400">Call the dentist before 18:00<small>400</small></p>
+              <p style="font-size:2rem;font-weight:700" data-it="Buongiorno&lt;small&gt;700&lt;/small&gt;">Good morning<small>700</small></p>
+              <p style="font-size:1.25rem;font-weight:600" data-it="Focus di oggi&lt;small&gt;600&lt;/small&gt;">Today’s focus<small>600</small></p>
+              <p style="font-size:1rem;font-weight:400" data-it="Chiamare il dentista entro le 18:00&lt;small&gt;400&lt;/small&gt;">Call the dentist before 18:00<small>400</small></p>
             </div>
           </div>
           <div class="td-box tc-wrap">
-            <h4>Components</h4>
+            <h4 data-it="Componenti">Components</h4>
             <div class="tc-grid">
-              <figure class="tc-tile w2"><div class="tc-stage"><div class="tc-card tc-task"><div class="r"><span class="cb"></span><b>Book the train tickets</b><svg class="tc-ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div><div class="r m"><span class="acs">Tomorrow, 17:00</span><span class="pill p-Medium">Medium</span></div><div class="r m"><span class="bar"><i style="width:35%"></i></span><span class="mu">35%</span></div></div></div><figcaption>Task card</figcaption></figure>
-              <figure class="tc-tile "><div class="tc-stage"><div class="tc-card tc-note"><b>Weekend ideas</b><p>Market on Saturday<br>Call grandma<br>Finish the book</p><div class="r m"><span><span class="acs">Ideas</span><br><span class="mu">26 oct</span></span><span class="tc-ics"><svg class="tc-ic" viewBox="0 0 24 24"><path d="M9 4h6l-1 6 3 3H7l3-3zM12 13v7"/></svg><svg class="tc-ic" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg></span></div></div></div><figcaption>Note card</figcaption></figure>
-              <figure class="tc-tile "><div class="tc-stage"><div class="tc-seg"><span class="on">Active · 6</span><span>Completed · 5</span></div></div><figcaption>Segmented control</figcaption></figure>
-              <figure class="tc-tile w2"><div class="tc-stage"><div class="tc-week"><span class="day">M<b>26</b></span><span class="day on">T<b>27</b></span><span class="day">W<b>28</b><i></i></span><span class="day">T<b>29</b><i></i></span><span class="day">F<b>30</b></span></div></div><figcaption>Week calendar</figcaption></figure>
-              <figure class="tc-tile "><div class="tc-stage"><div class="tc-card tc-prog"><div class="r"><b>One small step every day.</b><span class="acs">2 of 3 done</span></div><span class="bar"><i style="width:66%"></i></span></div></div><figcaption>Progress</figcaption></figure>
-              <figure class="tc-tile "><div class="tc-stage"><div class="tc-row"><span class="pill p-High">High</span><span class="pill p-Medium">Medium</span><span class="pill p-Low">Low</span></div></div><figcaption>Priority pills</figcaption></figure>
-              <figure class="tc-tile "><div class="tc-stage"><div class="tc-row"><span class="chip on">All</span><span class="chip">Ideas</span><span class="chip">Work</span><span class="chip">Shopping</span></div></div><figcaption>Filter chips</figcaption></figure>
-              <figure class="tc-tile "><div class="tc-stage"><div class="tc-subs"><div class="sub done"><span class="cb on"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>Pack the charger</span></div><div class="sub"><span class="cb"></span><span>Print the tickets</span></div><div class="tc-add">+ Add subtask</div></div></div><figcaption>Checkbox &amp; subtasks</figcaption></figure>
-              <figure class="tc-tile "><div class="tc-stage"><div class="tc-col"><span class="inp">Task title</span><span class="inp tc-search"><svg class="tc-ic" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg><span>Search tasks</span></span></div></div><figcaption>Input &amp; search</figcaption></figure>
-              <figure class="tc-tile "><div class="tc-stage"><div class="tc-col"><div class="tc-set"><span>Morning recap</span><span class="sw on"></span></div><div class="tc-set"><span>Quiet hours</span><span class="sw"></span></div></div></div><figcaption>Toggle</figcaption></figure>
-              <figure class="tc-tile w2"><div class="tc-stage"><div class="tc-col"><span class="side on"><svg class="tc-ic" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>Today</span><span class="side"><svg class="tc-ic" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1"/></svg>Tasks &amp; history</span><div class="tc-bn"><span class="navb on"><svg class="tc-ic" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>Today</span><span class="navb"><svg class="tc-ic" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1"/></svg>Tasks</span><span class="navb"><svg class="tc-ic" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg>Notes</span><span class="navb"><svg class="tc-ic" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg>Profile</span></div></div></div><figcaption>Navigation</figcaption></figure>
-              <figure class="tc-tile w2"><div class="tc-stage"><div class="tc-row"><span class="btn tc-btn">Mark as done</span><span class="tc-fab">+</span></div></div><figcaption>Buttons</figcaption></figure>
+              <figure class="tc-tile w2"><div class="tc-stage"><div class="tc-card tc-task"><div class="r"><span class="cb"></span><b data-it="Prenotare i biglietti del treno">Book the train tickets</b><svg class="tc-ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div><div class="r m"><span class="acs" data-it="Domani, 17:00">Tomorrow, 17:00</span><span class="pill p-Medium" data-it="Media">Medium</span></div><div class="r m"><span class="bar"><i style="width:35%"></i></span><span class="mu">35%</span></div></div></div><figcaption data-it="Card attività">Task card</figcaption></figure>
+              <figure class="tc-tile "><div class="tc-stage"><div class="tc-card tc-note"><b data-it="Idee per il weekend">Weekend ideas</b><p data-it="Mercato di sabato&lt;br/&gt;Chiamare la nonna&lt;br/&gt;Finire il libro">Market on Saturday<br>Call grandma<br>Finish the book</p><div class="r m"><span><span class="acs" data-it="Idee">Ideas</span><br><span class="mu" data-it="26 ott">26 oct</span></span><span class="tc-ics"><svg class="tc-ic" viewBox="0 0 24 24"><path d="M9 4h6l-1 6 3 3H7l3-3zM12 13v7"/></svg><svg class="tc-ic" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg></span></div></div></div><figcaption data-it="Card nota">Note card</figcaption></figure>
+              <figure class="tc-tile "><div class="tc-stage"><div class="tc-seg"><span class="on" data-it="Attive · 6">Active · 6</span><span data-it="Completate · 5">Completed · 5</span></div></div><figcaption data-it="Controllo segmentato">Segmented control</figcaption></figure>
+              <figure class="tc-tile w2"><div class="tc-stage"><div class="tc-week"><span class="day" data-it="L&lt;b&gt;26&lt;/b&gt;">M<b>26</b></span><span class="day on" data-it="M&lt;b&gt;27&lt;/b&gt;">T<b>27</b></span><span class="day" data-it="M&lt;b&gt;28&lt;/b&gt;&lt;i&gt;&lt;/i&gt;">W<b>28</b><i></i></span><span class="day" data-it="G&lt;b&gt;29&lt;/b&gt;&lt;i&gt;&lt;/i&gt;">T<b>29</b><i></i></span><span class="day" data-it="V&lt;b&gt;30&lt;/b&gt;">F<b>30</b></span></div></div><figcaption data-it="Calendario settimanale">Week calendar</figcaption></figure>
+              <figure class="tc-tile "><div class="tc-stage"><div class="tc-card tc-prog"><div class="r"><b data-it="Un piccolo passo ogni giorno.">One small step every day.</b><span class="acs" data-it="2 di 3 completate">2 of 3 done</span></div><span class="bar"><i style="width:66%"></i></span></div></div><figcaption data-it="Avanzamento">Progress</figcaption></figure>
+              <figure class="tc-tile "><div class="tc-stage"><div class="tc-row"><span class="pill p-High" data-it="Alta">High</span><span class="pill p-Medium" data-it="Media">Medium</span><span class="pill p-Low" data-it="Bassa">Low</span></div></div><figcaption data-it="Pill di priorità">Priority pills</figcaption></figure>
+              <figure class="tc-tile "><div class="tc-stage"><div class="tc-row"><span class="chip on" data-it="Tutte">All</span><span class="chip" data-it="Idee">Ideas</span><span class="chip" data-it="Lavoro">Work</span><span class="chip" data-it="Spesa">Shopping</span></div></div><figcaption data-it="Chip filtro">Filter chips</figcaption></figure>
+              <figure class="tc-tile "><div class="tc-stage"><div class="tc-subs"><div class="sub done"><span class="cb on"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span data-it="Mettere in valigia il caricatore">Pack the charger</span></div><div class="sub"><span class="cb"></span><span data-it="Stampare i biglietti">Print the tickets</span></div><div class="tc-add" data-it="+ Aggiungi sottoattività">+ Add subtask</div></div></div><figcaption data-it="Checkbox e sottoattività">Checkbox &amp; subtasks</figcaption></figure>
+              <figure class="tc-tile "><div class="tc-stage"><div class="tc-col"><span class="inp" data-it="Titolo dell’attività">Task title</span><span class="inp tc-search"><svg class="tc-ic" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg><span data-it="Cerca attività">Search tasks</span></span></div></div><figcaption data-it="Campo e ricerca">Input &amp; search</figcaption></figure>
+              <figure class="tc-tile "><div class="tc-stage"><div class="tc-col"><div class="tc-set"><span data-it="Riepilogo del mattino">Morning recap</span><span class="sw on"></span></div><div class="tc-set"><span data-it="Ore di silenzio">Quiet hours</span><span class="sw"></span></div></div></div><figcaption>Toggle</figcaption></figure>
+              <figure class="tc-tile w2"><div class="tc-stage"><div class="tc-col"><span class="side on" data-it="&lt;svg class=&quot;tc-ic&quot; viewbox=&quot;0 0 24 24&quot;&gt;&lt;rect height=&quot;14.5&quot; rx=&quot;2&quot; width=&quot;16&quot; x=&quot;4&quot; y=&quot;5.5&quot;&gt;&lt;/rect&gt;&lt;path d=&quot;M4 10h16M8.5 3.5v4M15.5 3.5v4&quot;&gt;&lt;/path&gt;&lt;/svg&gt;Oggi"><svg class="tc-ic" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>Today</span><span class="side" data-it="&lt;svg class=&quot;tc-ic&quot; viewbox=&quot;0 0 24 24&quot;&gt;&lt;path d=&quot;M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1&quot;&gt;&lt;/path&gt;&lt;/svg&gt;Attività e storico"><svg class="tc-ic" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1"/></svg>Tasks &amp; history</span><div class="tc-bn"><span class="navb on" data-it="&lt;svg class=&quot;tc-ic&quot; viewbox=&quot;0 0 24 24&quot;&gt;&lt;rect height=&quot;14.5&quot; rx=&quot;2&quot; width=&quot;16&quot; x=&quot;4&quot; y=&quot;5.5&quot;&gt;&lt;/rect&gt;&lt;path d=&quot;M4 10h16M8.5 3.5v4M15.5 3.5v4&quot;&gt;&lt;/path&gt;&lt;/svg&gt;Oggi"><svg class="tc-ic" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>Today</span><span class="navb" data-it="&lt;svg class=&quot;tc-ic&quot; viewbox=&quot;0 0 24 24&quot;&gt;&lt;path d=&quot;M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1&quot;&gt;&lt;/path&gt;&lt;/svg&gt;Attività"><svg class="tc-ic" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1"/></svg>Tasks</span><span class="navb" data-it="&lt;svg class=&quot;tc-ic&quot; viewbox=&quot;0 0 24 24&quot;&gt;&lt;path d=&quot;M6 3h8l4 4v14H6z&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M14 3v4h4&quot;&gt;&lt;/path&gt;&lt;/svg&gt;Note"><svg class="tc-ic" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg>Notes</span><span class="navb" data-it="&lt;svg class=&quot;tc-ic&quot; viewbox=&quot;0 0 24 24&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;8.5&quot; r=&quot;3.8&quot;&gt;&lt;/circle&gt;&lt;path d=&quot;M4.5 20c1-4 4-6 7.5-6s6.5 2 7.5 6&quot;&gt;&lt;/path&gt;&lt;/svg&gt;Profilo"><svg class="tc-ic" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg>Profile</span></div></div></div><figcaption data-it="Navigazione">Navigation</figcaption></figure>
+              <figure class="tc-tile w2"><div class="tc-stage"><div class="tc-row"><span class="btn tc-btn" data-it="Segna come completata">Mark as done</span><span class="tc-fab">+</span></div></div><figcaption data-it="Pulsanti">Buttons</figcaption></figure>
             </div>
           </div>
         </div>
@@ -2766,23 +2803,23 @@ html {
 
       <!-- 05 -->
       <section class="pd-section" id="tech">
-        <p class="pd-kicker">06 — How it was built</p>
-        <h2>From design <mark>to a working app</mark></h2>
-        <p class="pd-intro">tudy was designed and built end to end, from the first screens to a live app.</p>
+        <p class="pd-kicker" data-it="06 — Come è stata costruita">06 — How it was built</p>
+        <h2 data-it="Dal design &lt;mark&gt;a un’app funzionante&lt;/mark&gt;">From design <mark>to a working app</mark></h2>
+        <p class="pd-intro" data-it="tudy è stata progettata e sviluppata dall’inizio alla fine, dalle prime schermate fino all’app online.">tudy was designed and built end to end, from the first screens to a live app.</p>
         <ol class="td-flow">
-          <li><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v11l-5 5H5z"/><path d="M14 20v-5h5M8 9h8M8 12.5h5"/></svg></span><b>Design</b><p>Flows and screens for the main journeys, in light and dark.</p></li>
-          <li><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="13" height="10" rx="1.5"/><path d="M7 19h5M9.5 15v4"/><rect x="17" y="9" width="5" height="10" rx="1.2"/></svg></span><b>Build</b><p>One web app for phone and computer, installable from the browser.</p></li>
-          <li><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.5-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.5 4.5L20 16M20 20v-4h-4"/></svg></span><b>Sync</b><p>Works offline, stays up to date and in step on every device.</p></li>
-          <li><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 1.5h-15zM10 20.5h4"/></svg></span><b>Remind</b><p>Alerts at the right time, respecting quiet hours.</p></li>
+          <li><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v11l-5 5H5z"/><path d="M14 20v-5h5M8 9h8M8 12.5h5"/></svg></span><b>Design</b><p data-it="Flussi e schermate per i percorsi principali, in chiaro e in scuro.">Flows and screens for the main journeys, in light and dark.</p></li>
+          <li><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="13" height="10" rx="1.5"/><path d="M7 19h5M9.5 15v4"/><rect x="17" y="9" width="5" height="10" rx="1.2"/></svg></span><b data-it="Sviluppo">Build</b><p data-it="Un’unica web app per telefono e computer, installabile dal browser.">One web app for phone and computer, installable from the browser.</p></li>
+          <li><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.5-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.5 4.5L20 16M20 20v-4h-4"/></svg></span><b data-it="Sincronizzazione">Sync</b><p data-it="Funziona offline, resta aggiornata e allineata su ogni dispositivo.">Works offline, stays up to date and in step on every device.</p></li>
+          <li><span class="td-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 1.5h-15zM10 20.5h4"/></svg></span><b data-it="Promemoria">Remind</b><p data-it="Avvisi al momento giusto, nel rispetto delle ore di silenzio.">Alerts at the right time, respecting quiet hours.</p></li>
         </ol>
       </section>
 
       <section class="pd-section" id="outcome">
         <div class="pd-final">
-          <h2>Want to try it?</h2>
-          <p>tudy is live: open it from your phone or computer, create an account and see how fast your day comes together.</p>
+          <h2 data-it="Vuoi provarla?">Want to try it?</h2>
+          <p data-it="tudy è online: aprila dal telefono o dal computer, crea un account e scopri quanto in fretta si organizza la tua giornata.">tudy is live: open it from your phone or computer, create an account and see how fast your day comes together.</p>
           <div class="pd-final-actions">
-            <a class="pd-cta" href="https://tudy-six.vercel.app" target="_blank" rel="noopener">Try tudy</a>
+            <a class="pd-cta" href="https://tudy-six.vercel.app" target="_blank" rel="noopener" data-it="Prova tudy">Try tudy</a>
           </div>
         </div>
       </section>
